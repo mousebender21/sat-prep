@@ -8261,7 +8261,7 @@ function renderPracticeQ(q) {
 
   let html = '';
   if (q.passage) html += `<div class="passage-box">${q.passage}</div>`;
-  html += `<div class="q-meta"><span class="q-domain">${section} · ${domLabel}</span><div class="q-diff">${diffDots}</div></div>`;
+  html += `<div class="q-meta"><span class="q-domain">${section} &middot; ${domLabel}</span><div class="q-diff">${diffDots}</div></div>`;
   html += `<div class="q-text">${q.question || q.text}</div>`;
   html += '<div class="choices">';
   const answers = q.answers || q.choices || [];
@@ -8269,7 +8269,7 @@ function renderPracticeQ(q) {
   answers.forEach((a, i) => {
     html += `<button class="choice-card" onclick="practiceAnswer(${i})" data-idx="${i}">
       <span class="choice-letter">${letters[i]}</span>
-      <span class="choice-text">${a.replace(/^[A-D]\)\s*/,'')}</span>
+      <span class="choice-text">${((a||'').replace(/^[A-D]\)\s*/,''))}</span>
     </button>`;
   });
   html += '</div><div id="practiceFeedback"></div>';
@@ -8448,13 +8448,14 @@ function renderTimedQ() {
 
   let html = '';
   if (q.passage) html += `<div class="passage-box">${q.passage}</div>`;
-  html += `<div class="q-meta"><span class="q-domain">${section} · ${domLabel}</span></div>`;
+  html += `<div class="q-meta"><span class="q-domain">${section} &middot; ${domLabel}</span></div>`;
   html += `<div class="q-text">${q.question || q.text}</div>`;
   html += '<div class="choices">';
   answers.forEach((a, i) => {
+    const choiceText = (a && typeof a === 'string') ? ((a||'').replace(/^[A-D]\)\s*/,'')) : (a || '');
     html += `<button class="choice-card ${selected===i?'selected':''}" onclick="timedAnswer(${i})" data-idx="${i}">
       <span class="choice-letter">${letters[i]}</span>
-      <span class="choice-text">${a.replace(/^[A-D]\)\s*/,'')}</span>
+      <span class="choice-text">${choiceText}</span>
     </button>`;
   });
   html += '</div>';
@@ -8687,7 +8688,7 @@ function renderSRQuestion() {
       <div class="choices" id="srChoices">${answers.map((a,i) =>
         `<button class="choice-card" onclick="srAnswer(${i})" data-idx="${i}">
           <span class="choice-letter">${letters[i]}</span>
-          <span class="choice-text">${a.replace(/^[A-D]\)\s*/,'')}</span>
+          <span class="choice-text">${((a||'').replace(/^[A-D]\)\s*/,''))}</span>
         </button>`).join('')}</div>
       <div id="srFeedback"></div>
     </div>
@@ -8742,7 +8743,7 @@ function renderQOTD() {
     <div id="qotdChoices">${answers.map((a,i) =>
       `<button style="display:flex;align-items:center;gap:8px;width:100%;padding:10px;margin-bottom:4px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;text-align:left;font-family:var(--font)" onclick="answerQOTD(${i})">
         <span style="width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">${letters[i]}</span>
-        <span>${a.replace(/^[A-D]\)\s*/,'')}</span>
+        <span>${((a||'').replace(/^[A-D]\)\s*/,''))}</span>
       </button>`).join('')}</div>
     <div id="qotdFeedback"></div>
   </div>`;
