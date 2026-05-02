@@ -504,6 +504,7 @@ input { font-family:var(--font); }
 </nav>
 
 <script>
+
 /* ===============================================================
    QUESTION DATA
    =============================================================== */
@@ -8147,7 +8148,8 @@ function renderModalProfileList() {
   var i, p;
   for (i = 0; i < profiles.length; i++) {
     p = profiles[i];
-    html += '<button class="profile-btn" style="width:100%;margin-bottom:4px" onclick="switchToProfile(profiles[' + i + ']);closeModal(\' + "'switchUserModal'" + '\)">' +
+    html += '<button class="profile-btn" style="width:100%;margin-bottom:4px" onclick="switchToProfile(profiles[' + i + ']);closeModal(' + "'switchUserModal'" + ')">' +
+
       '<span class="avatar avatar-sm" style="background:' + p.color + '">' + p.name.charAt(0).toUpperCase() + '</span>' +
       '<span>' + p.name + '</span>' +
       '</button>';
@@ -8162,7 +8164,8 @@ function renderSettingsProfile() {
     '<span class="avatar" style="background:' + activeProfile.color + ';font-size:20px">' + activeProfile.name.charAt(0).toUpperCase() + '</span>' +
     '<div><div style="font-weight:700">' + activeProfile.name + '</div>' +
     '<div style="font-size:12px;color:var(--text-sec)">Current profile</div></div></div>' +
-    '<button class="btn btn-outline btn-sm" onclick="showModal(\' + "'switchUserModal'" + '\)" style="margin-top:4px">Switch User</button>';
+    '<button class="btn btn-outline btn-sm" onclick="showModal(' + "'switchUserModal'" + ')" style="margin-top:4px">Switch User</button>';
+
 }
 
 
@@ -9132,10 +9135,17 @@ ALL_QS = MATH_QUESTIONS.concat(RW_QUESTIONS);
    INIT (ALL EVENT BINDING AND STARTUP CODE AT THE BOTTOM)
    =============================================================== */
 document.addEventListener('DOMContentLoaded', function() {
-  document.addEventListener('keydown', handleKeydown);
-  loadProfiles();
-  if (activeProfile) { enterApp(); }
-  else { showProfileScreen(); }
+  try {
+    document.addEventListener('keydown', handleKeydown);
+    loadProfiles();
+    if (activeProfile) { enterApp(); }
+    else { showProfileScreen(); }
+  } catch(e) {
+    var d = document.createElement('div');
+    d.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:20px;background:orange;color:black;font:14px monospace;z-index:99998';
+    d.textContent = 'Init error: ' + e.message;
+    document.body.appendChild(d);
+  }
 });
 </script>
 </body>
