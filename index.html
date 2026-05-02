@@ -488,7 +488,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratics — Factoring",
     difficulty: 1,
-    text: "What are the solutions to x<sup>2</sup> − 5x − 6 = 0?",
+    text: "What are the solutions to x² − 5x − 6 = 0?",
     choices: [
       "x = −1 and x = 6",
       "x = 1 and x = −6",
@@ -496,14 +496,14 @@ const MATH_QUESTIONS = [
       "x = 2 and x = −3"
     ],
     answer: 0,
-    explanation: "Factor: x<sup>2</sup> − 5x − 6 = (x − 6)(x + 1) = 0. Setting each factor to zero: x = 6 or x = −1. Check: (−1)<sup>2</sup> − 5(−1) − 6 = 1 + 5 − 6 = 0 ✓. And 6<sup>2</sup> − 5(6) − 6 = 36 − 30 − 6 = 0 ✓. Choice B has the signs flipped — it uses factors (x + 6)(x − 1), which would give x<sup>2</sup> + 5x − 6, not x<sup>2</sup> − 5x − 6."
+    explanation: "Factor: x² − 5x − 6 = (x − 6)(x + 1) = 0. Setting each factor to zero: x = 6 or x = −1. Check: (−1)² − 5(−1) − 6 = 1 + 5 − 6 = 0 ✓. And 6² − 5(6) − 6 = 36 − 30 − 6 = 0 ✓. Choice B has the signs flipped — it uses factors (x + 6)(x − 1), which would give x² + 5x − 6, not x² − 5x − 6."
   },
   {
     id: "m26",
     domain: "Advanced Math",
     category: "Quadratics — Quadratic Formula",
     difficulty: 2,
-    text: "What are the solutions to 2x<sup>2</sup> + 3x − 5 = 0?",
+    text: "What are the solutions to 2x² + 3x − 5 = 0?",
     choices: [
       "x = 1 and x = −5/2",
       "x = −1 and x = 5/2",
@@ -511,14 +511,14 @@ const MATH_QUESTIONS = [
       "x = 5 and x = −1/2"
     ],
     answer: 0,
-    explanation: "Using the quadratic formula with a = 2, b = 3, c = −5: discriminant = 9 − 4(2)(−5) = 9 + 40 = 49. So x = (−3 ± 7)/4. This gives x = (−3 + 7)/4 = 4/4 = 1, or x = (−3 − 7)/4 = −10/4 = −5/2. Alternatively, factor: (2x + 5)(x − 1) = 0, giving x = 1 or x = −5/2. Check: 2(1)<sup>2</sup> + 3(1) − 5 = 0 ✓. Choice B (x = −1 and x = 5/2) confuses factors or applies the formula incorrectly."
+    explanation: "Using the quadratic formula with a = 2, b = 3, c = −5: discriminant = 9 − 4(2)(−5) = 9 + 40 = 49. So x = (−3 ± 7)/4. This gives x = (−3 + 7)/4 = 4/4 = 1, or x = (−3 − 7)/4 = −10/4 = −5/2. Alternatively, factor: (2x + 5)(x − 1) = 0, giving x = 1 or x = −5/2. Check: 2(1)² + 3(1) − 5 = 0 ✓. Choice B (x = −1 and x = 5/2) confuses factors or applies the formula incorrectly."
   },
   {
     id: "m27",
     domain: "Advanced Math",
     category: "Quadratics — Vertex Form",
     difficulty: 2,
-    text: "The function f(x) = −2(x − 3)<sup>2</sup> + 18 models the height, in feet, of a ball x seconds after it is thrown. What is the maximum height the ball reaches?",
+    text: "The function f(x) = −2(x − 3)² + 18 models the height, in feet, of a ball x seconds after it is thrown. What is the maximum height the ball reaches?",
     choices: [
       "2 feet",
       "3 feet",
@@ -526,14 +526,14 @@ const MATH_QUESTIONS = [
       "36 feet"
     ],
     answer: 2,
-    explanation: "The function is in vertex form f(x) = a(x − h)<sup>2</sup> + k, where the vertex is (h, k) = (3, 18). Since a = −2 (negative), the parabola opens downward, making the vertex a maximum. The maximum height is k = 18 feet, reached at x = 3 seconds. Choice B (3) is the trap — that's the time the max occurs, not the max height itself."
+    explanation: "The function is in vertex form f(x) = a(x − h)² + k, where the vertex is (h, k) = (3, 18). Since a = −2 (negative), the parabola opens downward, making the vertex a maximum. The maximum height is k = 18 feet, reached at x = 3 seconds. Choice B (3) is the trap — that's the time the max occurs, not the max height itself."
   },
   {
     id: "m28",
     domain: "Advanced Math",
     category: "Quadratics — Discriminant",
     difficulty: 3,
-    text: "For what value of c does the equation 3x<sup>2</sup> − 12x + c = 0 have exactly one real solution?",
+    text: "For what value of c does the equation 3x² − 12x + c = 0 have exactly one real solution?",
     choices: [
       "4",
       "9",
@@ -541,44 +541,44 @@ const MATH_QUESTIONS = [
       "16"
     ],
     answer: 2,
-    explanation: "A quadratic has exactly one real solution when the discriminant equals zero: b<sup>2</sup> − 4ac = 0. Here a = 3, b = −12: (−12)<sup>2</sup> − 4(3)(c) = 0 → 144 − 12c = 0 → 12c = 144 → c = 12. Choice A (4) is a common trap: students sometimes compute (−12)/(2·3) = −2, then (−2)<sup>2</sup> = 4, confusing the vertex x-value with the value of c."
+    explanation: "A quadratic has exactly one real solution when the discriminant equals zero: b² − 4ac = 0. Here a = 3, b = −12: (−12)² − 4(3)(c) = 0 → 144 − 12c = 0 → 12c = 144 → c = 12. Choice A (4) is a common trap: students sometimes compute (−12)/(2·3) = −2, then (−2)² = 4, confusing the vertex x-value with the value of c."
   },
   {
     id: "m29",
     domain: "Advanced Math",
     category: "Polynomials — Adding and Subtracting",
     difficulty: 1,
-    text: "If f(x) = 3x<sup>2</sup> + 2x − 5 and g(x) = x<sup>2</sup> − 4x + 3, what is f(x) − g(x)?",
+    text: "If f(x) = 3x² + 2x − 5 and g(x) = x² − 4x + 3, what is f(x) − g(x)?",
     choices: [
-      "2x<sup>2</sup> + 6x − 8",
-      "2x<sup>2</sup> − 2x − 2",
-      "4x<sup>2</sup> − 2x − 2",
-      "2x<sup>2</sup> − 2x − 8"
+      "2x² + 6x − 8",
+      "2x² − 2x − 2",
+      "4x² − 2x − 2",
+      "2x² − 2x − 8"
     ],
     answer: 0,
-    explanation: "Subtract each corresponding term, distributing the negative sign to all of g(x): (3x<sup>2</sup> − x<sup>2</sup>) + (2x − (−4x)) + (−5 − 3) = 2x<sup>2</sup> + 6x − 8. Choice B is the trap — it comes from computing 2x − 4x = −2x, forgetting to distribute the negative sign to the −4x term (which becomes +4x)."
+    explanation: "Subtract each corresponding term, distributing the negative sign to all of g(x): (3x² − x²) + (2x − (−4x)) + (−5 − 3) = 2x² + 6x − 8. Choice B is the trap — it comes from computing 2x − 4x = −2x, forgetting to distribute the negative sign to the −4x term (which becomes +4x)."
   },
   {
     id: "m30",
     domain: "Advanced Math",
     category: "Polynomials — Multiplying",
     difficulty: 2,
-    text: "Which expression is equivalent to (2x + 3)(x<sup>2</sup> − x + 4)?",
+    text: "Which expression is equivalent to (2x + 3)(x² − x + 4)?",
     choices: [
-      "2x<sup>3</sup> + x<sup>2</sup> + 5x + 12",
-      "2x<sup>3</sup> − x<sup>2</sup> + 5x + 12",
-      "2x<sup>3</sup> + x<sup>2</sup> + 11x + 12",
-      "2x<sup>3</sup> + 5x<sup>2</sup> + 5x + 12"
+      "2x³ + x² + 5x + 12",
+      "2x³ − x² + 5x + 12",
+      "2x³ + x² + 11x + 12",
+      "2x³ + 5x² + 5x + 12"
     ],
     answer: 0,
-    explanation: "Distribute each term of (2x + 3): 2x(x<sup>2</sup> − x + 4) + 3(x<sup>2</sup> − x + 4) = 2x<sup>3</sup> − 2x<sup>2</sup> + 8x + 3x<sup>2</sup> − 3x + 12. Combine like terms: 2x<sup>3</sup> + (−2 + 3)x<sup>2</sup> + (8 − 3)x + 12 = 2x<sup>3</sup> + x<sup>2</sup> + 5x + 12. Choice B (2x<sup>3</sup> − x<sup>2</sup> + 5x + 12) results from a distribution or combining error. Double-check each term when expanding."
+    explanation: "Distribute each term of (2x + 3): 2x(x² − x + 4) + 3(x² − x + 4) = 2x³ − 2x² + 8x + 3x² − 3x + 12. Combine like terms: 2x³ + (−2 + 3)x² + (8 − 3)x + 12 = 2x³ + x² + 5x + 12. Choice B (2x³ − x² + 5x + 12) results from a distribution or combining error. Double-check each term when expanding."
   },
   {
     id: "m31",
     domain: "Advanced Math",
     category: "Polynomials — Remainder Theorem",
     difficulty: 3,
-    text: "If p(x) = x<sup>3</sup> − 4x<sup>2</sup> + 5x − 2, what is the remainder when p(x) is divided by (x − 2)?",
+    text: "If p(x) = x³ − 4x² + 5x − 2, what is the remainder when p(x) is divided by (x − 2)?",
     choices: [
       "−4",
       "0",
@@ -586,7 +586,7 @@ const MATH_QUESTIONS = [
       "4"
     ],
     answer: 1,
-    explanation: "By the Remainder Theorem, the remainder when p(x) is divided by (x − 2) equals p(2). Evaluate: p(2) = (2)<sup>3</sup> − 4(2)<sup>2</sup> + 5(2) − 2 = 8 − 16 + 10 − 2 = 0. Since the remainder is 0, (x − 2) is a factor of p(x), meaning x = 2 is a root of the polynomial. This is a key SAT concept: evaluating p(a) tells you the remainder when dividing by (x − a). Choice A (−4) results from a distribution or combining error."
+    explanation: "By the Remainder Theorem, the remainder when p(x) is divided by (x − 2) equals p(2). Evaluate: p(2) = (2)³ − 4(2)² + 5(2) − 2 = 8 − 16 + 10 − 2 = 0. Since the remainder is 0, (x − 2) is a factor of p(x), meaning x = 2 is a root of the polynomial. This is a key SAT concept: evaluating p(a) tells you the remainder when dividing by (x − a). Choice A (−4) results from a distribution or combining error."
   },
   {
     id: "m32",
@@ -595,13 +595,13 @@ const MATH_QUESTIONS = [
     difficulty: 1,
     text: "A population of bacteria doubles every 3 hours. If there are initially 500 bacteria, which expression gives the number of bacteria after 12 hours?",
     choices: [
-      "500 × 2<sup>4</sup>",
-      "500 × 2<sup>12</sup>",
-      "500 × 4<sup>2</sup>",
-      "500 × 12<sup>2</sup>"
+      "500 × 2⁴",
+      "500 × 2¹²",
+      "500 × 4²",
+      "500 × 12²"
     ],
     answer: 0,
-    explanation: "In 12 hours, the bacteria double 12/3 = 4 times. Starting with 500, the population after 4 doublings is 500 × 2<sup>4</sup> = 500 × 16 = 8,000. Choice B (2<sup>12</sup>) is the trap — it uses 12 as the exponent instead of the number of doubling periods. Note that choice C (500 × 4<sup>2</sup> = 8,000) gives the same numerical answer, but doesn't correctly model the exponential growth formula for other time values."
+    explanation: "In 12 hours, the bacteria double 12/3 = 4 times. Starting with 500, the population after 4 doublings is 500 × 2⁴ = 500 × 16 = 8,000. Choice B (2¹²) is the trap — it uses 12 as the exponent instead of the number of doubling periods. Note that choice C (500 × 4² = 8,000) gives the same numerical answer, but doesn't correctly model the exponential growth formula for other time values."
   },
   {
     id: "m33",
@@ -610,13 +610,13 @@ const MATH_QUESTIONS = [
     difficulty: 2,
     text: "A marine biologist tags 200 invasive lionfish in a reef area. Due to a removal program, the population decreases by 15% each month. Which function models the number of lionfish, L, remaining after m months?",
     choices: [
-      "L(m) = 200(0.15)<sup>m</sup>",
-      "L(m) = 200(0.85)<sup>m</sup>",
-      "L(m) = 200(1.15)<sup>m</sup>",
+      "L(m) = 200(0.15)ᵐ",
+      "L(m) = 200(0.85)ᵐ",
+      "L(m) = 200(1.15)ᵐ",
       "L(m) = 200 − 15m"
     ],
     answer: 1,
-    explanation: "A 15% decrease means 85% remains each month, so the decay factor is 1 − 0.15 = 0.85. The exponential decay function is L(m) = 200(0.85)<sup>m</sup>. Choice A uses 0.15 as the base (the rate of removal, not the remaining fraction — this would approach 0 far too quickly). Choice C represents 15% growth. Choice D models linear, not exponential, decay."
+    explanation: "A 15% decrease means 85% remains each month, so the decay factor is 1 − 0.15 = 0.85. The exponential decay function is L(m) = 200(0.85)ᵐ. Choice A uses 0.15 as the base (the rate of removal, not the remaining fraction — this would approach 0 far too quickly). Choice C represents 15% growth. Choice D models linear, not exponential, decay."
   },
   {
     id: "m34",
@@ -625,13 +625,13 @@ const MATH_QUESTIONS = [
     difficulty: 2,
     text: "Jordan invests $2,000 in a savings account that earns 4% interest compounded annually. Which expression represents the value of the investment after t years?",
     choices: [
-      "2000(1.4)<sup>t</sup>",
-      "2000(1.04)<sup>t</sup>",
+      "2000(1.4)ᵗ",
+      "2000(1.04)ᵗ",
       "2000 + 0.04t",
-      "2000(0.04)<sup>t</sup>"
+      "2000(0.04)ᵗ"
     ],
     answer: 1,
-    explanation: "Compound interest formula: A = P(1 + r)<sup>t</sup>. With P = 2000 and r = 0.04: A = 2000(1.04)<sup>t</sup>. Choice A (1.4) incorrectly converts 4% as 40%. Choice C models simple (linear) interest rather than compound. Choice D uses just the rate as the base, which would rapidly approach 0."
+    explanation: "Compound interest formula: A = P(1 + r)ᵗ. With P = 2000 and r = 0.04: A = 2000(1.04)ᵗ. Choice A (1.4) incorrectly converts 4% as 40%. Choice C models simple (linear) interest rather than compound. Choice D uses just the rate as the base, which would rapidly approach 0."
   },
   {
     id: "m35",
@@ -653,7 +653,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Rational Expressions — Simplify",
     difficulty: 2,
-    text: "Which expression is equivalent to (x<sup>2</sup> − 9)/(x<sup>2</sup> + 5x + 6)?",
+    text: "Which expression is equivalent to (x² − 9)/(x² + 5x + 6)?",
     choices: [
       "(x − 3)/(x + 3)",
       "(x − 3)/(x + 2)",
@@ -661,14 +661,14 @@ const MATH_QUESTIONS = [
       "(x + 3)/(x − 2)"
     ],
     answer: 1,
-    explanation: "Factor the numerator: x<sup>2</sup> − 9 = (x − 3)(x + 3) [difference of squares]. Factor the denominator: x<sup>2</sup> + 5x + 6 = (x + 2)(x + 3). Cancel the common factor (x + 3): result is (x − 3)/(x + 2), where x ≠ −3 and x ≠ −2. Choice A incorrectly has (x + 3) in the denominator, as if (x + 2) was canceled instead."
+    explanation: "Factor the numerator: x² − 9 = (x − 3)(x + 3) [difference of squares]. Factor the denominator: x² + 5x + 6 = (x + 2)(x + 3). Cancel the common factor (x + 3): result is (x − 3)/(x + 2), where x ≠ −3 and x ≠ −2. Choice A incorrectly has (x + 3) in the denominator, as if (x + 2) was canceled instead."
   },
   {
     id: "m37",
     domain: "Advanced Math",
     category: "Rational Equations",
     difficulty: 3,
-    text: "What is the solution to the equation 3/(x + 1) − 1/(x − 1) = 2/(x<sup>2</sup> − 1)?",
+    text: "What is the solution to the equation 3/(x + 1) − 1/(x − 1) = 2/(x² − 1)?",
     choices: [
       "x = −1",
       "x = 1",
@@ -676,14 +676,14 @@ const MATH_QUESTIONS = [
       "No solution"
     ],
     answer: 2,
-    explanation: "Note that x<sup>2</sup> − 1 = (x + 1)(x − 1). Multiply every term by (x + 1)(x − 1): 3(x − 1) − 1(x + 1) = 2 → 3x − 3 − x − 1 = 2 → 2x − 4 = 2 → 2x = 6 → x = 3. Check that x = 3 doesn't make any denominator zero (3 ≠ ±1) ✓. Verify: 3/4 − 1/2 = 3/4 − 2/4 = 1/4, and 2/8 = 1/4 ✓. Choices A and B are traps — they make the denominators zero, so they're excluded from the domain."
+    explanation: "Note that x² − 1 = (x + 1)(x − 1). Multiply every term by (x + 1)(x − 1): 3(x − 1) − 1(x + 1) = 2 → 3x − 3 − x − 1 = 2 → 2x − 4 = 2 → 2x = 6 → x = 3. Check that x = 3 doesn't make any denominator zero (3 ≠ ±1) ✓. Verify: 3/4 − 1/2 = 3/4 − 2/4 = 1/4, and 2/8 = 1/4 ✓. Choices A and B are traps — they make the denominators zero, so they're excluded from the domain."
   },
   {
     id: "m38",
     domain: "Advanced Math",
     category: "Function Notation",
     difficulty: 1,
-    text: "If f(x) = 2x<sup>2</sup> − 3x + 1, what is f(−2)?",
+    text: "If f(x) = 2x² − 3x + 1, what is f(−2)?",
     choices: [
       "3",
       "7",
@@ -691,14 +691,14 @@ const MATH_QUESTIONS = [
       "15"
     ],
     answer: 3,
-    explanation: "Substitute x = −2: f(−2) = 2(−2)<sup>2</sup> − 3(−2) + 1 = 2(4) − (−6) + 1 = 8 + 6 + 1 = 15. Common mistake: computing −3(−2) as −6 instead of +6 (forgetting that a negative times a negative is positive). That error gives 8 − 6 + 1 = 3, which is Choice A — the classic trap."
+    explanation: "Substitute x = −2: f(−2) = 2(−2)² − 3(−2) + 1 = 2(4) − (−6) + 1 = 8 + 6 + 1 = 15. Common mistake: computing −3(−2) as −6 instead of +6 (forgetting that a negative times a negative is positive). That error gives 8 − 6 + 1 = 3, which is Choice A — the classic trap."
   },
   {
     id: "m39",
     domain: "Advanced Math",
     category: "Function Composition",
     difficulty: 2,
-    text: "If f(x) = 3x + 1 and g(x) = x<sup>2</sup> − 2, what is f(g(3))?",
+    text: "If f(x) = 3x + 1 and g(x) = x² − 2, what is f(g(3))?",
     choices: [
       "7",
       "22",
@@ -706,14 +706,14 @@ const MATH_QUESTIONS = [
       "98"
     ],
     answer: 1,
-    explanation: "First evaluate the inner function: g(3) = (3)<sup>2</sup> − 2 = 9 − 2 = 7. Then evaluate the outer function: f(7) = 3(7) + 1 = 21 + 1 = 22. Choice D (98) is the trap from computing g(f(3)) instead: f(3) = 10, then g(10) = 100 − 2 = 98. The order of composition matters — always work from the inside out!"
+    explanation: "First evaluate the inner function: g(3) = (3)² − 2 = 9 − 2 = 7. Then evaluate the outer function: f(7) = 3(7) + 1 = 21 + 1 = 22. Choice D (98) is the trap from computing g(f(3)) instead: f(3) = 10, then g(10) = 100 − 2 = 98. The order of composition matters — always work from the inside out!"
   },
   {
     id: "m40",
     domain: "Advanced Math",
     category: "Completing the Square",
     difficulty: 3,
-    text: "The equation x<sup>2</sup> + 8x + y<sup>2</sup> − 6y = 11 represents a circle. What is the radius of this circle?",
+    text: "The equation x² + 8x + y² − 6y = 11 represents a circle. What is the radius of this circle?",
     choices: [
       "√11",
       "5",
@@ -721,14 +721,14 @@ const MATH_QUESTIONS = [
       "36"
     ],
     answer: 2,
-    explanation: "Complete the square for both variables. For x: x<sup>2</sup> + 8x → add (8/2)<sup>2</sup> = 16, giving (x + 4)<sup>2</sup>. For y: y<sup>2</sup> − 6y → add (6/2)<sup>2</sup> = 9, giving (y − 3)<sup>2</sup>. Add 16 + 9 = 25 to both sides: (x + 4)<sup>2</sup> + (y − 3)<sup>2</sup> = 11 + 25 = 36. So r<sup>2</sup> = 36 and r = 6. Choice D (36) is the trap — that's r<sup>2</sup>, not r. Choice A uses the original constant (11) without completing the square."
+    explanation: "Complete the square for both variables. For x: x² + 8x → add (8/2)² = 16, giving (x + 4)². For y: y² − 6y → add (6/2)² = 9, giving (y − 3)². Add 16 + 9 = 25 to both sides: (x + 4)² + (y − 3)² = 11 + 25 = 36. So r² = 36 and r = 6. Choice D (36) is the trap — that's r², not r. Choice A uses the original constant (11) without completing the square."
   },
   {
     id: "m41",
     domain: "Advanced Math",
     category: "Polynomials — Zeros and Factors",
     difficulty: 2,
-    text: "If (x + 4) is a factor of f(x) = x<sup>3</sup> + 2x<sup>2</sup> − 11x − 12, which of the following is also a factor of f(x)?",
+    text: "If (x + 4) is a factor of f(x) = x³ + 2x² − 11x − 12, which of the following is also a factor of f(x)?",
     choices: [
       "(x − 4)",
       "(x − 3)",
@@ -736,7 +736,7 @@ const MATH_QUESTIONS = [
       "(x − 1)"
     ],
     answer: 1,
-    explanation: "Since (x + 4) is a factor, divide f(x) by (x + 4) using synthetic division with −4. Coefficients: [1, 2, −11, −12]. Bring down 1. Then: 1(−4) = −4; 2 + (−4) = −2. Then: (−2)(−4) = 8; −11 + 8 = −3. Then: (−3)(−4) = 12; −12 + 12 = 0 ✓. The quotient is x<sup>2</sup> − 2x − 3, which factors as (x − 3)(x + 1). So the complete factorization is (x + 4)(x − 3)(x + 1). Choice A ((x − 4)) results from a distribution or combining error."
+    explanation: "Since (x + 4) is a factor, divide f(x) by (x + 4) using synthetic division with −4. Coefficients: [1, 2, −11, −12]. Bring down 1. Then: 1(−4) = −4; 2 + (−4) = −2. Then: (−2)(−4) = 8; −11 + 8 = −3. Then: (−3)(−4) = 12; −12 + 12 = 0 ✓. The quotient is x² − 2x − 3, which factors as (x − 3)(x + 1). So the complete factorization is (x + 4)(x − 3)(x + 1). Choice A ((x − 4)) results from a distribution or combining error."
   },
   {
     id: "m42",
@@ -751,7 +751,7 @@ const MATH_QUESTIONS = [
       "9 years"
     ],
     answer: 2,
-    explanation: "Lake A: A(t) = 800 + 50t. Lake B: B(t) = 500(1.12)<sup>t</sup>. Calculate year by year — at t = 6: A = 1,100 and B ≈ 500(1.9738) ≈ 987. At t = 7: A = 1,150 and B ≈ 500(2.2107) ≈ 1,105. At t = 8: A = 1,200 and B ≈ 500(2.4760) ≈ 1,238. Lake B first exceeds Lake A after 8 complete years (1,238 > 1,200). This illustrates the key concept that exponential growth eventually overtakes linear growth. Choice A (6 years) is the most common trap — at t = 6, B hasn't caught up yet."
+    explanation: "Lake A: A(t) = 800 + 50t. Lake B: B(t) = 500(1.12)ᵗ. Calculate year by year — at t = 6: A = 1,100 and B ≈ 500(1.9738) ≈ 987. At t = 7: A = 1,150 and B ≈ 500(2.2107) ≈ 1,105. At t = 8: A = 1,200 and B ≈ 500(2.4760) ≈ 1,238. Lake B first exceeds Lake A after 8 complete years (1,238 > 1,200). This illustrates the key concept that exponential growth eventually overtakes linear growth. Choice A (6 years) is the most common trap — at t = 6, B hasn't caught up yet."
   },
   {
     id: "m43",
@@ -766,14 +766,14 @@ const MATH_QUESTIONS = [
       "2√18"
     ],
     answer: 0,
-    explanation: "Simplify √72 by finding the largest perfect square factor: 72 = 36 × 2, so √72 = √36 × √2 = 6√2. You can verify: (6√2)<sup>2</sup> = 36 × 2 = 72 ✓. Check the others: 8√3 ≈ 13.86 (but √72 ≈ 8.49), so B is wrong. 4√9 = 4(3) = 12 ≠ 8.49, so C is wrong. 2√18 = 2√(9·2) = 2·3√2 = 6√2, which IS equivalent — but 6√2 is the fully simplified form. Choice B (8√3) incorrectly simplifies the radical or confuses square root with cube root."
+    explanation: "Simplify √72 by finding the largest perfect square factor: 72 = 36 × 2, so √72 = √36 × √2 = 6√2. You can verify: (6√2)² = 36 × 2 = 72 ✓. Check the others: 8√3 ≈ 13.86 (but √72 ≈ 8.49), so B is wrong. 4√9 = 4(3) = 12 ≠ 8.49, so C is wrong. 2√18 = 2√(9·2) = 2·3√2 = 6√2, which IS equivalent — but 6√2 is the fully simplified form. Choice B (8√3) incorrectly simplifies the radical or confuses square root with cube root."
   },
   {
     id: "m44",
     domain: "Advanced Math",
     category: "Rational Functions — Domain",
     difficulty: 2,
-    text: "What value of x is NOT in the domain of f(x) = (x + 5)/(x<sup>2</sup> − 4x − 12)?",
+    text: "What value of x is NOT in the domain of f(x) = (x + 5)/(x² − 4x − 12)?",
     choices: [
       "−5",
       "−2",
@@ -781,14 +781,14 @@ const MATH_QUESTIONS = [
       "12"
     ],
     answer: 1,
-    explanation: "The domain excludes values where the denominator equals zero. Factor: x<sup>2</sup> − 4x − 12 = (x − 6)(x + 2) = 0 when x = 6 or x = −2. Among the choices, x = −2 makes the denominator zero and is NOT in the domain. Note that x = −5 makes the numerator zero (so f(−5) = 0), but that's still in the domain. Choice A is the trap for students who confuse numerator zeros with denominator restrictions."
+    explanation: "The domain excludes values where the denominator equals zero. Factor: x² − 4x − 12 = (x − 6)(x + 2) = 0 when x = 6 or x = −2. Among the choices, x = −2 makes the denominator zero and is NOT in the domain. Note that x = −5 makes the numerator zero (so f(−5) = 0), but that's still in the domain. Choice A is the trap for students who confuse numerator zeros with denominator restrictions."
   },
   {
     id: "m45",
     domain: "Advanced Math",
     category: "Nonlinear Systems",
     difficulty: 3,
-    text: "How many intersection points do the graphs of y = x<sup>2</sup> − 4 and y = 2x − 1 have?",
+    text: "How many intersection points do the graphs of y = x² − 4 and y = 2x − 1 have?",
     choices: [
       "0",
       "1",
@@ -796,7 +796,7 @@ const MATH_QUESTIONS = [
       "3"
     ],
     answer: 2,
-    explanation: "Set the equations equal: x<sup>2</sup> − 4 = 2x − 1 → x<sup>2</sup> − 2x − 3 = 0. Factor: (x − 3)(x + 1) = 0, so x = 3 or x = −1. Two distinct x-values means 2 intersection points. Verify: at x = 3, y = 9 − 4 = 5 and y = 6 − 1 = 5 ✓. At x = −1, y = 1 − 4 = −3 and y = −2 − 1 = −3 ✓. The discriminant b<sup>2</sup> − 4ac = 4 + 12 = 16 > 0 confirms two real solutions. Choice A (0) results from an arithmetic error during solving."
+    explanation: "Set the equations equal: x² − 4 = 2x − 1 → x² − 2x − 3 = 0. Factor: (x − 3)(x + 1) = 0, so x = 3 or x = −1. Two distinct x-values means 2 intersection points. Verify: at x = 3, y = 9 − 4 = 5 and y = 6 − 1 = 5 ✓. At x = −1, y = 1 − 4 = −3 and y = −2 − 1 = −3 ✓. The discriminant b² − 4ac = 4 + 12 = 16 > 0 confirms two real solutions. Choice A (0) results from an arithmetic error during solving."
   },
   {
     id: "m46",
@@ -818,7 +818,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Polynomial End Behavior",
     difficulty: 3,
-    text: "As x → −∞, what happens to the value of f(x) = −3x<sup>5</sup> + 2x<sup>3</sup> − x + 7?",
+    text: "As x → −∞, what happens to the value of f(x) = −3x⁵ + 2x³ − x + 7?",
     choices: [
       "f(x) → +∞",
       "f(x) → −∞",
@@ -826,22 +826,22 @@ const MATH_QUESTIONS = [
       "f(x) → 7"
     ],
     answer: 0,
-    explanation: "End behavior is determined by the leading term, −3x<sup>5</sup>. The degree is 5 (odd) and the leading coefficient is −3 (negative). For odd-degree polynomials with a negative leading coefficient: as x → +∞, f(x) → −∞; and as x → −∞, f(x) → +∞. Reasoning: when x is a large negative number, x<sup>5</sup> is very negative, and multiplying by −3 makes it very positive. Choice B reverses this logic."
+    explanation: "End behavior is determined by the leading term, −3x⁵. The degree is 5 (odd) and the leading coefficient is −3 (negative). For odd-degree polynomials with a negative leading coefficient: as x → +∞, f(x) → −∞; and as x → −∞, f(x) → +∞. Reasoning: when x is a large negative number, x⁵ is very negative, and multiplying by −3 makes it very positive. Choice B reverses this logic."
   },
   {
     id: "m48",
     domain: "Advanced Math",
     category: "Exponent Rules",
     difficulty: 1,
-    text: "Which expression is equivalent to (4x<sup>3</sup>)<sup>2</sup> / (2x)<sup>2</sup>?",
+    text: "Which expression is equivalent to (4x³)² / (2x)²?",
     choices: [
-      "2x<sup>4</sup>",
-      "4x<sup>4</sup>",
-      "8x<sup>4</sup>",
-      "4x<sup>6</sup>"
+      "2x⁴",
+      "4x⁴",
+      "8x⁴",
+      "4x⁶"
     ],
     answer: 1,
-    explanation: "Simplify the numerator: (4x<sup>3</sup>)<sup>2</sup> = 4<sup>2</sup> · (x<sup>3</sup>)<sup>2</sup> = 16x<sup>6</sup>. Simplify the denominator: (2x)<sup>2</sup> = 4x<sup>2</sup>. Divide: 16x<sup>6</sup> / 4x<sup>2</sup> = 4x<sup>4</sup> (divide coefficients: 16/4 = 4; subtract exponents: 6 − 2 = 4). Choice D is the trap — it keeps x<sup>6</sup> from the numerator without subtracting the denominator's exponent."
+    explanation: "Simplify the numerator: (4x³)² = 4² · (x³)² = 16x⁶. Simplify the denominator: (2x)² = 4x². Divide: 16x⁶ / 4x² = 4x⁴ (divide coefficients: 16/4 = 4; subtract exponents: 6 − 2 = 4). Choice D is the trap — it keeps x⁶ from the numerator without subtracting the denominator's exponent."
   },
 
   // ═══════════════════════════════════════════════════════════════
@@ -1241,7 +1241,7 @@ const MATH_QUESTIONS = [
       "14,827 m²"
     ],
     answer: 1,
-    explanation: "Rectangle area = 100 × 60 = 6,000 m². The two semicircles together form one full circle with diameter = 60 m, so radius = 30 m. Circle area = π(30)<sup>2</sup> = 900π ≈ 2,827 m². Total ≈ 6,000 + 2,827 = 8,827 m². Choice A counts only the rectangle. Choice C may result from using 60 as the radius instead of the diameter."
+    explanation: "Rectangle area = 100 × 60 = 6,000 m². The two semicircles together form one full circle with diameter = 60 m, so radius = 30 m. Circle area = π(30)² = 900π ≈ 2,827 m². Total ≈ 6,000 + 2,827 = 8,827 m². Choice A counts only the rectangle. Choice C may result from using 60 as the radius instead of the diameter."
   },
   {
     id: "m75",
@@ -1256,7 +1256,7 @@ const MATH_QUESTIONS = [
       "3,391.2"
     ],
     answer: 2,
-    explanation: "Volume of a cylinder = πr<sup>2</sup>h = 3.14 × (6)<sup>2</sup> × 10 = 3.14 × 36 × 10 = 1,130.4 cubic inches. Choice B (376.8) results from using the circumference formula (2πrh) instead of the volume formula — this is actually the lateral surface area. Always use πr<sup>2</sup> (not 2πr) for the base area of a cylinder."
+    explanation: "Volume of a cylinder = πr²h = 3.14 × (6)² × 10 = 3.14 × 36 × 10 = 1,130.4 cubic inches. Choice B (376.8) results from using the circumference formula (2πrh) instead of the volume formula — this is actually the lateral surface area. Always use πr² (not 2πr) for the base area of a cylinder."
   },
   {
     id: "m76",
@@ -1271,7 +1271,7 @@ const MATH_QUESTIONS = [
       "12 cm"
     ],
     answer: 1,
-    explanation: "Volume of a sphere: V = (4/3)πr<sup>3</sup>. Set equal to 288π: (4/3)πr<sup>3</sup> = 288π. Divide both sides by π: (4/3)r<sup>3</sup> = 288. Multiply both sides by 3/4: r<sup>3</sup> = 288 × (3/4) = 216. Take the cube root: r = ∛216 = 6 cm. Check: (4/3)π(6)<sup>3</sup> = (4/3)(216)π = 288π ✓. Choice A (4 cm) uses the wrong formula or forgets to square/cube the measurements."
+    explanation: "Volume of a sphere: V = (4/3)πr³. Set equal to 288π: (4/3)πr³ = 288π. Divide both sides by π: (4/3)r³ = 288. Multiply both sides by 3/4: r³ = 288 × (3/4) = 216. Take the cube root: r = ∛216 = 6 cm. Check: (4/3)π(6)³ = (4/3)(216)π = 288π ✓. Choice A (4 cm) uses the wrong formula or forgets to square/cube the measurements."
   },
   {
     id: "m77",
@@ -1316,14 +1316,14 @@ const MATH_QUESTIONS = [
       "32π in²"
     ],
     answer: 1,
-    explanation: "Diameter = 16 inches, so radius = 8 inches. Sector area = (θ/360°) × πr<sup>2</sup> = (45/360) × π(8)<sup>2</sup> = (1/8) × 64π = 8π in². Choice D (32π) results from using the diameter (16) as the radius: (1/8) × π(16)<sup>2</sup> = (1/8)(256π) = 32π. Always halve the diameter to get the radius before applying circle formulas."
+    explanation: "Diameter = 16 inches, so radius = 8 inches. Sector area = (θ/360°) × πr² = (45/360) × π(8)² = (1/8) × 64π = 8π in². Choice D (32π) results from using the diameter (16) as the radius: (1/8) × π(16)² = (1/8)(256π) = 32π. Always halve the diameter to get the radius before applying circle formulas."
   },
   {
     id: "m80",
     domain: "Geometry & Trigonometry",
     category: "Circle — Equation from General Form",
     difficulty: 3,
-    text: "A circle in the coordinate plane has the equation x<sup>2</sup> + y<sup>2</sup> − 10x + 4y = −13. What are the center and radius?",
+    text: "A circle in the coordinate plane has the equation x² + y² − 10x + 4y = −13. What are the center and radius?",
     choices: [
       "Center (5, −2), radius 4",
       "Center (−5, 2), radius 4",
@@ -1331,7 +1331,7 @@ const MATH_QUESTIONS = [
       "Center (10, −4), radius √13"
     ],
     answer: 0,
-    explanation: "Complete the square. For x: x<sup>2</sup> − 10x → add (10/2)<sup>2</sup> = 25, giving (x − 5)<sup>2</sup>. For y: y<sup>2</sup> + 4y → add (4/2)<sup>2</sup> = 4, giving (y + 2)<sup>2</sup>. Add 25 + 4 = 29 to both sides: (x − 5)<sup>2</sup> + (y + 2)<sup>2</sup> = −13 + 29 = 16. Center = (5, −2), r<sup>2</sup> = 16, so r = 4. Choice C gives radius = 16, which is r<sup>2</sup>, not r. Choice B has the center signs wrong."
+    explanation: "Complete the square. For x: x² − 10x → add (10/2)² = 25, giving (x − 5)². For y: y² + 4y → add (4/2)² = 4, giving (y + 2)². Add 25 + 4 = 29 to both sides: (x − 5)² + (y + 2)² = −13 + 29 = 16. Center = (5, −2), r² = 16, so r = 4. Choice C gives radius = 16, which is r², not r. Choice B has the center signs wrong."
   },
   {
     id: "m81",
@@ -1361,7 +1361,7 @@ const MATH_QUESTIONS = [
       "18 feet"
     ],
     answer: 2,
-    explanation: "Use the Pythagorean theorem: a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup>. Here, c = 13 (ladder = hypotenuse) and a = 5 (base). So 5<sup>2</sup> + b<sup>2</sup> = 13<sup>2</sup> → 25 + b<sup>2</sup> = 169 → b<sup>2</sup> = 144 → b = 12 feet. This is the classic 5-12-13 Pythagorean triple — worth memorizing along with 3-4-5 and 8-15-17. Choice A (8 feet) misidentifies which side is the hypotenuse or makes an error in the Pythagorean calculation."
+    explanation: "Use the Pythagorean theorem: a² + b² = c². Here, c = 13 (ladder = hypotenuse) and a = 5 (base). So 5² + b² = 13² → 25 + b² = 169 → b² = 144 → b = 12 feet. This is the classic 5-12-13 Pythagorean triple — worth memorizing along with 3-4-5 and 8-15-17. Choice A (8 feet) misidentifies which side is the hypotenuse or makes an error in the Pythagorean calculation."
   },
   {
     id: "m83",
@@ -1391,7 +1391,7 @@ const MATH_QUESTIONS = [
       "7"
     ],
     answer: 2,
-    explanation: "Distance = √[(4 − 1)<sup>2</sup> + (7 − 3)<sup>2</sup>] = √[3<sup>2</sup> + 4<sup>2</sup>] = √[9 + 16] = √25 = 5. This forms a 3-4-5 right triangle. Choice D (7) is the trap from adding the differences (3 + 4) instead of using the Pythagorean/distance formula."
+    explanation: "Distance = √[(4 − 1)² + (7 − 3)²] = √[3² + 4²] = √[9 + 16] = √25 = 5. This forms a 3-4-5 right triangle. Choice D (7) is the trap from adding the differences (3 + 4) instead of using the Pythagorean/distance formula."
   },
   {
     id: "m85",
@@ -1421,7 +1421,7 @@ const MATH_QUESTIONS = [
       "15/8"
     ],
     answer: 1,
-    explanation: "First find the hypotenuse AB: AB = √(8<sup>2</sup> + 15<sup>2</sup>) = √(64 + 225) = √289 = 17. For angle A: the opposite side is BC = 15, and the hypotenuse is AB = 17. sin(A) = opposite/hypotenuse = 15/17. Choice A (8/17) gives cos(A) = adjacent/hypotenuse. Remember SOH: Sine = Opposite/Hypotenuse. The 8-15-17 triple is tested often on the SAT."
+    explanation: "First find the hypotenuse AB: AB = √(8² + 15²) = √(64 + 225) = √289 = 17. For angle A: the opposite side is BC = 15, and the hypotenuse is AB = 17. sin(A) = opposite/hypotenuse = 15/17. Choice A (8/17) gives cos(A) = adjacent/hypotenuse. Remember SOH: Sine = Opposite/Hypotenuse. The 8-15-17 triple is tested often on the SAT."
   },
   {
     id: "m87",
@@ -1481,7 +1481,7 @@ const MATH_QUESTIONS = [
       "9/25"
     ],
     answer: 1,
-    explanation: "Use the double-angle formula: sin(2θ) = 2 sin(θ) cos(θ). First find cos(θ): since sin(θ) = 3/5 and θ is in Q1, cos(θ) = √(1 − (3/5)<sup>2</sup>) = √(1 − 9/25) = √(16/25) = 4/5. Now: sin(2θ) = 2(3/5)(4/5) = 24/25. Choice D (9/25) is sin<sup>2</sup>(θ), not sin(2θ). Choice A (6/5) is 2 sin(θ) without cos(θ) — and any value > 1 is impossible for sine."
+    explanation: "Use the double-angle formula: sin(2θ) = 2 sin(θ) cos(θ). First find cos(θ): since sin(θ) = 3/5 and θ is in Q1, cos(θ) = √(1 − (3/5)²) = √(1 − 9/25) = √(16/25) = 4/5. Now: sin(2θ) = 2(3/5)(4/5) = 24/25. Choice D (9/25) is sin²(θ), not sin(2θ). Choice A (6/5) is 2 sin(θ) without cos(θ) — and any value > 1 is impossible for sine."
   },
   {
     id: "m91",
@@ -1550,13 +1550,13 @@ const MATH_QUESTIONS = [
     difficulty: 3,
     text: "A circle has endpoints of a diameter at (−2, 3) and (6, −1). Which equation represents this circle?",
     choices: [
-      "(x − 2)<sup>2</sup> + (y − 1)<sup>2</sup> = 20",
-      "(x + 2)<sup>2</sup> + (y − 3)<sup>2</sup> = 20",
-      "(x − 2)<sup>2</sup> + (y − 1)<sup>2</sup> = 80",
-      "(x − 4)<sup>2</sup> + (y + 2)<sup>2</sup> = 20"
+      "(x − 2)² + (y − 1)² = 20",
+      "(x + 2)² + (y − 3)² = 20",
+      "(x − 2)² + (y − 1)² = 80",
+      "(x − 4)² + (y + 2)² = 20"
     ],
     answer: 0,
-    explanation: "Step 1 — Center = midpoint of diameter: ((−2+6)/2, (3+(−1))/2) = (2, 1). Step 2 — Find the radius. Diameter length = √[(6−(−2))<sup>2</sup> + (−1−3)<sup>2</sup>] = √[64 + 16] = √80. Radius = (√80)/2, so r<sup>2</sup> = 80/4 = 20. Equation: (x − 2)<sup>2</sup> + (y − 1)<sup>2</sup> = 20. Choice C uses 80 (the diameter squared, not the radius squared) — a common error from forgetting to halve the diameter."
+    explanation: "Step 1 — Center = midpoint of diameter: ((−2+6)/2, (3+(−1))/2) = (2, 1). Step 2 — Find the radius. Diameter length = √[(6−(−2))² + (−1−3)²] = √[64 + 16] = √80. Radius = (√80)/2, so r² = 80/4 = 20. Equation: (x − 2)² + (y − 1)² = 20. Choice C uses 80 (the diameter squared, not the radius squared) — a common error from forgetting to halve the diameter."
   },
   {
     id: "m96",
@@ -1571,7 +1571,7 @@ const MATH_QUESTIONS = [
       "216π cm³"
     ],
     answer: 1,
-    explanation: "The cone's base = the hemisphere's flat circular face, so the cone's base radius = 6 cm. The cone's height = the hemisphere's radius = 6 cm (the apex touches the top of the dome). Volume of cone = (1/3)πr<sup>2</sup>h = (1/3)π(6)<sup>2</sup>(6) = (1/3)(216π) = 72π cm³. Choice D (216π) forgets the 1/3 factor (that's the volume of a cylinder with the same dimensions). Choice A (36π) uses (1/3)πr<sup>2</sup> without multiplying by the height."
+    explanation: "The cone's base = the hemisphere's flat circular face, so the cone's base radius = 6 cm. The cone's height = the hemisphere's radius = 6 cm (the apex touches the top of the dome). Volume of cone = (1/3)πr²h = (1/3)π(6)²(6) = (1/3)(216π) = 72π cm³. Choice D (216π) forgets the 1/3 factor (that's the volume of a cylinder with the same dimensions). Choice A (36π) uses (1/3)πr² without multiplying by the height."
   },
 // ─── ALGEBRA (m97–m121) ───────────────────────────────────────────────────
 
@@ -1838,7 +1838,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 1,
-    text: "Factor completely: x<sup>2</sup> − 5x + 6.",
+    text: "Factor completely: x² − 5x + 6.",
     choices: ["(x − 2)(x − 3)", "(x + 2)(x + 3)", "(x − 1)(x − 6)", "(x + 1)(x − 6)"],
     answer: 0,
     explanation: "Find two numbers that multiply to +6 and add to −5: those are −2 and −3. Therefore x² − 5x + 6 = (x − 2)(x − 3). Check: (x−2)(x−3) = x² − 3x − 2x + 6 = x² − 5x + 6. ✓ Choice B ((x + 2)(x + 3)) results from an arithmetic error during solving. Choice D ((x + 1)(x − 6)) comes from forgetting to isolate the variable completely."
@@ -1848,7 +1848,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 1,
-    text: "Solve: x<sup>2</sup> − 7x + 12 = 0.",
+    text: "Solve: x² − 7x + 12 = 0.",
     choices: ["x = 3 or x = 4", "x = 2 or x = 6", "x = 1 or x = 12", "x = −3 or x = −4"],
     answer: 0,
     explanation: "Factor: x² − 7x + 12 = (x − 3)(x − 4) = 0. So x = 3 or x = 4. Check: 3² − 7(3) + 12 = 9 − 21 + 12 = 0 ✓; 4² − 7(4) + 12 = 16 − 28 + 12 = 0 ✓. Choice B (x = 2 or x = 6) results from an arithmetic error during solving. Choice D (x = −3 or x = −4) comes from forgetting to isolate the variable completely."
@@ -1858,7 +1858,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 2,
-    text: "A dolphin jumps out of the water. Its height h (in feet) above the water after t seconds is given by h = −16t<sup>2</sup> + 24t. At what time (other than t = 0) does the dolphin re-enter the water?",
+    text: "A dolphin jumps out of the water. Its height h (in feet) above the water after t seconds is given by h = −16t² + 24t. At what time (other than t = 0) does the dolphin re-enter the water?",
     choices: ["0.5 s", "1 s", "1.5 s", "2 s"],
     answer: 2,
     explanation: "Set h = 0: −16t² + 24t = 0 → t(−16t + 24) = 0. So t = 0 or −16t + 24 = 0 → t = 24/16 = 1.5 s. The dolphin re-enters the water at t = 1.5 seconds after the jump. Choice A (0.5 s) results from an arithmetic error during solving. Choice D (2 s) comes from forgetting to isolate the variable completely."
@@ -1868,7 +1868,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 2,
-    text: "Which value of k makes x<sup>2</sup> + kx + 16 a perfect square trinomial?",
+    text: "Which value of k makes x² + kx + 16 a perfect square trinomial?",
     choices: ["4", "6", "8", "16"],
     answer: 2,
     explanation: "A perfect square trinomial has the form (x + a)² = x² + 2ax + a². For x² + kx + 16 = (x + a)², we need a² = 16 → a = 4, and k = 2a = 2(4) = 8. Check: (x + 4)² = x² + 8x + 16. ✓ Choice A (4) results from an arithmetic error during solving. Choice D (16) comes from forgetting to isolate the variable completely."
@@ -1878,7 +1878,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Functions",
     difficulty: 2,
-    text: "A marine biologist models the population of sea urchins over time with h(t) = −t<sup>2</sup> + 6t (thousands). What is the maximum population in thousands?",
+    text: "A marine biologist models the population of sea urchins over time with h(t) = −t² + 6t (thousands). What is the maximum population in thousands?",
     choices: ["6", "8", "9", "12"],
     answer: 2,
     explanation: "The vertex of h(t) = −t² + 6t occurs at t = −b/(2a) = −6/(2·(−1)) = 3. Maximum value: h(3) = −(3)² + 6(3) = −9 + 18 = 9 thousand. Alternatively, complete the square: h = −(t² − 6t) = −(t − 3)² + 9, confirming the maximum is 9. Choice A (6) confuses factors or applies the formula incorrectly. Choice D (12) may use the wrong sign from the quadratic formula."
@@ -1888,32 +1888,32 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Polynomials",
     difficulty: 1,
-    text: "Simplify: (2x<sup>2</sup> + 3x − 1) + (x<sup>2</sup> − 5x + 4).",
-    choices: ["3x<sup>2</sup> − 2x + 3", "3x<sup>2</sup> + 2x + 3", "3x<sup>2</sup> − 2x − 3", "x<sup>2</sup> − 2x + 3"],
+    text: "Simplify: (2x² + 3x − 1) + (x² − 5x + 4).",
+    choices: ["3x² − 2x + 3", "3x² + 2x + 3", "3x² − 2x − 3", "x² − 2x + 3"],
     answer: 0,
-    explanation: "Combine like terms: (2x² + x²) + (3x − 5x) + (−1 + 4) = 3x² + (−2x) + 3 = 3x² − 2x + 3. Each type of term (x², x, constant) is grouped and added separately. Choice B (3x<sup>2</sup> + 2x + 3) results from a distribution or combining error. Double-check each term when expanding."
+    explanation: "Combine like terms: (2x² + x²) + (3x − 5x) + (−1 + 4) = 3x² + (−2x) + 3 = 3x² − 2x + 3. Each type of term (x², x, constant) is grouped and added separately. Choice B (3x² + 2x + 3) results from a distribution or combining error. Double-check each term when expanding."
   },
   {
     id: "m128",
     domain: "Advanced Math",
     category: "Polynomials",
     difficulty: 2,
-    text: "Multiply: (2x + 3)(3x<sup>2</sup> − x + 2).",
+    text: "Multiply: (2x + 3)(3x² − x + 2).",
     choices: [
-      "6x<sup>3</sup> + 7x<sup>2</sup> + x + 6",
-      "6x<sup>3</sup> + 7x<sup>2</sup> − x + 6",
-      "6x<sup>3</sup> + 7x<sup>2</sup> + x − 6",
-      "6x<sup>3</sup> − 7x<sup>2</sup> + x + 6"
+      "6x³ + 7x² + x + 6",
+      "6x³ + 7x² − x + 6",
+      "6x³ + 7x² + x − 6",
+      "6x³ − 7x² + x + 6"
     ],
     answer: 0,
-    explanation: "Distribute: 2x(3x² − x + 2) + 3(3x² − x + 2) = 6x³ − 2x² + 4x + 9x² − 3x + 6 = 6x³ + (−2 + 9)x² + (4 − 3)x + 6 = 6x³ + 7x² + x + 6. ✓ Choice B (6x<sup>3</sup> + 7x<sup>2</sup> − x + 6) results from a distribution or combining error. Double-check each term when expanding."
+    explanation: "Distribute: 2x(3x² − x + 2) + 3(3x² − x + 2) = 6x³ − 2x² + 4x + 9x² − 3x + 6 = 6x³ + (−2 + 9)x² + (4 − 3)x + 6 = 6x³ + 7x² + x + 6. ✓ Choice B (6x³ + 7x² − x + 6) results from a distribution or combining error. Double-check each term when expanding."
   },
   {
     id: "m129",
     domain: "Advanced Math",
     category: "Rational Expressions",
     difficulty: 2,
-    text: "Simplify: (6x<sup>2</sup> + 7x − 3)/(2x + 3).",
+    text: "Simplify: (6x² + 7x − 3)/(2x + 3).",
     choices: ["3x − 1", "3x + 1", "3x − 1 + 6/(2x + 3)", "3x + 1 − 6/(2x + 3)"],
     answer: 0,
     explanation: "Factor the numerator: 6x² + 7x − 3. Find factors: (2x + 3)(3x − 1) = 6x² − 2x + 9x − 3 = 6x² + 7x − 3. ✓ So (6x² + 7x − 3)/(2x + 3) = (2x + 3)(3x − 1)/(2x + 3) = 3x − 1 (for x ≠ −3/2). Choice B (3x + 1) cancels terms incorrectly or finds the wrong common denominator."
@@ -1936,7 +1936,7 @@ const MATH_QUESTIONS = [
     text: "An endangered coral species decays at 5% per year. A reef that had 8,000 coral heads in 2010 now has approximately how many in 2020?",
     choices: ["4,289", "4,778", "5,200", "5,687"],
     answer: 1,
-    explanation: "P(t) = 8000(0.95)<sup>t</sup>. After 10 years: P(10) = 8000(0.95)<sup>10</sup> = 8000 × 0.5987 ≈ 4,790. Closest answer: 4,778. Note: 0.95<sup>10</sup> ≈ 0.5987, and 8000 × 0.5987 = 4789.6 ≈ 4,778 after rounding differences. Choice A (4,289) confuses the growth/decay factor or misapplies the exponent rules."
+    explanation: "P(t) = 8000(0.95)ᵗ. After 10 years: P(10) = 8000(0.95)¹⁰ = 8000 × 0.5987 ≈ 4,790. Closest answer: 4,778. Note: 0.95¹⁰ ≈ 0.5987, and 8000 × 0.5987 = 4789.6 ≈ 4,778 after rounding differences. Choice A (4,289) confuses the growth/decay factor or misapplies the exponent rules."
   },
   {
     id: "m132",
@@ -1946,14 +1946,14 @@ const MATH_QUESTIONS = [
     text: "If 3<sup>2x − 1</sup> = 27, what is the value of x?",
     choices: ["1", "2", "3", "4"],
     answer: 1,
-    explanation: "Rewrite 27 = 3³. Then 3<sup>2x−1</sup> = 3³ → 2x − 1 = 3 → 2x = 4 → x = 2. Verify: 3<sup>2·2−1</sup> = 3<sup>3</sup> = 27. ✓ Expressing both sides as powers of the same base is the key technique for exponential equations. Choice A (1) confuses the growth/decay factor or misapplies the exponent rules."
+    explanation: "Rewrite 27 = 3³. Then 3²ˣ⁻¹ = 3³ → 2x − 1 = 3 → 2x = 4 → x = 2. Verify: 3<sup>2·2−1</sup> = 3³ = 27. ✓ Expressing both sides as powers of the same base is the key technique for exponential equations. Choice A (1) confuses the growth/decay factor or misapplies the exponent rules."
   },
   {
     id: "m133",
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 3,
-    text: "Using the quadratic formula, solve 2x<sup>2</sup> − 5x − 3 = 0.",
+    text: "Using the quadratic formula, solve 2x² − 5x − 3 = 0.",
     choices: ["x = 3 or x = −0.5", "x = 3 or x = 0.5", "x = −3 or x = 0.5", "x = 2 or x = −0.75"],
     answer: 0,
     explanation: "x = (5 ± √(25 + 24))/4 = (5 ± √49)/4 = (5 ± 7)/4. So x = (5+7)/4 = 12/4 = 3, or x = (5−7)/4 = −2/4 = −1/2 = −0.5. Check: 2(9) − 5(3) − 3 = 18 − 15 − 3 = 0 ✓; 2(0.25) + 2.5 − 3 = 0.5 + 2.5 − 3 = 0 ✓. Choice B (x = 3 or x = 0.5) results from an arithmetic error during solving. Choice D (x = 2 or x = −0.75) comes from forgetting to isolate the variable completely."
@@ -1963,7 +1963,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Functions",
     difficulty: 2,
-    text: "A cliff diver's height in feet is modeled by h(t) = −16t<sup>2</sup> + 32t + 5. What is the maximum height reached?",
+    text: "A cliff diver's height in feet is modeled by h(t) = −16t² + 32t + 5. What is the maximum height reached?",
     choices: ["16 ft", "18 ft", "21 ft", "25 ft"],
     answer: 2,
     explanation: "Vertex at t = −b/(2a) = −32/(2·(−16)) = 1 s. Maximum height: h(1) = −16(1) + 32(1) + 5 = −16 + 32 + 5 = 21 ft. The vertex gives the maximum since a = −16 < 0 (parabola opens downward). Choice A (16 ft) confuses factors or applies the formula incorrectly. Choice D (25 ft) may use the wrong sign from the quadratic formula."
@@ -1983,10 +1983,10 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Exponential Functions",
     difficulty: 3,
-    text: "Solve for x: 4<sup>x</sup> = 32.",
+    text: "Solve for x: 4ˣ = 32.",
     choices: ["x = 2", "x = 2.5", "x = 3", "x = 1.5"],
     answer: 1,
-    explanation: "Rewrite using base 2: 4 = 2² and 32 = 2⁵. So (2²)<sup>x</sup> = 2<sup>2x</sup> = 2⁵. Therefore 2x = 5 → x = 5/2 = 2.5. Check: 4<sup>2</sup>.5 = (4<sup>2</sup>)(4<sup>0</sup>.5) = 16 × 2 = 32. ✓ Choice A (x = 2) confuses the growth/decay factor or misapplies the exponent rules."
+    explanation: "Rewrite using base 2: 4 = 2² and 32 = 2⁵. So (2²)ˣ = 2²ˣ = 2⁵. Therefore 2x = 5 → x = 5/2 = 2.5. Check: 4².5 = (4²)(4⁰.5) = 16 × 2 = 32. ✓ Choice A (x = 2) confuses the growth/decay factor or misapplies the exponent rules."
   },
   {
     id: "m137",
@@ -2003,7 +2003,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Polynomials",
     difficulty: 2,
-    text: "When the polynomial p(x) = x<sup>3</sup> − 2x<sup>2</sup> + 3x − 1 is divided by (x − 1), what is the remainder?",
+    text: "When the polynomial p(x) = x³ − 2x² + 3x − 1 is divided by (x − 1), what is the remainder?",
     choices: ["0", "1", "2", "3"],
     answer: 1,
     explanation: "By the Remainder Theorem, the remainder when p(x) is divided by (x − 1) equals p(1). p(1) = 1³ − 2(1²) + 3(1) − 1 = 1 − 2 + 3 − 1 = 1. Therefore the remainder is 1. Choice A (0) results from a distribution or combining error. Double-check each term when expanding."
@@ -2013,7 +2013,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Systems of Nonlinear Equations",
     difficulty: 3,
-    text: "Find the points of intersection of y = x<sup>2</sup> and y = 2x + 3.",
+    text: "Find the points of intersection of y = x² and y = 2x + 3.",
     choices: ["(−1, 1) and (3, 9)", "(1, 1) and (3, 9)", "(−1, 1) and (−3, 9)", "(0, 3) and (3, 9)"],
     answer: 0,
     explanation: "Set x² = 2x + 3 → x² − 2x − 3 = 0 → (x − 3)(x + 1) = 0 → x = 3 or x = −1. Points: x = 3 → y = 9: (3, 9); x = −1 → y = 1: (−1, 1). Verify on line: y = 2(3)+3 = 9 ✓; y = 2(−1)+3 = 1 ✓. Choice B ((1, 1) and (3, 9)) results from an arithmetic error during solving. Choice D ((0, 3) and (3, 9)) comes from forgetting to isolate the variable completely."
@@ -2023,7 +2023,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Functions",
     difficulty: 1,
-    text: "What is the vertex of f(x) = (x − 3)<sup>2</sup> + 7?",
+    text: "What is the vertex of f(x) = (x − 3)² + 7?",
     choices: ["(3, 7)", "(−3, 7)", "(3, −7)", "(7, 3)"],
     answer: 0,
     explanation: "The function is written in vertex form f(x) = (x − h)² + k, where the vertex is (h, k). Here h = 3 and k = 7, so the vertex is (3, 7). The parabola opens upward (coefficient of squared term is +1 > 0). Choice B ((−3, 7)) confuses factors or applies the formula incorrectly. Choice D ((7, 3)) may use the wrong sign from the quadratic formula."
@@ -2033,7 +2033,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 2,
-    text: "What is the discriminant of 3x<sup>2</sup> + 2x − 5 = 0, and how many real solutions does it have?",
+    text: "What is the discriminant of 3x² + 2x − 5 = 0, and how many real solutions does it have?",
     choices: ["Discriminant = 64; two real solutions", "Discriminant = −56; no real solutions", "Discriminant = 64; one real solution", "Discriminant = 4; two real solutions"],
     answer: 0,
     explanation: "Discriminant = b² − 4ac = (2)² − 4(3)(−5) = 4 + 60 = 64. Since Δ = 64 > 0, the equation has two distinct real solutions. The solutions are x = (−2 ± 8)/6, giving x = 1 or x = −5/3. Choice B (Discriminant = −56; no real solutions) results from an arithmetic error during solving. Choice D (Discriminant = 4; two real solutions) comes from forgetting to isolate the variable completely."
@@ -2043,8 +2043,8 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Polynomials",
     difficulty: 3,
-    text: "Which expression is equivalent to (x<sup>2</sup> − 4)/(x<sup>2</sup> − 4x + 4)?",
-    choices: ["(x + 2)/(x − 2)", "(x − 2)/(x + 2)", "(x + 2)<sup>2</sup>/(x − 2)<sup>2</sup>", "1"],
+    text: "Which expression is equivalent to (x² − 4)/(x² − 4x + 4)?",
+    choices: ["(x + 2)/(x − 2)", "(x − 2)/(x + 2)", "(x + 2)²/(x − 2)²", "1"],
     answer: 0,
     explanation: "Factor numerator: x² − 4 = (x + 2)(x − 2). Factor denominator: x² − 4x + 4 = (x − 2)². So (x+2)(x−2)/(x−2)² = (x+2)/(x−2), for x ≠ 2. This is a difference of squares over a perfect square trinomial. Choice B ((x − 2)/(x + 2)) results from a distribution or combining error. Double-check each term when expanding."
   },
@@ -2053,7 +2053,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 2,
-    text: "What are the solutions to 2x<sup>2</sup> − 4x − 6 = 0?",
+    text: "What are the solutions to 2x² − 4x − 6 = 0?",
     choices: ["x = 3 or x = −1", "x = 2 or x = −3", "x = 1 or x = −3", "x = 3 or x = 1"],
     answer: 0,
     explanation: "Divide by 2: x² − 2x − 3 = 0. Factor: (x − 3)(x + 1) = 0. So x = 3 or x = −1. Check: 2(9) − 4(3) − 6 = 18 − 12 − 6 = 0 ✓; 2(1) + 4 − 6 = 0 ✓. Choice B (x = 2 or x = −3) results from an arithmetic error during solving. Choice D (x = 3 or x = 1) comes from forgetting to isolate the variable completely."
@@ -2073,8 +2073,8 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Polynomials",
     difficulty: 3,
-    text: "The polynomial p(x) = x<sup>3</sup> + 2x<sup>2</sup> − x − 2 has zeros at x = 1, x = −1, and x = −2. Which set of factors is correct?",
-    choices: ["(x − 1)(x + 1)(x + 2)", "(x + 1)(x − 1)(x − 2)", "(x − 1)<sup>2</sup>(x + 2)", "(x + 2)<sup>2</sup>(x − 1)"],
+    text: "The polynomial p(x) = x³ + 2x² − x − 2 has zeros at x = 1, x = −1, and x = −2. Which set of factors is correct?",
+    choices: ["(x − 1)(x + 1)(x + 2)", "(x + 1)(x − 1)(x − 2)", "(x − 1)²(x + 2)", "(x + 2)²(x − 1)"],
     answer: 0,
     explanation: "Verify each zero: p(1) = 1 + 2 − 1 − 2 = 0 ✓; p(−1) = −1 + 2 + 1 − 2 = 0 ✓; p(−2) = −8 + 8 + 2 − 2 = 0 ✓. So p(x) = (x − 1)(x + 1)(x + 2). Expanding: (x²−1)(x+2) = x³ + 2x² − x − 2. ✓ Choice B ((x + 1)(x − 1)(x − 2)) results from a distribution or combining error. Double-check each term when expanding."
   },
@@ -2083,7 +2083,7 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math",
     category: "Function Notation",
     difficulty: 1,
-    text: "If g(x) = 2x<sup>2</sup> − 3, what is g(−2)?",
+    text: "If g(x) = 2x² − 3, what is g(−2)?",
     choices: ["5", "11", "−5", "−11"],
     answer: 0,
     explanation: "Substitute x = −2: g(−2) = 2(−2)² − 3 = 2(4) − 3 = 8 − 3 = 5. Note that (−2)² = +4 (squaring always yields a non-negative result), so the answer is positive. Choice B (11) applies the functions in the wrong order or evaluates at the wrong input."
@@ -2479,7 +2479,7 @@ const MATH_QUESTIONS = [
     domain: "Geometry & Trig",
     category: "Volume",
     difficulty: 2,
-    text: "A spherical buoy has a radius of 4 m. What is its volume? (Use V = (4/3)πr<sup>3</sup>, leave answer in terms of π)",
+    text: "A spherical buoy has a radius of 4 m. What is its volume? (Use V = (4/3)πr³, leave answer in terms of π)",
     choices: ["64π/3 m³", "128π/3 m³", "256π/3 m³", "512π/3 m³"],
     answer: 2,
     explanation: "V = (4/3)πr³ = (4/3)π(4³) = (4/3)π(64) = 256π/3 m³. Step by step: 4³ = 64; (4/3)(64) = 256/3. The result is 256π/3 m³ ≈ 268.1 m³. Choice A (64π/3 m³) uses the wrong formula or forgets to square/cube the measurements."
@@ -2489,7 +2489,7 @@ const MATH_QUESTIONS = [
     domain: "Geometry & Trig",
     category: "Coordinate Geometry",
     difficulty: 3,
-    text: "A circle has the equation (x − 2)<sup>2</sup> + (y + 5)<sup>2</sup> = 49. What is the center and radius?",
+    text: "A circle has the equation (x − 2)² + (y + 5)² = 49. What is the center and radius?",
     choices: ["Center (2, −5), radius 7", "Center (−2, 5), radius 7", "Center (2, −5), radius 49", "Center (2, 5), radius 7"],
     answer: 0,
     explanation: "Standard form: (x − h)² + (y − k)² = r². Here h = 2, k = −5, r² = 49 → r = 7. The center is (h, k) = (2, −5) and radius = 7. Note the sign convention: (x − 2) means h = +2, and (y + 5) = (y − (−5)) means k = −5. Choice B (Center (−2, 5), radius 7) makes a sign error or confuses x and y coordinates in the formula."
@@ -2579,7 +2579,7 @@ const MATH_QUESTIONS = [
     domain: "Geometry & Trig",
     category: "Area and Perimeter",
     difficulty: 3,
-    text: "A regular hexagonal seafloor grid cell has a side length of 6 m. What is its area? (Area of regular hexagon = (3√3/2)s<sup>2</sup>)",
+    text: "A regular hexagonal seafloor grid cell has a side length of 6 m. What is its area? (Area of regular hexagon = (3√3/2)s²)",
     choices: ["54√3 m²", "108 m²", "72√3 m²", "81√3 m²"],
     answer: 0,
     explanation: "Area = (3√3/2)s² = (3√3/2)(6²) = (3√3/2)(36) = 54√3 m² ≈ 93.53 m². The formula (3√3/2)s² comes from dividing the hexagon into 6 equilateral triangles each with area (√3/4)s²: 6 × (√3/4)(36) = 54√3. ✓ Choice B (108 m²) uses the wrong formula or forgets to square/cube the measurements."
@@ -2589,7 +2589,7 @@ const MATH_QUESTIONS = [
     domain: "Geometry & Trig",
     category: "Coordinate Geometry",
     difficulty: 3,
-    text: "A parabolic reflector dish for underwater sonar has the equation y = x<sup>2</sup> − 4x + 3. At what x-values does the parabola cross the x-axis?",
+    text: "A parabolic reflector dish for underwater sonar has the equation y = x² − 4x + 3. At what x-values does the parabola cross the x-axis?",
     choices: ["x = 1 and x = 3", "x = −1 and x = 3", "x = 1 and x = −3", "x = 2 and x = 3"],
     answer: 0,
     explanation: "Set y = 0: x² − 4x + 3 = 0. Factor: (x − 1)(x − 3) = 0. Solutions: x = 1 and x = 3. Check: 1² − 4(1) + 3 = 1 − 4 + 3 = 0 ✓; 3² − 4(3) + 3 = 9 − 12 + 3 = 0 ✓. The parabola crosses the x-axis at these two points. Choice B (x = −1 and x = 3) makes a sign error or confuses x and y coordinates in the formula."
@@ -2629,7 +2629,7 @@ const MATH_QUESTIONS = [
     domain: "Algebra", 
     category: "Quadratic Equations", 
     difficulty: 2, 
-    text: "Solve: x<sup>2</sup> - 5x + 6 = 0", 
+    text: "Solve: x² - 5x + 6 = 0", 
     choices: ["x = 2 or 3", "x = 1 or 6", "x = -2 or -3", "x = 0 or 5"], 
     answer: 0, 
     explanation: "Factor the quadratic: (x − 2)(x − 3) = 0. Solutions are x = 2 and x = 3. Factoring is the most efficient method for quadratics with rational roots. Choice B (x = 1 or 6) results from an arithmetic error during solving. Choice D (x = 0 or 5) comes from forgetting to isolate the variable completely."
@@ -2639,10 +2639,10 @@ const MATH_QUESTIONS = [
     domain: "Algebra", 
     category: "Quadratic Equations", 
     difficulty: 2, 
-    text: "What is the discriminant of x<sup>2</sup> + 4x + 3 = 0?", 
+    text: "What is the discriminant of x² + 4x + 3 = 0?", 
     choices: ["0", "4", "7", "16"], 
     answer: 1, 
-    explanation: "Using the discriminant formula b<sup>2</sup> − 4ac: (4)<sup>2</sup> − 4(1)(3) = 16 − 12 = 4. The discriminant determines the nature of the roots. Choice A (0) results from an arithmetic error during solving. Choice D (16) comes from forgetting to isolate the variable completely."
+    explanation: "Using the discriminant formula b² − 4ac: (4)² − 4(1)(3) = 16 − 12 = 4. The discriminant determines the nature of the roots. Choice A (0) results from an arithmetic error during solving. Choice D (16) comes from forgetting to isolate the variable completely."
   },
   {
     id: "m202", 
@@ -2670,36 +2670,36 @@ const MATH_QUESTIONS = [
     category: "Polynomials", 
     difficulty: 2, 
     text: "Expand: (2x + 3)(3x - 1)", 
-    choices: ["6x<sup>2</sup> + 7x - 3", "6x<sup>2</sup> + 11x - 3", "6x<sup>2</sup> - 7x + 3", "3x<sup>2</sup> + 8x - 3"], 
+    choices: ["6x² + 7x - 3", "6x² + 11x - 3", "6x² - 7x + 3", "3x² + 8x - 3"], 
     answer: 0, 
-    explanation: "Use FOIL: (2x)(3x) + (2x)(−1) + (3)(3x) + (3)(−1) = 6x<sup>2</sup> − 2x + 9x − 3 = 6x<sup>2</sup> + 7x − 3. Choice B (6x<sup>2</sup> + 11x - 3) results from a distribution or combining error. Double-check each term when expanding."
+    explanation: "Use FOIL: (2x)(3x) + (2x)(−1) + (3)(3x) + (3)(−1) = 6x² − 2x + 9x − 3 = 6x² + 7x − 3. Choice B (6x² + 11x - 3) results from a distribution or combining error. Double-check each term when expanding."
   },
   {
     id: "m205", 
     domain: "Algebra", 
     category: "Polynomials", 
     difficulty: 2, 
-    text: "Factor completely: 3x<sup>2</sup> - 12", 
-    choices: ["3(x - 2)(x + 2)", "(x - 4)(x + 3)", "3x(x - 4)", "x(x<sup>2</sup> - 12)"], 
+    text: "Factor completely: 3x² - 12", 
+    choices: ["3(x - 2)(x + 2)", "(x - 4)(x + 3)", "3x(x - 4)", "x(x² - 12)"], 
     answer: 0, 
-    explanation: "Factor out 3: 3(x<sup>2</sup> − 4). Recognize difference of squares: 3(x − 2)(x + 2). Complete factorization requires all steps. Choice B ((x - 4)(x + 3)) results from a distribution or combining error. Double-check each term when expanding."
+    explanation: "Factor out 3: 3(x² − 4). Recognize difference of squares: 3(x − 2)(x + 2). Complete factorization requires all steps. Choice B ((x - 4)(x + 3)) results from a distribution or combining error. Double-check each term when expanding."
   },
   {
     id: "m206", 
     domain: "Algebra", 
     category: "Exponents", 
     difficulty: 1, 
-    text: "Simplify: 2<sup>3</sup> × 2<sup>4</sup>", 
-    choices: ["2<sup>7</sup>", "2<sup>12</sup>", "4<sup>7</sup>", "16"], 
+    text: "Simplify: 2³ × 2⁴", 
+    choices: ["2⁷", "2¹²", "4⁷", "16"], 
     answer: 0, 
-    explanation: "Using the product rule for exponents: 2<sup>3</sup> × 2<sup>4</sup> = 2<sup>3+4</sup> = 2<sup>7</sup> = 128. When multiplying powers with same base, add exponents. Choice B (2<sup>12</sup>) misapplies an exponent rule. Verify: when multiplying same bases, add exponents; when dividing, subtract."
+    explanation: "Using the product rule for exponents: 2³ × 2⁴ = 2³⁺⁴ = 2⁷ = 128. When multiplying powers with same base, add exponents. Choice B (2¹²) misapplies an exponent rule. Verify: when multiplying same bases, add exponents; when dividing, subtract."
   },
   {
     id: "m207", 
     domain: "Algebra", 
     category: "Exponents", 
     difficulty: 1, 
-    text: "What is 5<sup>0</sup>?", 
+    text: "What is 5⁰?", 
     choices: ["0", "1", "5", "Undefined"], 
     answer: 1, 
     explanation: "Any nonzero number raised to the power of zero equals 1. This is a fundamental rule in exponent arithmetic. Choice A (0) misapplies an exponent rule. Verify: when multiplying same bases, add exponents; when dividing, subtract."
@@ -2709,17 +2709,17 @@ const MATH_QUESTIONS = [
     domain: "Algebra", 
     category: "Exponents", 
     difficulty: 2, 
-    text: "Simplify: (3x<sup>2</sup>)<sup>3</sup>", 
-    choices: ["9x<sup>6</sup>", "27x<sup>6</sup>", "3x<sup>6</sup>", "27x<sup>5</sup>"], 
+    text: "Simplify: (3x²)³", 
+    choices: ["9x⁶", "27x⁶", "3x⁶", "27x⁵"], 
     answer: 1, 
-    explanation: "Apply power rule: 3<sup>3</sup> × (x<sup>2</sup>)<sup>3</sup> = 27 × x<sup>6</sup> = 27x<sup>6</sup>. Raise coefficient and multiply exponents. Choice A (9x<sup>6</sup>) misapplies an exponent rule. Verify: when multiplying same bases, add exponents; when dividing, subtract."
+    explanation: "Apply power rule: 3³ × (x²)³ = 27 × x⁶ = 27x⁶. Raise coefficient and multiply exponents. Choice A (9x⁶) misapplies an exponent rule. Verify: when multiplying same bases, add exponents; when dividing, subtract."
   },
   {
     id: "m209", 
     domain: "Algebra", 
     category: "Rational Expressions", 
     difficulty: 2, 
-    text: "Simplify: (x<sup>2</sup> - 4) / (x + 2)", 
+    text: "Simplify: (x² - 4) / (x + 2)", 
     choices: ["x - 2", "x + 2", "x - 4", "x"], 
     answer: 0, 
     explanation: "Factor numerator: (x − 2)(x + 2) divided by (x + 2) cancels to x − 2. Factoring enables cancellation of common factors. Choice B (x + 2) cancels terms incorrectly or finds the wrong common denominator."
@@ -2769,10 +2769,10 @@ const MATH_QUESTIONS = [
     domain: "Algebra", 
     category: "Functions", 
     difficulty: 2, 
-    text: "If g(x) = x<sup>2</sup> + 5, find g(-3).", 
+    text: "If g(x) = x² + 5, find g(-3).", 
     choices: ["4", "9", "14", "32"], 
     answer: 2, 
-    explanation: "Substitute x = −3: g(−3) = (−3)<sup>2</sup> + 5 = 9 + 5 = 14. Squaring a negative produces a positive result. Choice A (4) applies the functions in the wrong order or evaluates at the wrong input."
+    explanation: "Substitute x = −3: g(−3) = (−3)² + 5 = 9 + 5 = 14. Squaring a negative produces a positive result. Choice A (4) applies the functions in the wrong order or evaluates at the wrong input."
   },
   {
     id: "m215", 
@@ -2850,19 +2850,19 @@ const MATH_QUESTIONS = [
     category: "Exponential Functions", 
     difficulty: 2, 
     text: "Which function represents exponential growth with base 2?", 
-    choices: ["f(x) = 2x", "f(x) = 2<sup>x</sup>", "f(x) = x<sup>2</sup>", "f(x) = 2√x"], 
+    choices: ["f(x) = 2x", "f(x) = 2ˣ", "f(x) = x²", "f(x) = 2√x"], 
     answer: 1, 
-    explanation: "Exponential functions have the variable in the exponent: 2<sup>x</sup>. This represents exponential growth because base 2 > 1. Choice A (f(x) = 2x) confuses the growth/decay factor or misapplies the exponent rules."
+    explanation: "Exponential functions have the variable in the exponent: 2ˣ. This represents exponential growth because base 2 > 1. Choice A (f(x) = 2x) confuses the growth/decay factor or misapplies the exponent rules."
   },
   {
     id: "m223", 
     domain: "Advanced Math", 
     category: "Exponential Functions", 
     difficulty: 2, 
-    text: "Solve: 2<sup>x</sup> = 32", 
+    text: "Solve: 2ˣ = 32", 
     choices: ["4", "5", "6", "8"], 
     answer: 1, 
-    explanation: "Express 32 as power of 2: 32 = 2<sup>5</sup>. Therefore 2<sup>x</sup> = 2<sup>5</sup>, so x = 5. Choice A (4) confuses the growth/decay factor or misapplies the exponent rules."
+    explanation: "Express 32 as power of 2: 32 = 2⁵. Therefore 2ˣ = 2⁵, so x = 5. Choice A (4) confuses the growth/decay factor or misapplies the exponent rules."
   },
   {
     id: "m224", 
@@ -2872,7 +2872,7 @@ const MATH_QUESTIONS = [
     text: "What is log₁₀(1000)?", 
     choices: ["2", "3", "10", "100"], 
     answer: 1, 
-    explanation: "By definition, log₁₀(1000) asks: 10 to what power equals 1000? 10<sup>3</sup> = 1000, so log₁₀(1000) = 3. Choice A (2) misapplies the logarithm rules. Remember: log(ab) = log a + log b, not log a × log b."
+    explanation: "By definition, log₁₀(1000) asks: 10 to what power equals 1000? 10³ = 1000, so log₁₀(1000) = 3. Choice A (2) misapplies the logarithm rules. Remember: log(ab) = log a + log b, not log a × log b."
   },
   {
     id: "m225", 
@@ -2882,7 +2882,7 @@ const MATH_QUESTIONS = [
     text: "Solve: log<sub>3</sub>(x) = 2", 
     choices: ["6", "9", "12", "18"], 
     answer: 1, 
-    explanation: "By definition of logarithm: log<sub>3</sub>(x) = 2 means 3<sup>2</sup> = x, so x = 9. Choice A (6) misapplies the logarithm rules. Remember: log(ab) = log a + log b, not log a × log b."
+    explanation: "By definition of logarithm: log<sub>3</sub>(x) = 2 means 3² = x, so x = 9. Choice A (6) misapplies the logarithm rules. Remember: log(ab) = log a + log b, not log a × log b."
   },
   {
     id: "m226", 
@@ -2912,27 +2912,27 @@ const MATH_QUESTIONS = [
     text: "Simplify: (3 + 2i)(1 - i)", 
     choices: ["3 + 2i", "5 - i", "5 + 2i", "3 - 2i"], 
     answer: 1, 
-    explanation: "Use FOIL: (3)(1) + (3)(−i) + (2i)(1) + (2i)(−i) = 3 − 3i + 2i − 2i<sup>2</sup> = 3 − i + 2 = 5 − i (since i<sup>2</sup> = −1). Choice A (3 + 2i) mishandles i² = −1 or makes a sign error when multiplying complex numbers."
+    explanation: "Use FOIL: (3)(1) + (3)(−i) + (2i)(1) + (2i)(−i) = 3 − 3i + 2i − 2i² = 3 − i + 2 = 5 − i (since i² = −1). Choice A (3 + 2i) mishandles i² = −1 or makes a sign error when multiplying complex numbers."
   },
   {
     id: "m229", 
     domain: "Advanced Math", 
     category: "Complex Numbers", 
     difficulty: 2, 
-    text: "What is i<sup>4</sup>?", 
+    text: "What is i⁴?", 
     choices: ["i", "-1", "1", "-i"], 
     answer: 2, 
-    explanation: "Calculate powers of i: i<sup>2</sup> = −1, i<sup>4</sup> = (i<sup>2</sup>)<sup>2</sup> = (−1)<sup>2</sup> = 1. Choice A (i) mishandles i² = −1 or makes a sign error when multiplying complex numbers."
+    explanation: "Calculate powers of i: i² = −1, i⁴ = (i²)² = (−1)² = 1. Choice A (i) mishandles i² = −1 or makes a sign error when multiplying complex numbers."
   },
   {
     id: "m230", 
     domain: "Advanced Math", 
     category: "Composite Functions", 
     difficulty: 2, 
-    text: "If f(x) = 2x + 1 and g(x) = x<sup>2</sup>, find (f ∘ g)(3).", 
+    text: "If f(x) = 2x + 1 and g(x) = x², find (f ∘ g)(3).", 
     choices: ["19", "37", "49", "64"], 
     answer: 0, 
-    explanation: "(f ∘ g)(3) = f(g(3)). First: g(3) = 3<sup>2</sup> = 9. Then: f(9) = 2(9) + 1 = 19. Choice B (37) applies the functions in the wrong order or evaluates at the wrong input."
+    explanation: "(f ∘ g)(3) = f(g(3)). First: g(3) = 3² = 9. Then: f(9) = 2(9) + 1 = 19. Choice B (37) applies the functions in the wrong order or evaluates at the wrong input."
   },
   {
     id: "m231", 
@@ -2950,9 +2950,9 @@ const MATH_QUESTIONS = [
     category: "Inverse Functions", 
     difficulty: 2, 
     text: "Find the inverse of f(x) = 3x - 2", 
-    choices: ["f<sup>-1</sup>(x) = (x + 2)/3", "f<sup>-1</sup>(x) = (3x + 2)", "f<sup>-1</sup>(x) = x/3 - 2", "f<sup>-1</sup>(x) = 3(x - 2)"], 
+    choices: ["f⁻¹(x) = (x + 2)/3", "f⁻¹(x) = (3x + 2)", "f⁻¹(x) = x/3 - 2", "f⁻¹(x) = 3(x - 2)"], 
     answer: 0, 
-    explanation: "Set y = 3x − 2. Solve for x: x = (y + 2)/3. Swap variables: f<sup>−1</sup>(x) = (x + 2)/3. Choice B (f<sup>-1</sup>(x) = (3x + 2)) applies the functions in the wrong order or evaluates at the wrong input."
+    explanation: "Set y = 3x − 2. Solve for x: x = (y + 2)/3. Swap variables: f⁻¹(x) = (x + 2)/3. Choice B (f⁻¹(x) = (3x + 2)) applies the functions in the wrong order or evaluates at the wrong input."
   },
   {
     id: "m233", 
@@ -2979,40 +2979,40 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math", 
     category: "Polynomial Division", 
     difficulty: 3, 
-    text: "Divide: (x<sup>3</sup> - 8) ÷ (x - 2)", 
-    choices: ["x<sup>2</sup> - 4", "x<sup>2</sup> + 2x + 4", "x<sup>2</sup> + 4x + 4", "x<sup>2</sup> - 2x + 4"], 
+    text: "Divide: (x³ - 8) ÷ (x - 2)", 
+    choices: ["x² - 4", "x² + 2x + 4", "x² + 4x + 4", "x² - 2x + 4"], 
     answer: 1, 
-    explanation: "Use synthetic division or recognize difference of cubes: x<sup>3</sup> − 8 = (x − 2)(x<sup>2</sup> + 2x + 4). Therefore quotient is x<sup>2</sup> + 2x + 4. Choice A (x<sup>2</sup> - 4) results from a distribution or combining error. Double-check each term when expanding."
+    explanation: "Use synthetic division or recognize difference of cubes: x³ − 8 = (x − 2)(x² + 2x + 4). Therefore quotient is x² + 2x + 4. Choice A (x² - 4) results from a distribution or combining error. Double-check each term when expanding."
   },
   {
     id: "m236", 
     domain: "Advanced Math", 
     category: "Binomial Theorem", 
     difficulty: 3, 
-    text: "Find the second term in the expansion of (x + 2)<sup>4</sup>.", 
-    choices: ["4x<sup>3</sup>", "8x<sup>3</sup>", "32x<sup>3</sup>", "64x"], 
+    text: "Find the second term in the expansion of (x + 2)⁴.", 
+    choices: ["4x³", "8x³", "32x³", "64x"], 
     answer: 1, 
-    explanation: "Using binomial theorem: term k is C(4,k)x<sup>4−k</sup>(2)<sup>k</sup>. For k=1: C(4,1)x<sup>3</sup>(2)<sup>1</sup> = 4 × 2 × x<sup>3</sup> = 8x<sup>3</sup>. Choice A (4x<sup>3</sup>) uses the wrong binomial coefficient or forgets the alternating signs."
+    explanation: "Using binomial theorem: term k is C(4,k)x<sup>4−k</sup>(2)<sup>k</sup>. For k=1: C(4,1)x³(2)¹ = 4 × 2 × x³ = 8x³. Choice A (4x³) uses the wrong binomial coefficient or forgets the alternating signs."
   },
   {
     id: "m237", 
     domain: "Advanced Math", 
     category: "Conic Sections", 
     difficulty: 2, 
-    text: "What is the center of the circle (x - 3)<sup>2</sup> + (y + 2)<sup>2</sup> = 16?", 
+    text: "What is the center of the circle (x - 3)² + (y + 2)² = 16?", 
     choices: ["(3, -2)", "(-3, 2)", "(3, 2)", "(-3, -2)"], 
     answer: 0, 
-    explanation: "Standard form: (x − h)<sup>2</sup> + (y − k)<sup>2</sup> = r<sup>2</sup> has center (h, k). Here center is (3, -2). Choice B ((-3, 2)) confuses the center coordinates or radius from the conic section equation."
+    explanation: "Standard form: (x − h)² + (y − k)² = r² has center (h, k). Here center is (3, -2). Choice B ((-3, 2)) confuses the center coordinates or radius from the conic section equation."
   },
   {
     id: "m238", 
     domain: "Advanced Math", 
     category: "Conic Sections", 
     difficulty: 2, 
-    text: "Find the radius of the circle: x<sup>2</sup> + y<sup>2</sup> - 6x + 4y - 3 = 0", 
+    text: "Find the radius of the circle: x² + y² - 6x + 4y - 3 = 0", 
     choices: ["2", "4", "8", "16"], 
     answer: 1, 
-    explanation: "Complete the square: (x − 3)<sup>2</sup> + (y + 2)<sup>2</sup> = 9 + 4 + 3 = 16. So radius = √16 = 4. Choice A (2) confuses the center coordinates or radius from the conic section equation."
+    explanation: "Complete the square: (x − 3)² + (y + 2)² = 9 + 4 + 3 = 16. So radius = √16 = 4. Choice A (2) confuses the center coordinates or radius from the conic section equation."
   },
   {
     id: "m239", 
@@ -3052,7 +3052,7 @@ const MATH_QUESTIONS = [
     text: "If sin(θ) = 3/5 and θ is acute, find cos(θ).", 
     choices: ["4/5", "3/5", "5/3", "1/5"], 
     answer: 0, 
-    explanation: "Using sin<sup>2</sup>(θ) + cos<sup>2</sup>(θ) = 1: (3/5)<sup>2</sup> + cos<sup>2</sup>(θ) = 1. So cos<sup>2</sup>(θ) = 1 − 9/25 = 16/25, thus cos(θ) = 4/5 (positive in acute angle). Choice B (3/5) misidentifies which side is the hypotenuse or makes an error in the Pythagorean calculation."
+    explanation: "Using sin²(θ) + cos²(θ) = 1: (3/5)² + cos²(θ) = 1. So cos²(θ) = 1 − 9/25 = 16/25, thus cos(θ) = 4/5 (positive in acute angle). Choice B (3/5) misidentifies which side is the hypotenuse or makes an error in the Pythagorean calculation."
   },
   {
     id: "m243", 
@@ -3069,20 +3069,20 @@ const MATH_QUESTIONS = [
     domain: "Advanced Math", 
     category: "Exponential Growth/Decay", 
     difficulty: 2, 
-    text: "A population grows according to P(t) = 1000(1.05)<sup>t</sup>. What is the population after 2 years?", 
+    text: "A population grows according to P(t) = 1000(1.05)ᵗ. What is the population after 2 years?", 
     choices: ["1050", "1100", "1102.5", "2000"], 
     answer: 2, 
-    explanation: "P(2) = 1000(1.05)<sup>2</sup> = 1000(1.1025) = 1102.5. Exponential growth with 5% annual rate. Choice A (1050) confuses the growth/decay factor or misapplies the exponent rules."
+    explanation: "P(2) = 1000(1.05)² = 1000(1.1025) = 1102.5. Exponential growth with 5% annual rate. Choice A (1050) confuses the growth/decay factor or misapplies the exponent rules."
   },
   {
     id: "m245", 
     domain: "Advanced Math", 
     category: "Parametric Equations", 
     difficulty: 3, 
-    text: "If x = 2t and y = t<sup>2</sup>, what is y in terms of x?", 
-    choices: ["y = x<sup>2</sup>/4", "y = x<sup>2</sup>", "y = 4x", "y = x/4"], 
+    text: "If x = 2t and y = t², what is y in terms of x?", 
+    choices: ["y = x²/4", "y = x²", "y = 4x", "y = x/4"], 
     answer: 0, 
-    explanation: "From x = 2t, we get t = x/2. Substitute into y = t<sup>2</sup>: y = (x/2)<sup>2</sup> = x<sup>2</sup>/4. Choice B (y = x<sup>2</sup>) results from an arithmetic error during solving. Choice D (y = x/4) comes from forgetting to isolate the variable completely."
+    explanation: "From x = 2t, we get t = x/2. Substitute into y = t²: y = (x/2)² = x²/4. Choice B (y = x²) results from an arithmetic error during solving. Choice D (y = x/4) comes from forgetting to isolate the variable completely."
   },
   {
     id: "m246", 
@@ -3362,7 +3362,7 @@ const MATH_QUESTIONS = [
     text: "In a right triangle, if one leg is 3 and the hypotenuse is 5, what is the other leg?", 
     choices: ["2", "3", "4", "5"], 
     answer: 2, 
-    explanation: "Using Pythagorean theorem: 3<sup>2</sup> + b<sup>2</sup> = 5<sup>2</sup>. So 9 + b<sup>2</sup> = 25, thus b<sup>2</sup> = 16, b = 4. Choice A (2) misapplies angle relationships (supplementary, complementary, or vertical angles)."
+    explanation: "Using Pythagorean theorem: 3² + b² = 5². So 9 + b² = 25, thus b² = 16, b = 4. Choice A (2) misapplies angle relationships (supplementary, complementary, or vertical angles)."
   },
   {
     id: "m274", 
@@ -3452,7 +3452,7 @@ const MATH_QUESTIONS = [
     text: "What is the volume of a cylinder with radius 3 cm and height 10 cm?", 
     choices: ["30π", "60π", "90π", "300π"], 
     answer: 2, 
-    explanation: "Volume = πr<sup>2</sup>h = π(3)<sup>2</sup>(10) = π(9)(10) = 90π cubic cm. Cylinder volume extends circle area to 3D. Choice A (30π) results from a common calculation error. Choice D (300π) misapplies the key concept."
+    explanation: "Volume = πr²h = π(3)²(10) = π(9)(10) = 90π cubic cm. Cylinder volume extends circle area to 3D. Choice A (30π) results from a common calculation error. Choice D (300π) misapplies the key concept."
   },
   {
     id: "m283", 
@@ -3462,7 +3462,7 @@ const MATH_QUESTIONS = [
     text: "What is the volume of a sphere with radius 3?", 
     choices: ["27π", "36π", "54π", "108π"], 
     answer: 2, 
-    explanation: "Volume = (4/3)πr<sup>3</sup> = (4/3)π(3)<sup>3</sup> = (4/3)π(27) = 36π. Sphere volume uses specific formula. Choice A (27π) results from a common calculation error. Choice D (108π) misapplies the key concept."
+    explanation: "Volume = (4/3)πr³ = (4/3)π(3)³ = (4/3)π(27) = 36π. Sphere volume uses specific formula. Choice A (27π) results from a common calculation error. Choice D (108π) misapplies the key concept."
   },
   {
     id: "m284", 
@@ -3502,7 +3502,7 @@ const MATH_QUESTIONS = [
     text: "What is the distance between points (0, 0) and (3, 4)?", 
     choices: ["3", "4", "5", "7"], 
     answer: 2, 
-    explanation: "Distance = √[(3−0)<sup>2</sup> + (4−0)<sup>2</sup>] = √(9 + 16) = √25 = 5. Distance formula extends Pythagorean theorem to coordinate plane. Choice A (3) makes a sign error or confuses x and y coordinates in the formula."
+    explanation: "Distance = √[(3−0)² + (4−0)²] = √(9 + 16) = √25 = 5. Distance formula extends Pythagorean theorem to coordinate plane. Choice A (3) makes a sign error or confuses x and y coordinates in the formula."
   },
   {
     id: "m288", 
@@ -3572,7 +3572,7 @@ const MATH_QUESTIONS = [
     text: "In triangle ABC with a=5, b=6, c=7, use Law of Cosines to find cos(C).", 
     choices: ["1/7", "1/5", "5/56", "2/7"], 
     answer: 1, 
-    explanation: "Law of Cosines: c<sup>2</sup> = a<sup>2</sup> + b<sup>2</sup> − 2ab·cos(C). Thus 49 = 25 + 36 − 60·cos(C), so 60·cos(C) = 12, giving cos(C) = 1/5. Choice A (1/7) confuses the Law of Sines with the Law of Cosines, or sets up the equation with the wrong angle-side pair."
+    explanation: "Law of Cosines: c² = a² + b² − 2ab·cos(C). Thus 49 = 25 + 36 − 60·cos(C), so 60·cos(C) = 12, giving cos(C) = 1/5. Choice A (1/7) confuses the Law of Sines with the Law of Cosines, or sets up the equation with the wrong angle-side pair."
   },
   {
     id: "m295", 
@@ -7514,7 +7514,7 @@ var THEME_MARINE = [
     domain: "Algebra",
     category: "Quadratic Inequalities",
     difficulty: 3,
-    text: "A researcher models plankton mass (in grams) with M(t) = 2t<sup>2</sup> + 3t - 5, where t is the number of days since the study began. After how many complete days will the plankton mass first exceed 30 grams?",
+    text: "A researcher models plankton mass (in grams) with M(t) = 2t² + 3t - 5, where t is the number of days since the study began. After how many complete days will the plankton mass first exceed 30 grams?",
     choices: [
       "3 days",
       "4 days",
@@ -7522,7 +7522,7 @@ var THEME_MARINE = [
       "6 days"
     ],
     answer: 1,
-    explanation: "Set 2t<sup>2</sup> + 3t - 5 > 30, giving 2t<sup>2</sup> + 3t - 35 > 0. Checking t = 3: 2(9) + 9 - 5 = 22, which is less than 30. Checking t = 4: 2(16) + 12 - 5 = 39, which exceeds 30. The plankton mass first exceeds 30 grams after 4 complete days."
+    explanation: "Set 2t² + 3t - 5 > 30, giving 2t² + 3t - 35 > 0. Checking t = 3: 2(9) + 9 - 5 = 22, which is less than 30. Checking t = 4: 2(16) + 12 - 5 = 39, which exceeds 30. The plankton mass first exceeds 30 grams after 4 complete days."
   },
 
   // MATH: ADVANCED MATH (4 questions)
@@ -7531,7 +7531,7 @@ var THEME_MARINE = [
     domain: "Advanced Math",
     category: "Quadratic Equations",
     difficulty: 2,
-    text: "A fish tank's water volume V (in liters) follows the equation V = -2t<sup>2</sup> + 20t, where t is time in hours. At what time is the volume zero?",
+    text: "A fish tank's water volume V (in liters) follows the equation V = -2t² + 20t, where t is time in hours. At what time is the volume zero?",
     choices: [
       "t = 0 or t = 10",
       "t = 2 or t = 8",
@@ -7539,7 +7539,7 @@ var THEME_MARINE = [
       "t = 0 or t = 20"
     ],
     answer: 0,
-    explanation: "Set V = 0: -2t<sup>2</sup> + 20t = 0. Factor: -2t(t - 10) = 0. So t = 0 or t = 10."
+    explanation: "Set V = 0: -2t² + 20t = 0. Factor: -2t(t - 10) = 0. So t = 0 or t = 10."
   },
   {
     id: "theme_marine_m7",
@@ -7569,7 +7569,7 @@ var THEME_MARINE = [
       "18 days"
     ],
     answer: 2,
-    explanation: "The coverage after d days is 2<sup>d/3</sup>. Setting 2<sup>d/3</sup> = 32 = 2<sup>5</sup>, we get d/3 = 5, so d = 15 days."
+    explanation: "The coverage after d days is 2<sup>d/3</sup>. Setting 2<sup>d/3</sup> = 32 = 2⁵, we get d/3 = 5, so d = 15 days."
   },
   {
     id: "theme_marine_m9",
@@ -7693,7 +7693,7 @@ var THEME_MARINE = [
       "100π m³"
     ],
     answer: 1,
-    explanation: "Volume of a cylinder = πr<sup>2</sup>h = π(2)<sup>2</sup>(5) = π(4)(5) = 20π m³."
+    explanation: "Volume of a cylinder = πr²h = π(2)²(5) = π(4)(5) = 20π m³."
   },
   {
     id: "theme_marine_m16",
@@ -7723,7 +7723,7 @@ var THEME_MARINE = [
       "25 km"
     ],
     answer: 0,
-    explanation: "Using the distance formula: d = √[(3-0)<sup>2</sup> + (4-0)<sup>2</sup>] = √[9 + 16] = √25 = 5 km."
+    explanation: "Using the distance formula: d = √[(3-0)² + (4-0)²] = √[9 + 16] = √25 = 5 km."
   },
   {
     id: "theme_marine_m18",
@@ -8503,29 +8503,32 @@ function nextSR() { srIdx++; showSRQ(); }
 
 function cleanMath(s) {
   if (!s) return '';
-    // Convert radical patterns: √72 → styled radical with vinculum
-  // Handle √(expr) first
-  s = s.replace(/√\(([^)]+)\)/g, '<span class="rad">√<span class="radicand">$1</span></span>');
-  // Handle √number (single or multi-digit)
-  s = s.replace(/√(\d+)/g, '<span class="rad">√<span class="radicand">$1</span></span>');
-  // Tighten exponents: x<sup>2</sup> → <span class="exp">x<sup>2</sup></span>
-  s = s.replace(/([a-zA-Z0-9)])<sup>/g, '$1<sup style="margin-left:-0.2em;position:relative;top:-0.4em;font-size:0.7em;line-height:0">');
-// Convert (expr)/(expr) fractions
+  // STEP 1: Convert fractions FIRST (before radicals, so √2/2 → fraction with √2 in numerator)
+  // (expr)/(expr)
   s = s.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, function(m, num, den) {
     return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
   });
-  // Convert (expr)/number
+  // (expr)/number
   s = s.replace(/\(([^()]+)\)\/(\d+)/g, function(m, num, den) {
     return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
   });
-  // Convert number/(expr)
+  // number/(expr)
   s = s.replace(/([\d]+)\/\(([^()]+)\)/g, function(m, num, den) {
     return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
   });
-  // Convert simple number/number fractions
-  s = s.replace(/(^|[\s=>,])([−\-]?(?:√\d+|\d+))\/(\d+)(?=$|[\s<.,;)"])/g, function(m, pre, num, den) {
+  // √number/number (radical fraction like √2/2, √3/2)
+  s = s.replace(/(√\d+)\/(\d+)/g, function(m, num, den) {
+    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
+  });
+  // simple number/number
+  s = s.replace(/(^|[\s=>,])([−\-]?\d+)\/(\d+)(?=$|[\s<.,;)"])/g, function(m, pre, num, den) {
     return pre + '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
   });
+  // STEP 2: Convert radicals AFTER fractions (so √2 in numerators gets treated)
+  var radSVG = '<span style="white-space:nowrap;display:inline-flex;align-items:flex-end"><svg width="12" height="16" viewBox="0 0 12 16" style="vertical-align:bottom;margin-bottom:-1px"><path d="M1 9 L4 15 L10 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="border-top:1.5px solid currentColor;padding:0 2px;display:inline-block;margin-left:-2px;line-height:1.2">';
+  var radEnd = '</span></span>';
+  s = s.replace(/√\(([^)]+)\)/g, radSVG + '$1' + radEnd);
+  s = s.replace(/√(\d+)/g, radSVG + '$1' + radEnd);
   return s;
 }
 /* ============================================================
@@ -8960,7 +8963,7 @@ function showFormulaSheet() {
   var frac = function(n, d) { return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;margin:0 2px"><span style="border-bottom:1.5px solid currentColor;padding:0 3px;font-size:0.9em">' + n + '</span><span style="padding:0 3px;font-size:0.9em">' + d + '</span></span>'; };
   var sup = function(x) { return '<sup style="font-size:0.7em;margin-left:-0.1em">' + x + '</sup>'; };
   var sub = function(x) { return '<sub style="font-size:0.7em;margin-left:-0.05em">' + x + '</sub>'; };
-  var rad = function(x) { return '<span style="white-space:nowrap">√<span style="border-top:1.5px solid currentColor;padding:1px 2px 0 1px;display:inline-block">' + x + '</span></span>'; };
+  var rad = function(x) { return '<span style="white-space:nowrap;display:inline-flex;align-items:flex-end"><svg width="12" height="16" viewBox="0 0 12 16" style="vertical-align:bottom;margin-bottom:-1px"><path d="M1 9 L4 15 L10 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="border-top:1.5px solid currentColor;padding:0 2px;display:inline-block;margin-left:-2px;line-height:1.2">' + x + '</span></span>'; };
   var i = function(x) { return '<i>' + x + '</i>'; };
   var html = '<div class="fade-in"><h2>📋 Formula Reference</h2>';
 
