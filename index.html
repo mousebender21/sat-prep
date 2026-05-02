@@ -9042,6 +9042,92 @@ function spawnConfetti() {
   }
 }
 
+
+/* ===============================================================
+   MISSING FUNCTIONS (restored from dedup fix)
+   =============================================================== */
+
+function handleKeydown(e) {
+  var key = e.key;
+  if (!state || !state.settings || !state.settings.keyboard) return;
+  var screen = document.querySelector('.screen.active');
+  if (!screen) return;
+  var sid = screen.id;
+  if (sid === 'practiceScreen') {
+    if (key >= '1' && key <= '4') { 
+      var idx = parseInt(key) - 1;
+      var cards = document.querySelectorAll('#practiceChoices .choice-card');
+      if (cards[idx] && !cards[idx].classList.contains('disabled')) cards[idx].click();
+    }
+    if (key.toUpperCase() >= 'A' && key.toUpperCase() <= 'D') {
+      var idx2 = key.toUpperCase().charCodeAt(0) - 65;
+      var cards2 = document.querySelectorAll('#practiceChoices .choice-card');
+      if (cards2[idx2] && !cards2[idx2].classList.contains('disabled')) cards2[idx2].click();
+    }
+    if (key === 'Enter') {
+      var nextBtn = document.querySelector('#practiceNextArea button');
+      if (nextBtn && nextBtn.offsetParent !== null) nextBtn.click();
+    }
+  }
+  if (sid === 'timedTestScreen') {
+    if (key >= '1' && key <= '4') {
+      var idx3 = parseInt(key) - 1;
+      var cards3 = document.querySelectorAll('#timedChoices .choice-card');
+      if (cards3[idx3]) cards3[idx3].click();
+    }
+    if (key.toUpperCase() >= 'A' && key.toUpperCase() <= 'D') {
+      var idx4 = key.toUpperCase().charCodeAt(0) - 65;
+      var cards4 = document.querySelectorAll('#timedChoices .choice-card');
+      if (cards4[idx4]) cards4[idx4].click();
+    }
+    if (key === ' ') { e.preventDefault(); toggleTimedFlag(); }
+    if (key === 'Escape') { confirmEndTest(); }
+  }
+}
+
+function cancelNewProfile() {
+  var modal = document.getElementById('modalNewProfile');
+  if (modal) modal.value = '';
+  var overlay = document.querySelector('.modal-overlay.active');
+  if (overlay) overlay.classList.remove('active');
+}
+
+function confirmEndTest() {
+  if (confirm('End this test early? Your answers so far will be scored.')) {
+    endTimedTest();
+  }
+}
+
+function goHome() {
+  navigateTo('home');
+}
+
+function nextPracticeQ() {
+  nextPracticeQuestion();
+}
+
+function setSection(val, el) {
+  practiceFilters.section = val;
+  practiceFilters.domains = [];
+  var btns = el.parentElement.querySelectorAll('.segment-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  el.classList.add('active');
+  renderHomePills();
+}
+
+function setDiff(val, el) {
+  practiceFilters.difficulty = val === 'all' ? null : (val === 'adaptive' ? 'adaptive' : val);
+  var btns = el.parentElement.querySelectorAll('.diff-pill');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  el.classList.add('active');
+}
+
+/* ===============================================================
+   POST-DEFINITION INITIALIZATION
+   =============================================================== */
+normalizeQuestions();
+ALL_QS = MATH_QUESTIONS.concat(RW_QUESTIONS);
+
 /* ===============================================================
    INIT (ALL EVENT BINDING AND STARTUP CODE AT THE BOTTOM)
    =============================================================== */
