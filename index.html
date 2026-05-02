@@ -2,1052 +2,584 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <!-- Progressive Web App meta tags -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SAT Prep">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="SAT Prep">
-  <meta name="theme-color" content="#0d7377">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d7377'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>📝</text></svg>">
-
-<title>SAT Prep — Caitlyn's 1350+ Tracker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SAT Prep">
+<meta name="theme-color" content="#0d7377">
+<title>SAT Prep — 1350+ Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ========================================================
-   CSS — Mobile-First Design
-   ======================================================== */
+/* ═══════════════════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════════════════ */
 :root {
-  --primary: #0d7377;
-  --primary-light: #10969b;
-  --primary-dark: #0a5c5f;
-  --accent: #f7b731;
-  --accent-light: #fce4a8;
-  --success: #27ae60;
-  --success-light: #d4efdf;
-  --danger: #e74c3c;
-  --danger-light: #fadbd8;
-  --bg: #f0f4f8;
-  --card: #ffffff;
-  --text: #1a2332;
-  --text-secondary: #5a6a7e;
-  --text-light: #8a96a6;
-  --border: #e2e8f0;
-  --shadow: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --transition: 0.25s ease;
-  --passage-bg: #e8f4f8;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --primary: #0d7377; --primary-light: #14919b; --primary-dark: #0a5c5f;
+  --primary-bg: #e6f4f5; --accent: #f7b731; --accent-bg: #fff8e7;
+  --success: #27ae60; --success-bg: #eafaf1; --danger: #e74c3c; --danger-bg: #fdeaea;
+  --bg: #f0f4f8; --card: #ffffff; --text: #1a2332; --text-sec: #5a6a7a; --text-muted: #8a9aaa;
+  --border: #dce4ec; --border-lt: #e8eef4;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06); --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
+  --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition: 0.2s ease; --nav-h: 64px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { height:100%; -webkit-tap-highlight-color:transparent; }
+body { font-family:var(--font); background:var(--bg); color:var(--text); line-height:1.5;
+  min-height:100%; display:flex; flex-direction:column; overflow-x:hidden; }
+
+/* ═══════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════ */
+.app-header {
+  position:sticky; top:0; z-index:100; background:var(--primary);
+  color:#fff; padding:10px 16px; display:flex; align-items:center;
+  justify-content:space-between; gap:10px; box-shadow:0 2px 8px rgba(13,115,119,0.3);
+}
+.header-left { display:flex; align-items:center; gap:10px; min-width:0; }
+.header-title { font-size:15px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.target-badge { background:var(--accent); color:var(--text); padding:3px 10px;
+  border-radius:12px; font-size:11px; font-weight:700; white-space:nowrap; }
+.header-right { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.header-btn { background:rgba(255,255,255,0.15); border:none; color:#fff; width:36px; height:36px;
+  border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center;
+  justify-content:center; transition:var(--transition); }
+.header-btn:hover { background:rgba(255,255,255,0.25); }
+.user-chip { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15);
+  padding:4px 10px 4px 4px; border-radius:20px; cursor:pointer; border:none; color:#fff;
+  font-family:var(--font); font-size:12px; font-weight:600; transition:var(--transition); }
+.user-chip:hover { background:rgba(255,255,255,0.25); }
+.avatar { width:28px; height:28px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; font-size:13px; font-weight:800; color:#fff; flex-shrink:0; }
+.avatar-sm { width:24px; height:24px; font-size:11px; }
+
+/* ═══════════════════════════════════════════════════════
+   BOTTOM NAV
+   ═══════════════════════════════════════════════════════ */
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100;
+  background:var(--card); border-top:1px solid var(--border-lt);
+  display:flex; height:var(--nav-h); box-shadow:0 -2px 8px rgba(0,0,0,0.06);
+  padding-bottom:env(safe-area-inset-bottom); }
+.nav-item { flex:1; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:2px; border:none; background:none; cursor:pointer;
+  color:var(--text-muted); font-family:var(--font); font-size:10px; font-weight:600;
+  transition:var(--transition); padding:6px 0; }
+.nav-item.active { color:var(--primary); }
+.nav-icon { font-size:22px; line-height:1; }
+.nav-label { letter-spacing:0.3px; }
+
+/* ═══════════════════════════════════════════════════════
+   SCREENS
+   ═══════════════════════════════════════════════════════ */
+.content { flex:1; padding:16px; padding-bottom:calc(var(--nav-h) + 20px);
+  max-width:640px; margin:0 auto; width:100%; }
+.screen { display:none; animation:fadeIn 0.2s ease; }
+.screen.active { display:block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════════════════════
+   CARDS & COMMON
+   ═══════════════════════════════════════════════════════ */
+.card { background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  border:1px solid var(--border-lt); padding:18px; margin-bottom:12px; }
+.card-title { font-size:13px; font-weight:700; color:var(--text-sec); text-transform:uppercase;
+  letter-spacing:0.5px; margin-bottom:12px; }
+.btn { display:flex; align-items:center; justify-content:center; font-family:var(--font);
+  font-weight:700; padding:14px 20px; border-radius:var(--radius-sm); border:none;
+  cursor:pointer; transition:var(--transition); font-size:15px; gap:8px; width:100%;
+  min-height:48px; text-decoration:none; }
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-primary:hover { background:var(--primary-dark); }
+.btn-accent { background:var(--accent); color:var(--text); }
+.btn-accent:hover { background:#e5a82a; }
+.btn-outline { background:none; border:2px solid var(--border); color:var(--text-sec); }
+.btn-outline:hover { border-color:var(--primary); color:var(--primary); }
+.btn-sm { padding:8px 14px; font-size:13px; min-height:36px; border-radius:var(--radius-xs); }
+.btn-danger { background:var(--danger); color:#fff; }
+.btn-group { display:flex; gap:10px; }
+.btn-group .btn { flex:1; }
+.mt-12 { margin-top:12px; }
+.mt-8 { margin-top:8px; }
+.text-center { text-align:center; }
+
+/* ═══════════════════════════════════════════════════════
+   PROFILE SCREEN
+   ═══════════════════════════════════════════════════════ */
+.profile-screen { display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:80vh; text-align:center; padding:20px; }
+.profile-screen h2 { font-size:22px; font-weight:800; margin-bottom:4px; }
+.profile-screen p { color:var(--text-sec); margin-bottom:24px; }
+.profile-list { display:flex; flex-direction:column; gap:10px; width:100%; max-width:300px; margin-bottom:16px; }
+.profile-btn { display:flex; align-items:center; gap:12px; padding:12px 16px;
+  background:var(--card); border:2px solid var(--border-lt); border-radius:var(--radius-sm);
+  cursor:pointer; font-family:var(--font); font-size:15px; font-weight:600;
+  transition:var(--transition); width:100%; text-align:left; }
+.profile-btn:hover { border-color:var(--primary); background:var(--primary-bg); }
+.new-profile-row { display:flex; gap:8px; width:100%; max-width:300px; }
+.new-profile-row input { flex:1; padding:12px 14px; border:2px solid var(--border);
+  border-radius:var(--radius-sm); font-family:var(--font); font-size:15px; outline:none;
+  transition:var(--transition); }
+.new-profile-row input:focus { border-color:var(--primary); }
+
+/* ═══════════════════════════════════════════════════════
+   FILTER PILLS
+   ═══════════════════════════════════════════════════════ */
+.pills { display:flex; flex-wrap:wrap; gap:6px; }
+.pill { font-family:var(--font); font-size:12px; font-weight:600; padding:8px 14px;
+  border-radius:20px; border:1.5px solid var(--border); background:var(--card);
+  color:var(--text-sec); cursor:pointer; transition:var(--transition); white-space:nowrap;
+  min-height:36px; display:flex; align-items:center; }
+.pill.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+.pill:hover:not(.active) { border-color:var(--primary-light); color:var(--primary); }
+@media (hover:none) and (pointer:coarse) {
+  .pill { padding:10px 16px; font-size:13px; min-height:40px; }
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ═══════════════════════════════════════════════════════
+   STAT TILES
+   ═══════════════════════════════════════════════════════ */
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+.stat-tile { background:var(--card); border-radius:var(--radius); padding:16px;
+  text-align:center; border:1px solid var(--border-lt); box-shadow:var(--shadow); }
+.stat-tile .emoji { font-size:24px; margin-bottom:4px; }
+.stat-tile .val { font-size:24px; font-weight:800; }
+.stat-tile .label { font-size:11px; color:var(--text-muted); font-weight:600; }
 
-html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+/* ═══════════════════════════════════════════════════════
+   PROGRESS RING
+   ═══════════════════════════════════════════════════════ */
+.ring-wrap { display:flex; flex-direction:column; align-items:center; margin:8px 0 16px; }
+.ring-svg { transform:rotate(-90deg); }
+.ring-bg { fill:none; stroke:var(--border-lt); }
+.ring-fg { fill:none; stroke:var(--primary); stroke-linecap:round; transition:stroke-dashoffset 0.6s ease; }
+.ring-text { font-size:28px; font-weight:800; fill:var(--text); }
+.ring-label { font-size:11px; fill:var(--text-muted); font-weight:600; }
 
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+/* ═══════════════════════════════════════════════════════
+   ANSWER CHOICES
+   ═══════════════════════════════════════════════════════ */
+.choices { display:flex; flex-direction:column; gap:8px; }
+.choice-card { display:flex; align-items:flex-start; gap:12px; padding:14px 16px;
+  background:var(--card); border:2px solid var(--border); border-radius:var(--radius-sm);
+  cursor:pointer; font-size:15px; line-height:1.5; transition:all 0.15s ease;
+  min-height:48px; text-align:left; width:100%; font-family:var(--font); }
+.choice-card:hover:not(.disabled) { border-color:var(--primary-light); background:var(--primary-bg); }
+.choice-card.selected { border-color:var(--primary); background:var(--primary-bg); }
+.choice-card.correct { border-color:var(--success); background:var(--success-bg); animation:pulse-green 0.3s; }
+.choice-card.wrong { border-color:var(--danger); background:var(--danger-bg); animation:pulse-red 0.3s; }
+.choice-card.disabled { cursor:default; opacity:0.7; }
+.choice-card.disabled.correct { opacity:1; }
+.choice-letter { width:30px; height:30px; border-radius:50%; border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center; font-weight:700;
+  font-size:13px; flex-shrink:0; transition:var(--transition); }
+.choice-card.selected .choice-letter { background:var(--primary); color:#fff; border-color:var(--primary); }
+.choice-card.correct .choice-letter { background:var(--success); color:#fff; border-color:var(--success); }
+.choice-card.wrong .choice-letter { background:var(--danger); color:#fff; border-color:var(--danger); }
+.choice-text { flex:1; }
+@keyframes pulse-green { 0%{transform:scale(1)} 50%{transform:scale(1.01)} 100%{transform:scale(1)} }
+@keyframes pulse-red { 0%{transform:scale(1)} 50%{transform:scale(0.99)} 100%{transform:scale(1)} }
 
-/* ── Sticky Header ── */
-.header {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--primary);
-  color: #fff;
-  padding: 10px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-.header-title {
-  font-size: 15px; font-weight: 700;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.header-target {
-  background: var(--accent);
-  color: var(--text);
-  font-size: 11px; font-weight: 700;
-  padding: 3px 8px; border-radius: 20px;
-  white-space: nowrap; margin-left: 8px; flex-shrink: 0;
-}
-.header-right { display: flex; align-items: center; gap: 8px; }
-.header-btn {
-  background: rgba(255,255,255,0.15);
-  border: none; color: #fff; font-size: 18px;
-  width: 36px; height: 36px; border-radius: 50%;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background var(--transition);
-}
-.header-btn:hover { background: rgba(255,255,255,0.25); }
+/* ═══════════════════════════════════════════════════════
+   PASSAGE BOX
+   ═══════════════════════════════════════════════════════ */
+.passage-box { padding:14px 16px; background:#f0f7ff; border-radius:var(--radius-sm);
+  border-left:3px solid var(--primary); margin-bottom:14px; font-size:14px; line-height:1.7; }
 
-/* ── Screen Management ── */
-.screen {
-  display: none; opacity: 0;
-  transition: opacity 0.3s ease;
-  padding: 16px; max-width: 800px; margin: 0 auto;
-  padding-bottom: 80px;
-}
-.screen.active { display: block; opacity: 1; }
+/* ═══════════════════════════════════════════════════════
+   QUESTION META
+   ═══════════════════════════════════════════════════════ */
+.q-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.q-domain { font-size:11px; font-weight:600; padding:3px 10px; border-radius:12px;
+  background:var(--primary-bg); color:var(--primary); }
+.q-diff { display:flex; gap:3px; }
+.q-diff .dot { width:8px; height:8px; border-radius:50%; background:var(--border); }
+.q-diff .dot.on { background:var(--primary); }
+.q-text { font-size:16px; font-weight:600; line-height:1.6; margin-bottom:16px; }
 
-/* ── Cards ── */
-.card {
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  padding: 16px; margin-bottom: 16px;
-}
-.card-title {
-  font-size: 14px; font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase; letter-spacing: 0.5px;
-  margin-bottom: 12px;
-}
+/* ═══════════════════════════════════════════════════════
+   FEEDBACK
+   ═══════════════════════════════════════════════════════ */
+.feedback { padding:14px 16px; border-radius:var(--radius-sm); margin-top:12px;
+  animation:slideUp 0.25s ease; font-size:14px; line-height:1.6; }
+.feedback.correct { background:var(--success-bg); border:1px solid var(--success); }
+.feedback.wrong { background:var(--danger-bg); border:1px solid var(--danger); }
+.feedback-title { font-weight:700; margin-bottom:4px; }
+@keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-/* ── Big Stat ── */
-.big-stat {
-  text-align: center; padding: 20px 16px;
-}
-.big-stat-number {
-  font-size: 48px; font-weight: 800;
-  color: var(--primary);
-  line-height: 1;
-}
-.big-stat-label {
-  font-size: 13px; color: var(--text-secondary);
-  margin-top: 4px; font-weight: 500;
-}
+/* ═══════════════════════════════════════════════════════
+   SESSION BAR
+   ═══════════════════════════════════════════════════════ */
+.session-bar { display:flex; gap:6px; flex-wrap:wrap; padding:10px 14px;
+  background:var(--card); border-radius:var(--radius-sm); border:1px solid var(--border-lt);
+  margin-bottom:12px; font-size:12px; font-weight:600; color:var(--text-sec); }
+.sb-item { display:flex; align-items:center; gap:4px; }
 
-/* ── Stat Row ── */
-.stat-row {
-  display: flex; justify-content: space-around;
-  text-align: center; gap: 8px;
-}
-.stat-item { flex: 1; }
-.stat-value { font-size: 22px; font-weight: 700; color: var(--text); }
-.stat-label { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+/* ═══════════════════════════════════════════════════════
+   TIMER BAR
+   ═══════════════════════════════════════════════════════ */
+.timer-bar { position:sticky; top:52px; z-index:50; background:var(--card);
+  border-bottom:1px solid var(--border-lt); padding:8px 16px;
+  display:flex; justify-content:space-between; align-items:center; }
+.timer-display { font-size:18px; font-weight:800; font-variant-numeric:tabular-nums; }
+.timer-display.warning { color:var(--accent); }
+.timer-display.danger { color:var(--danger); }
 
-/* ── College Chips ── */
-.college-chips {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  margin-bottom: 16px; justify-content: center;
-}
-.college-chip {
-  font-size: 11px; font-weight: 600;
-  padding: 4px 10px; border-radius: 20px;
-  border: 1.5px solid var(--border);
-  white-space: nowrap;
-}
-.college-chip.required { background: var(--success-light); border-color: var(--success); color: #1a7a42; }
-.college-chip.prestige { background: var(--accent-light); border-color: var(--accent); color: #8a6d00; }
-.college-chip.reach { background: #ede7f6; border-color: #7c4dff; color: #4a148c; }
+/* ═══════════════════════════════════════════════════════
+   NAV GRID (timed mode)
+   ═══════════════════════════════════════════════════════ */
+.nav-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(38px,1fr));
+  gap:4px; margin:8px 0; }
+.nav-grid-btn { width:38px; height:38px; border-radius:var(--radius-xs);
+  border:1.5px solid var(--border); background:var(--card); cursor:pointer;
+  font-size:12px; font-weight:700; color:var(--text-sec); transition:var(--transition);
+  display:flex; align-items:center; justify-content:center; font-family:var(--font); }
+.nav-grid-btn.answered { background:var(--primary-bg); border-color:var(--primary); color:var(--primary); }
+.nav-grid-btn.flagged { background:var(--accent-bg); border-color:var(--accent); color:#b8860b; }
+.nav-grid-btn.current { background:var(--primary); color:#fff; border-color:var(--primary); }
 
-/* ── CSS Bar Charts ── */
-.bar-chart { display: flex; flex-direction: column; gap: 10px; }
-.bar-row { display: flex; align-items: center; gap: 8px; }
-.bar-label {
-  font-size: 12px; font-weight: 600; color: var(--text-secondary);
-  width: 60px; text-align: right; flex-shrink: 0;
-}
-.bar-track {
-  flex: 1; height: 22px; background: var(--bg);
-  border-radius: 11px; overflow: hidden; position: relative;
-}
-.bar-fill {
-  height: 100%; border-radius: 11px;
-  background: var(--primary);
-  transition: width 0.6s ease;
-  min-width: 2px;
-}
-.bar-fill.success { background: var(--success); }
-.bar-fill.danger { background: var(--danger); }
-.bar-fill.accent { background: var(--accent); }
-.bar-pct {
-  font-size: 11px; font-weight: 700; color: var(--text-secondary);
-  width: 36px; flex-shrink: 0;
-}
+/* ═══════════════════════════════════════════════════════
+   BAR CHARTS
+   ═══════════════════════════════════════════════════════ */
+.bar-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.bar-label { font-size:12px; font-weight:600; color:var(--text-sec); width:50px; text-align:right; flex-shrink:0; }
+.bar-track { flex:1; height:20px; background:var(--bg); border-radius:10px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:10px; background:var(--primary); transition:width 0.5s ease; min-width:2px; }
+.bar-pct { font-size:12px; font-weight:700; width:36px; color:var(--text-sec); }
 
-/* ── Domain Mini Bars ── */
-.domain-bars { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.domain-bar-item {}
-.domain-bar-header {
-  display: flex; justify-content: space-between; align-items: baseline;
-  margin-bottom: 3px;
-}
-.domain-bar-name { font-size: 12px; font-weight: 600; color: var(--text); }
-.domain-bar-stats { font-size: 11px; color: var(--text-secondary); }
-.domain-bar-track {
-  height: 8px; background: var(--bg);
-  border-radius: 4px; overflow: hidden;
-}
-.domain-bar-fill {
-  height: 100%; border-radius: 4px;
-  transition: width 0.6s ease; min-width: 1px;
-}
+/* ═══════════════════════════════════════════════════════
+   COLLAPSIBLE
+   ═══════════════════════════════════════════════════════ */
+.collapse-header { display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; padding:14px 0; font-weight:700; color:var(--text-sec); font-size:13px; }
+.collapse-header .chevron { transition:transform 0.2s; }
+.collapse-body { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+.collapse-body.open { max-height:2000px; }
 
-/* ── Sparkline ── */
-.sparkline-container {
-  display: flex; align-items: flex-end; gap: 4px;
-  height: 50px; padding: 8px 0;
-}
-.sparkline-dot-col {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-end; height: 100%;
-}
-.sparkline-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--primary); flex-shrink: 0;
-}
-.sparkline-bar {
-  width: 4px; background: var(--primary-light);
-  border-radius: 2px; margin-bottom: 2px;
-  transition: height 0.4s ease;
-}
-.sparkline-label { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+/* ═══════════════════════════════════════════════════════
+   REVIEW ITEM
+   ═══════════════════════════════════════════════════════ */
+.review-item { padding:12px; border:1px solid var(--border-lt); border-radius:var(--radius-sm);
+  margin-bottom:10px; font-size:13px; }
+.review-item .q-text { font-size:14px; margin-bottom:8px; }
+.review-answer { padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600; display:inline-block; margin-right:6px; }
+.review-answer.wrong { background:var(--danger-bg); color:var(--danger); }
+.review-answer.correct { background:var(--success-bg); color:var(--success); }
 
-/* ── Weak Areas ── */
-.weak-callout {
-  background: #fff3e0; border: 1.5px solid #ff9800;
-  border-radius: var(--radius-sm); padding: 12px;
-  margin-top: 12px;
-}
-.weak-callout-title {
-  font-size: 13px; font-weight: 700; color: #e65100;
-  margin-bottom: 6px;
-}
-.weak-callout-item {
-  font-size: 12px; color: #bf360c;
-  padding: 2px 0;
+/* ═══════════════════════════════════════════════════════
+   SETTINGS
+   ═══════════════════════════════════════════════════════ */
+.setting-row { display:flex; justify-content:space-between; align-items:center;
+  padding:12px 0; border-bottom:1px solid var(--border-lt); }
+.setting-label { font-size:14px; font-weight:600; }
+.setting-sub { font-size:12px; color:var(--text-muted); }
+.toggle { position:relative; width:44px; height:24px; flex-shrink:0; }
+.toggle input { opacity:0; width:0; height:0; }
+.toggle-slider { position:absolute; inset:0; background:var(--border); border-radius:12px;
+  cursor:pointer; transition:0.2s; }
+.toggle-slider::before { content:''; position:absolute; width:18px; height:18px;
+  border-radius:50%; background:#fff; left:3px; top:3px; transition:0.2s; }
+.toggle input:checked + .toggle-slider { background:var(--primary); }
+.toggle input:checked + .toggle-slider::before { transform:translateX(20px); }
+
+/* ═══════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════ */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:20px;
+  animation:fadeIn 0.15s; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--card); border-radius:var(--radius); padding:24px;
+  max-width:360px; width:100%; box-shadow:var(--shadow-lg); }
+.modal h3 { font-size:18px; margin-bottom:8px; }
+.modal p { color:var(--text-sec); font-size:14px; margin-bottom:16px; }
+
+/* ═══════════════════════════════════════════════════════
+   CONFETTI
+   ═══════════════════════════════════════════════════════ */
+.confetti-burst { position:fixed; pointer-events:none; z-index:300; }
+.confetti-piece { position:absolute; width:8px; height:8px; border-radius:2px;
+  animation:confettiFall 0.8s ease-out forwards; }
+@keyframes confettiFall {
+  0% { transform:translate(0,0) rotate(0deg); opacity:1; }
+  100% { transform:translate(var(--tx), var(--ty)) rotate(var(--r)); opacity:0; }
 }
 
-/* ── Buttons ── */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font); font-size: 15px; font-weight: 600;
-  padding: 12px 20px; border-radius: var(--radius-sm);
-  border: none; cursor: pointer;
-  transition: all var(--transition);
-  text-decoration: none; gap: 8px;
-  min-height: 44px; width: 100%;
-}
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-dark); }
-.btn-secondary { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
-.btn-secondary:hover { background: #e2e8f0; }
-.btn-accent { background: var(--accent); color: var(--text); }
-.btn-accent:hover { background: #e5a829; }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-danger:hover { background: #c0392b; }
-.btn-sm { padding: 8px 14px; font-size: 13px; min-height: 36px; }
-.btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn-group .btn { flex: 1; min-width: 120px; }
+/* ═══════════════════════════════════════════════════════
+   SPARKLINE
+   ═══════════════════════════════════════════════════════ */
+.sparkline { display:flex; align-items:flex-end; gap:4px; height:40px; }
+.spark-bar { flex:1; background:var(--primary); border-radius:3px 3px 0 0; min-width:8px;
+  transition:height 0.3s; }
 
-/* ── Answer Buttons ── */
-.answer-list { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
-.answer-btn {
-  display: flex; align-items: flex-start; gap: 12px;
-  width: 100%; min-height: 48px; padding: 12px 14px;
-  background: var(--card); border: 2px solid var(--border);
-  border-radius: var(--radius-sm); cursor: pointer;
-  font-family: var(--font); font-size: 15px; color: var(--text);
-  text-align: left; transition: all 0.15s ease;
-  line-height: 1.4;
-}
-.answer-btn:active { transform: scale(0.98); }
-.answer-btn .letter {
-  display: flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--bg); font-weight: 700; font-size: 13px;
-  flex-shrink: 0; color: var(--text-secondary);
-  transition: all 0.15s ease;
-}
-.answer-btn .answer-text { flex: 1; padding-top: 3px; }
-.answer-btn.selected { border-color: var(--primary); background: #e8f6f7; }
-.answer-btn.selected .letter { background: var(--primary); color: #fff; }
-.answer-btn.correct { border-color: var(--success); background: var(--success-light); }
-.answer-btn.correct .letter { background: var(--success); color: #fff; }
-.answer-btn.wrong { border-color: var(--danger); background: var(--danger-light); }
-.answer-btn.wrong .letter { background: var(--danger); color: #fff; }
-.answer-btn.dimmed { opacity: 0.5; }
-.answer-btn:disabled { cursor: default; }
-
-/* ── Passage Box ── */
-.passage-box {
-  background: var(--passage-bg);
-  border: 1px solid #b8dde6;
-  border-radius: var(--radius-sm);
-  padding: 14px; margin-bottom: 16px;
-  font-size: 14px; line-height: 1.65;
-  max-height: 300px; overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.passage-box p { margin-bottom: 8px; }
-
-/* ── Question Text ── */
-.question-text {
-  font-size: 16px; font-weight: 500;
-  line-height: 1.55; margin-bottom: 4px;
-}
-
-/* ── Difficulty Dots ── */
-.difficulty-dots { display: flex; gap: 4px; align-items: center; margin: 8px 0; }
-.difficulty-dots .dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--border);
-}
-.difficulty-dots .dot.filled { background: var(--accent); }
-.difficulty-dots .diff-label {
-  font-size: 11px; font-weight: 600; color: var(--text-secondary);
-  margin-left: 6px;
-}
-
-/* ── Explanation Box ── */
-.explanation-box {
-  background: #f8f9ff; border: 1.5px solid #c5cae9;
-  border-radius: var(--radius-sm); padding: 14px;
-  margin-top: 12px; font-size: 14px; line-height: 1.6;
-}
-.explanation-box .exp-title {
-  font-weight: 700; color: var(--primary); margin-bottom: 6px; font-size: 13px;
-}
-.explanation-box .why-wrong {
-  background: var(--danger-light); border-radius: 6px;
-  padding: 8px 10px; margin-top: 8px;
-  font-size: 13px; color: var(--danger);
-}
-
-/* ── Session Stats Bar ── */
-.session-bar {
-  display: flex; justify-content: space-between; align-items: center;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 8px 12px;
-  margin-bottom: 12px; font-size: 12px; font-weight: 600;
-  gap: 4px; flex-wrap: wrap;
-}
-.session-bar .sb-item { display: flex; align-items: center; gap: 4px; }
-.sb-correct { color: var(--success); }
-.sb-wrong { color: var(--danger); }
-.sb-streak { color: var(--accent); }
-
-/* ── Filter Pills ── */
-.filter-section { margin-bottom: 12px; }
-.filter-label {
-  font-size: 12px; font-weight: 600; color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-.filter-pills {
-  display: flex; flex-wrap: wrap; gap: 6px;
-}
-.filter-pill {
-  font-family: var(--font); font-size: 12px; font-weight: 600;
-  padding: 8px 14px; border-radius: 20px;
-  border: 1.5px solid var(--border);
-  background: var(--card); color: var(--text-secondary);
-  cursor: pointer; transition: all 0.15s ease;
-  white-space: nowrap; min-height: 36px;
-}
-.filter-pill.active {
-  background: var(--primary); color: #fff; border-color: var(--primary);
-}
-.filter-pill:hover:not(.active) { border-color: var(--primary-light); }
-
-/* ── Toggle Switch ── */
-.toggle-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0; border-bottom: 1px solid var(--border);
-}
-.toggle-row:last-child { border-bottom: none; }
-.toggle-label { font-size: 14px; font-weight: 500; flex: 1; }
-.toggle-sublabel { font-size: 12px; color: var(--text-secondary); }
-.toggle-switch {
-  position: relative; width: 44px; height: 26px; flex-shrink: 0;
-}
-.toggle-switch input { display: none; }
-.toggle-slider {
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: #cbd5e0; border-radius: 13px; cursor: pointer;
-  transition: background 0.2s ease;
-}
-.toggle-slider::before {
-  content: ''; position: absolute;
-  width: 20px; height: 20px; left: 3px; top: 3px;
-  background: #fff; border-radius: 50%;
-  transition: transform 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-.toggle-switch input:checked + .toggle-slider { background: var(--primary); }
-.toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
-
-/* ── Timer Bar ── */
-.timer-bar {
-  position: sticky; top: 54px; z-index: 90;
-  background: var(--card); border-bottom: 1px solid var(--border);
-  padding: 8px 16px; margin: -16px -16px 16px -16px;
-  display: flex; align-items: center; justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-.timer-display {
-  font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums;
-  color: var(--text);
-}
-.timer-display.warning { color: var(--accent); }
-.timer-display.danger { color: var(--danger); animation: pulse 1s infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
-.timer-progress {
-  flex: 1; height: 4px; background: var(--bg);
-  border-radius: 2px; margin: 0 12px; overflow: hidden;
-}
-.timer-progress-fill {
-  height: 100%; background: var(--primary);
-  border-radius: 2px; transition: width 1s linear;
-}
-.timer-progress-fill.warning { background: var(--accent); }
-.timer-progress-fill.danger { background: var(--danger); }
-
-/* ── Question Nav Grid ── */
-.q-nav-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
-  gap: 6px; margin: 12px 0;
-}
-.q-nav-btn {
-  width: 100%; aspect-ratio: 1; min-height: 36px;
-  border: 2px solid var(--border); border-radius: 8px;
-  background: var(--card); font-family: var(--font);
-  font-size: 12px; font-weight: 700; color: var(--text-secondary);
-  cursor: pointer; transition: all 0.15s ease;
-  display: flex; align-items: center; justify-content: center;
-}
-.q-nav-btn.answered { background: #dbeafe; border-color: #3b82f6; color: #1e40af; }
-.q-nav-btn.flagged { background: #fff3e0; border-color: #ff9800; color: #e65100; }
-.q-nav-btn.current { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
-
-/* ── Score Report ── */
-.score-hero {
-  text-align: center; padding: 24px 16px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  border-radius: var(--radius); color: #fff; margin-bottom: 16px;
-}
-.score-hero .score-pct { font-size: 56px; font-weight: 800; line-height: 1; }
-.score-hero .score-label { font-size: 14px; opacity: 0.9; margin-top: 4px; }
-.score-hero .score-grade { font-size: 18px; font-weight: 700; margin-top: 8px; }
-
-.missed-q-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px;
-}
-.missed-q-card .mq-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 8px;
-}
-.missed-q-card .mq-num { font-size: 12px; font-weight: 700; color: var(--text-secondary); }
-.missed-q-card .mq-domain { font-size: 11px; font-weight: 600; color: var(--primary); }
-.missed-q-card .mq-passage {
-  background: var(--passage-bg); border-radius: 6px;
-  padding: 10px; font-size: 13px; line-height: 1.5;
-  margin-bottom: 8px; max-height: 150px; overflow-y: auto;
-}
-.missed-q-card .mq-question { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
-.missed-q-card .mq-answers { font-size: 13px; }
-.missed-q-card .mq-answers .your-ans { color: var(--danger); font-weight: 600; }
-.missed-q-card .mq-answers .correct-ans { color: var(--success); font-weight: 600; }
-.missed-q-card .mq-explanation {
-  background: #f8f9ff; border-radius: 6px; padding: 10px;
-  font-size: 13px; margin-top: 8px; line-height: 1.5;
-}
-
-/* ── Modal / Confirm Dialog ── */
-.modal-overlay {
-  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5); z-index: 200;
-  align-items: center; justify-content: center; padding: 20px;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-  background: var(--card); border-radius: var(--radius);
-  padding: 24px; max-width: 360px; width: 100%;
-  box-shadow: var(--shadow-lg);
-}
-.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.modal-text { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
-.modal-actions { display: flex; gap: 8px; }
-.modal-actions .btn { flex: 1; }
-
-/* ── Keyboard Shortcut Tooltip ── */
-.kbd-tooltip {
-  position: fixed; bottom: 16px; right: 16px; z-index: 150;
-}
-.kbd-toggle {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--card); border: 1.5px solid var(--border);
-  box-shadow: var(--shadow); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; transition: all var(--transition);
-}
-.kbd-toggle:hover { box-shadow: var(--shadow-lg); }
-.kbd-panel {
-  display: none; position: absolute; bottom: 48px; right: 0;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px;
-  box-shadow: var(--shadow-lg); width: 220px;
-}
-.kbd-panel.open { display: block; }
-.kbd-panel h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
-.kbd-row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; }
-.kbd-key {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 4px; padding: 1px 6px; font-weight: 600;
-  font-size: 11px;
-}
-
-/* ── Welcome Back Banner ── */
-.welcome-banner {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-  color: #fff; border-radius: var(--radius); padding: 16px;
-  margin-bottom: 16px; display: none;
-}
-.welcome-banner.show { display: block; }
-.welcome-banner h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.welcome-banner p { font-size: 13px; opacity: 0.9; }
-
-/* ── Collapsible Filters ── */
-.filters-toggle {
-  display: flex; align-items: center; justify-content: space-between;
-  cursor: pointer; padding: 8px 0;
-  font-size: 14px; font-weight: 600; color: var(--primary);
-}
-.filters-toggle .arrow { transition: transform 0.2s ease; }
-.filters-toggle.open .arrow { transform: rotate(180deg); }
-.filters-body { display: none; padding-bottom: 8px; }
-.filters-body.open { display: block; }
-
-/* ── Navigation grid toggle ── */
-.nav-grid-wrapper { margin-bottom: 12px; }
-.nav-grid-toggle {
-  font-size: 13px; font-weight: 600; color: var(--primary);
-  cursor: pointer; display: flex; align-items: center; gap: 4px;
-  margin-bottom: 6px;
-}
-
-/* ── Misc ── */
-.divider { height: 1px; background: var(--border); margin: 16px 0; }
-.text-center { text-align: center; }
-.text-sm { font-size: 13px; }
-.text-secondary { color: var(--text-secondary); }
-.mt-8 { margin-top: 8px; }
-.mt-12 { margin-top: 12px; }
-.mt-16 { margin-top: 16px; }
-.mb-8 { margin-bottom: 8px; }
-.mb-12 { margin-bottom: 12px; }
-.hidden { display: none !important; }
-
-/* ── Time Analysis ── */
-.time-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-.time-stat-box {
-  text-align: center; padding: 10px 6px;
-  background: var(--bg); border-radius: var(--radius-sm);
-}
-.time-stat-val { font-size: 18px; font-weight: 700; color: var(--primary); }
-.time-stat-lbl { font-size: 11px; color: var(--text-secondary); }
-
-/* ── Flag Button ── */
-.flag-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 14px; border-radius: 20px;
-  border: 1.5px solid var(--border); background: var(--card);
-  font-family: var(--font); font-size: 13px; font-weight: 600;
-  color: var(--text-secondary); cursor: pointer;
-  transition: all 0.15s ease;
-}
-.flag-btn.flagged {
-  border-color: #ff9800; background: #fff3e0; color: #e65100;
-}
-
-/* ── Responsive ── */
-@media (min-width: 480px) {
-  .domain-bars { grid-template-columns: 1fr 1fr; }
-  .time-stats { grid-template-columns: 1fr 1fr 1fr; }
-}
-@media (min-width: 640px) {
-  .screen { padding: 24px; }
-  .header { padding: 12px 24px; }
-  .header-title { font-size: 17px; }
-  .big-stat-number { font-size: 56px; }
-  .btn-group .btn { flex: unset; width: auto; min-width: 160px; }
-}
-@media (min-width: 768px) {
-  .q-nav-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
-  .kbd-tooltip { display: block; }
-}
-
-/* Hide kbd tooltip on small touch devices */
-@media (max-width: 767px) and (hover: none) {
-  .kbd-tooltip { display: none; }
-}
-
-/* Collapsible stats dashboard */
-.card.expanded .stats-collapsible { max-height: 1200px !important; }
-.card.expanded .chevron.open { transform: rotate(180deg); }
-
-
-/* Touch device overrides */
-@media (hover: none) and (pointer: coarse) {
-  .filter-pill { padding: 10px 16px; font-size: 13px; min-height: 40px; }
-  .stat-label { font-size: 12px; }
-  .college-chip { font-size: 12px; padding: 5px 10px; }
-  .bar-pct { font-size: 12px; }
-}
-
+/* ═══════════════════════════════════════════════════════
+   MISC
+   ═══════════════════════════════════════════════════════ */
+.empty-msg { text-align:center; color:var(--text-muted); font-size:13px; padding:20px; }
+.college-chips { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:12px; }
+.college-chip { font-size:11px; font-weight:600; padding:4px 10px; border-radius:12px; }
+.college-chip.req { background:#fde8e8; color:#c0392b; }
+.college-chip.pres { background:#fef9e7; color:#b8860b; }
+.college-chip.reach { background:#e8f8f5; color:#0a5c5f; }
+.weak-badge { display:inline-block; padding:3px 8px; border-radius:8px;
+  background:var(--danger-bg); color:var(--danger); font-size:11px; font-weight:600; margin:2px; }
+.filter-section { margin-bottom:10px; }
+.filter-label { font-size:11px; font-weight:600; color:var(--text-muted); margin-bottom:5px; }
+.greeting { font-size:20px; font-weight:800; margin-bottom:4px; }
+.greeting-sub { font-size:13px; color:var(--text-sec); margin-bottom:14px; }
+.spaced-rep-card { padding:14px; background:linear-gradient(135deg,#e6f4f5,#d0ecee);
+  border:1.5px solid var(--primary); border-radius:var(--radius); cursor:pointer;
+  display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.spaced-rep-card:hover { background:linear-gradient(135deg,#d0ecee,#bde4e6); }
+.qotd-card { padding:16px; background:linear-gradient(135deg,#f0f4ff,#e8eeff);
+  border:1.5px solid #5b7cfa; border-radius:var(--radius); margin-bottom:12px; }
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════════════
-     HEADER
-     ════════════════════════════════════════════════════════ -->
-<header class="header">
-  <div style="display:flex;align-items:center;overflow:hidden;">
-    <span class="header-title">SAT Prep — Caitlyn's 1350+ Tracker</span>
-    <span class="header-target">🎯 1350+</span>
+<!-- ═══════ HEADER ═══════ -->
+<header class="app-header" id="appHeader" style="display:none">
+  <div class="header-left">
+    <span class="header-title">SAT Prep</span>
+    <span class="target-badge">🎯 1350+</span>
   </div>
   <div class="header-right">
-    <button class="header-btn" onclick="showScreen('home')" title="Home" aria-label="Home">🏠</button>
-    <button class="header-btn" onclick="showScreen('settings')" title="Settings" aria-label="Settings">⚙️</button>
+    <button class="user-chip" id="userChip" onclick="showModal('switchUserModal')">
+      <span class="avatar avatar-sm" id="headerAvatar">C</span>
+      <span id="headerName">User</span>
+    </button>
+    <button class="header-btn" onclick="navigateTo('settings')" title="Settings">⚙️</button>
   </div>
 </header>
 
-<!-- ════════════════════════════════════════════════════════
-     HOME SCREEN
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-home" class="screen active">
+<!-- ═══════ CONTENT ═══════ -->
+<div class="content" id="mainContent">
 
-  <!-- Welcome Banner (shown on return) -->
-  <div id="welcome-banner" class="welcome-banner" style="display:none;">
-    <h3>👋 Welcome back, Caitlyn!</h3>
-    <p id="welcome-summary"></p>
+  <!-- PROFILE SELECT SCREEN -->
+  <div class="screen active" id="profileScreen">
+    <div class="profile-screen">
+      <div style="font-size:40px;margin-bottom:8px;">📝</div>
+      <h2>SAT Prep</h2>
+      <p>Who's practicing today?</p>
+      <div class="profile-list" id="profileList"></div>
+      <div class="new-profile-row">
+        <input type="text" id="newProfileInput" placeholder="Enter your name" maxlength="20"
+          onkeydown="if(event.key==='Enter')createProfile()">
+        <button class="btn btn-primary btn-sm" style="width:auto;padding:8px 16px" onclick="createProfile()">+</button>
+      </div>
+    </div>
   </div>
 
-  <!-- HERO: Streak + Score side by side -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
-    <div id="daily-streak-display"></div>
-    <div id="estimated-score-display"></div>
-  </div>
+  <!-- HOME SCREEN -->
+  <div class="screen" id="homeScreen">
+    <div class="greeting" id="homeGreeting">Hey! 👋</div>
+    <div class="greeting-sub">Target: 1350+ for NSU, FL Southern, W&M</div>
+
+    <div class="college-chips">
+      <span class="college-chip req">🏫 NSU — Required</span>
+      <span class="college-chip pres">⭐ FL Southern — 1330+</span>
+      <span class="college-chip reach">🎓 W&M — Admission</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-tile" id="streakTile">
+        <div class="emoji">🔥</div>
+        <div class="val" id="homeStreak">0</div>
+        <div class="label">Day Streak</div>
+      </div>
+      <div class="stat-tile" id="scoreTile">
+        <div class="emoji">📊</div>
+        <div class="val" id="homeScore">?</div>
+        <div class="label">Est. Score</div>
+      </div>
+    </div>
 
     <!-- Quick Filters -->
-  <div class="card" style="padding:14px 16px;margin-bottom:10px;">
-    <div style="font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:10px;">WHAT DO YOU WANT TO PRACTICE?</div>
-    
-    <div style="margin-bottom:10px;">
-      <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:5px;">Section</div>
-      <div class="filter-pills" id="home-filter-section">
-        <button class="filter-pill active" data-val="all" onclick="setHomeFilter('section','all',this)">All</button>
-        <button class="filter-pill" data-val="math" onclick="setHomeFilter('section','math',this)">📐 Math</button>
-        <button class="filter-pill" data-val="rw" onclick="setHomeFilter('section','rw',this)">📖 R&amp;W</button>
-      </div>
-    </div>
-    
-    <div style="margin-bottom:10px;">
-      <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:5px;">Difficulty</div>
-      <div class="filter-pills" id="home-filter-difficulty">
-        <button class="filter-pill active" data-val="adaptive" onclick="setHomeFilter('difficulty','adaptive',this)">🎯 Dynamic</button>
-        <button class="filter-pill" data-val="all" onclick="setHomeFilter('difficulty','all',this)">All</button>
-        <button class="filter-pill" data-val="easy" onclick="setHomeFilter('difficulty','easy',this)">Easy</button>
-        <button class="filter-pill" data-val="medium" onclick="setHomeFilter('difficulty','medium',this)">Medium</button>
-        <button class="filter-pill" data-val="hard" onclick="setHomeFilter('difficulty','hard',this)">Hard</button>
-      </div>
+    <div class="card" style="padding:14px">
+      <div class="filter-label">SECTION</div>
+      <div class="pills" id="homeSectionPills"></div>
+      <div class="filter-label mt-8">DIFFICULTY</div>
+      <div class="pills" id="homeDiffPills"></div>
+      <div class="filter-label mt-8">DOMAIN</div>
+      <div class="pills" id="homeDomainPills"></div>
     </div>
 
-    <div>
-      <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:5px;">Domain <span style="font-weight:400;">(optional)</span></div>
-      <div class="filter-pills" id="home-filter-domain" style="flex-wrap:wrap;">
-        <!-- Populated by JS -->
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="startPractice()">📝 Practice</button>
+      <button class="btn btn-accent" onclick="navigateTo('testSetup')">⏱️ Timed Test</button>
+    </div>
+
+    <!-- Spaced Rep Badge -->
+    <div id="spacedRepBadge" style="display:none"></div>
+
+    <!-- QOTD -->
+    <div id="qotdContainer" style="margin-top:12px"></div>
+
+    <!-- Collapsible Stats -->
+    <div class="card mt-12" style="padding:0;overflow:hidden">
+      <div class="collapse-header" style="padding:14px 18px" onclick="toggleCollapse(this)">
+        <span>📊 Quick Stats</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="collapse-body" id="homeStatsBody">
+        <div style="padding:0 18px 16px">
+          <div id="homeSectionBars"></div>
+          <div id="homeDomainBars" style="margin-top:12px"></div>
+          <div id="homeWeakAreas" style="margin-top:8px"></div>
+          <div id="homeSparkline" style="margin-top:12px"></div>
+        </div>
       </div>
     </div>
   </div>
 
-<!-- ACTION BUTTONS — above the fold -->
-  <div class="btn-group" style="margin-bottom:14px;">
-    <button class="btn btn-primary" onclick="startPractice()" style="flex:1;padding:16px;font-size:15px;">📝 Practice</button>
-    <button class="btn btn-accent" onclick="showScreen('timed-setup')" style="flex:1;padding:16px;font-size:15px;">⏱️ Timed Test</button>
+  <!-- PRACTICE SCREEN -->
+  <div class="screen" id="practiceScreen">
+    <div class="session-bar" id="practiceSessionBar"></div>
+    <div id="practiceQuestionArea"></div>
   </div>
 
-  <!-- Spaced Repetition Badge (if questions due) -->
-  <div id="spaced-rep-badge" style="margin-bottom:10px;display:none;"></div>
+  <!-- PRACTICE SUMMARY -->
+  <div class="screen" id="practiceSummary"></div>
 
-  <!-- Question of the Day -->
-  <div id="qotd-container" style="margin-bottom:14px;"></div>
-
-  <!-- College Targets (compact) -->
-  <div class="college-chips" style="margin-bottom:14px;">
-    <span class="college-chip required">🏫 NSU — Required</span>
-    <span class="college-chip prestige">⭐ FL Southern — 1330+</span>
-    <span class="college-chip reach">🎓 W&amp;M — Helps Admission</span>
-  </div>
-
-  <!-- STATS DASHBOARD — collapsible -->
-  <div class="card" style="padding:0;overflow:hidden;">
-    <button onclick="this.parentElement.classList.toggle('expanded');this.querySelector('.chevron').classList.toggle('open')" 
-            style="width:100%;padding:14px 18px;border:none;background:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;color:var(--text);">
-      <span>📊 Stats Dashboard</span>
-      <span class="chevron" style="transition:transform 0.2s;display:inline-block;">▼</span>
-    </button>
-    <div class="stats-collapsible" style="padding:0 18px;max-height:0;overflow:hidden;transition:max-height 0.3s ease;">
-      
-      <!-- Big Accuracy -->
-      <div style="text-align:center;padding:12px 0;">
-        <div id="dash-accuracy" class="big-stat-number" style="font-size:42px;font-weight:800;color:var(--primary);">—</div>
-        <div class="big-stat-label" style="font-size:12px;color:var(--text-muted);font-weight:600;">Overall Accuracy</div>
+  <!-- TEST SETUP SCREEN -->
+  <div class="screen" id="testSetupScreen">
+    <div class="card text-center">
+      <div style="font-size:36px;margin-bottom:8px">⏱️</div>
+      <h3 style="margin-bottom:4px">Timed Test</h3>
+      <p style="color:var(--text-sec);margin-bottom:16px">Simulate a real SAT module</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-primary" onclick="startTimedTest('math')">📐 Math — 22Q / 35 min</button>
+        <button class="btn btn-primary" onclick="startTimedTest('rw')">📖 R&W — 27Q / 32 min</button>
+        <button class="btn btn-accent" onclick="startTimedTest('full')">🎯 Full Test — Both Modules</button>
+        <button class="btn btn-outline mt-8" onclick="navigateTo('home')">← Back</button>
       </div>
-
-      <!-- Quick Stats Row -->
-      <div class="stat-row" style="margin-bottom:16px;">
-        <div class="stat-item">
-          <div id="dash-total" class="stat-value">0</div>
-          <div class="stat-label">Questions</div>
-        </div>
-        <div class="stat-item">
-          <div id="dash-streak" class="stat-value">0</div>
-          <div class="stat-label">Streak</div>
-        </div>
-        <div class="stat-item">
-          <div id="dash-best" class="stat-value">0</div>
-          <div class="stat-label">Best</div>
-        </div>
-        <div class="stat-item">
-          <div id="dash-sessions" class="stat-value">0</div>
-          <div class="stat-label">Sessions</div>
-        </div>
-      </div>
-
-      <!-- Section Accuracy Bars -->
-      <div style="margin-bottom:16px;">
-        <div class="card-title" style="font-size:13px;">By Section</div>
-        <div class="bar-chart">
-          <div class="bar-row">
-            <span class="bar-label">Math</span>
-            <div class="bar-track"><div id="bar-math" class="bar-fill" style="width:0%"></div></div>
-            <span id="pct-math" class="bar-pct">—</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label">R&amp;W</span>
-            <div class="bar-track"><div id="bar-rw" class="bar-fill" style="width:0%"></div></div>
-            <span id="pct-rw" class="bar-pct">—</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Domain Accuracy -->
-      <div style="margin-bottom:16px;">
-        <div class="card-title" style="font-size:13px;">By Domain</div>
-        <div id="domain-bars" class="domain-bars"></div>
-        <div id="weak-areas"></div>
-      </div>
-
-      <!-- Trend Sparkline -->
-      <div style="margin-bottom:16px;">
-        <div class="card-title" style="font-size:13px;">Recent Trend</div>
-        <div id="sparkline" class="sparkline-container">
-          <div class="text-sm text-secondary text-center" style="width:100%">Complete a session to see trends</div>
-        </div>
-      </div>
-
-      <!-- Progress Report -->
-      <button id="share-report-btn" onclick="shareParentReport()" style="width:100%;padding:10px;margin-bottom:16px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text-secondary);">
-        📋 Copy Progress Report for Mom &amp; Dad
-      </button>
-
     </div>
+  </div>
+
+  <!-- TIMED TEST SCREEN -->
+  <div class="screen" id="timedTestScreen">
+    <div class="timer-bar" id="timerBar">
+      <span class="timer-display" id="timerDisplay">35:00</span>
+      <span style="font-size:12px;color:var(--text-sec)" id="timerQCount">Q1 / 22</span>
+      <button class="btn btn-sm btn-outline" onclick="showModal('endTestModal')" style="width:auto">End</button>
+    </div>
+    <div id="timedNavGrid" style="margin:8px 0"></div>
+    <div id="timedQuestionArea"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-outline btn-sm" id="ttPrevBtn" onclick="timedPrev()">← Prev</button>
+      <button class="btn btn-outline btn-sm" id="ttFlagBtn" onclick="toggleTimedFlag()">🚩 Flag</button>
+      <button class="btn btn-primary btn-sm" id="ttNextBtn" onclick="timedNext()">Next →</button>
+    </div>
+  </div>
+
+  <!-- TEST RESULTS SCREEN -->
+  <div class="screen" id="testResultsScreen"></div>
+
+  <!-- SPACED REP SCREEN -->
+  <div class="screen" id="spacedRepScreen"></div>
+
+  <!-- STATS SCREEN -->
+  <div class="screen" id="statsScreen"></div>
+
+  <!-- SETTINGS SCREEN -->
+  <div class="screen" id="settingsScreen">
+    <h3 style="margin-bottom:16px">⚙️ Settings</h3>
+    <div class="card">
+      <div class="card-title">Profile</div>
+      <div id="settingsProfile"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Preferences</div>
+      <div class="setting-row">
+        <div><div class="setting-label">Sound Effects</div><div class="setting-sub">Beep on correct/wrong</div></div>
+        <label class="toggle"><input type="checkbox" id="settingSound" onchange="updateSetting('sound',this.checked)"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="setting-row">
+        <div><div class="setting-label">Keyboard Shortcuts</div><div class="setting-sub">A/B/C/D, Enter, Space</div></div>
+        <label class="toggle"><input type="checkbox" id="settingKbd" onchange="updateSetting('kbd',this.checked)"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Data</div>
+      <button class="btn btn-outline btn-sm" onclick="showModal('resetModal')" style="color:var(--danger);border-color:var(--danger)">🗑️ Reset All Progress</button>
+    </div>
+    <div class="card">
+      <div class="card-title">About</div>
+      <div style="font-size:13px;color:var(--text-sec)">
+        <div>📝 SAT Prep Tool v3.0</div>
+        <div id="settingsQCount">591 questions</div>
+        <div>Built for Caitlyn · Target 1350+</div>
+      </div>
+    </div>
+    <button class="btn btn-outline mt-12" onclick="navigateTo('home')">← Back</button>
   </div>
 
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     PRACTICE MODE
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-practice" class="screen">
+<!-- ═══════ BOTTOM NAV ═══════ -->
+<nav class="bottom-nav" id="bottomNav" style="display:none">
+  <button class="nav-item active" data-screen="home" onclick="navigateTo('home')">
+    <span class="nav-icon">🏠</span><span class="nav-label">Home</span>
+  </button>
+  <button class="nav-item" data-screen="practice" onclick="startPractice()">
+    <span class="nav-icon">📝</span><span class="nav-label">Practice</span>
+  </button>
+  <button class="nav-item" data-screen="testSetup" onclick="navigateTo('testSetup')">
+    <span class="nav-icon">⏱️</span><span class="nav-label">Test</span>
+  </button>
+  <button class="nav-item" data-screen="stats" onclick="navigateTo('stats')">
+    <span class="nav-icon">📊</span><span class="nav-label">Stats</span>
+  </button>
+</nav>
 
-  <!-- Filters (collapsible on mobile) -->
-  <div class="card" id="practice-filters-card">
-    <div class="filters-toggle" onclick="toggleFilters()" id="filters-toggle">
-      <span>🎛️ Filters &amp; Options</span>
-      <span class="arrow">▼</span>
+<!-- ═══════ MODALS ═══════ -->
+<div class="modal-overlay" id="switchUserModal">
+  <div class="modal">
+    <h3>Switch User</h3>
+    <p>Choose a profile or create a new one</p>
+    <div id="modalProfileList" style="margin-bottom:12px"></div>
+    <div class="new-profile-row" style="max-width:100%">
+      <input type="text" id="modalNewProfile" placeholder="New name" maxlength="20"
+        onkeydown="if(event.key==='Enter'){createProfile(this.value);closeModal('switchUserModal')}">
+      <button class="btn btn-primary btn-sm" style="width:auto;padding:8px 14px"
+        onclick="createProfile(document.getElementById('modalNewProfile').value);closeModal('switchUserModal')">+</button>
     </div>
-    <div class="filters-body" id="filters-body">
-      <div class="filter-section">
-        <div class="filter-label">Section</div>
-        <div class="filter-pills" id="filter-section">
-          <button class="filter-pill active" data-val="all" onclick="setFilter('section','all',this)">All</button>
-          <button class="filter-pill" data-val="math" onclick="setFilter('section','math',this)">Math</button>
-          <button class="filter-pill" data-val="rw" onclick="setFilter('section','rw',this)">R&amp;W</button>
-        </div>
-      </div>
-      <div class="filter-section">
-        <div class="filter-label">Difficulty</div>
-        <div class="filter-pills" id="filter-difficulty">
-          <button class="filter-pill active" data-val="adaptive" onclick="setFilter('difficulty','adaptive',this)">🎯 Dynamic</button>
-          <button class="filter-pill" data-val="all" onclick="setFilter('difficulty','all',this)">All</button>
-          <button class="filter-pill" data-val="easy" onclick="setFilter('difficulty','easy',this)">Easy</button>
-          <button class="filter-pill" data-val="medium" onclick="setFilter('difficulty','medium',this)">Medium</button>
-          <button class="filter-pill" data-val="hard" onclick="setFilter('difficulty','hard',this)">Hard</button>
-        </div>
-      </div>
-      <div class="filter-section">
-        <div class="filter-label">Domain</div>
-        <div class="filter-pills" id="filter-domain">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-      <div class="toggle-row" style="border-bottom:none; padding: 6px 0;">
-        <div>
-          <div class="toggle-label">Focus on Weak Areas</div>
-          <div class="toggle-sublabel">Auto-select domains below 70%</div>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="focus-weak" onchange="toggleFocusWeak(this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <!-- Session Stats Bar -->
-  <div class="session-bar">
-    <div class="sb-item sb-correct">✅ <span id="p-correct">0</span></div>
-    <div class="sb-item sb-wrong">❌ <span id="p-wrong">0</span></div>
-    <div class="sb-item">📊 <span id="p-accuracy">0%</span></div>
-    <div class="sb-item sb-streak">🔥 <span id="p-streak">0</span></div>
-    <div class="sb-item">Q<span id="p-qnum">0</span></div>
-  </div>
-
-  <!-- Question Display -->
-  <div id="practice-question-area">
-    <div id="pq-passage"></div>
-    <div id="pq-meta" class="mb-8" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;"></div>
-    <div id="pq-text" class="question-text"></div>
-    <div id="pq-difficulty" class="difficulty-dots"></div>
-    <div id="pq-answers" class="answer-list"></div>
-    <div id="pq-actions" style="display:none">
-      <button id="pq-confirm" class="btn btn-primary" onclick="confirmPracticeAnswer()">Confirm Answer</button>
-    </div>
-    <div id="pq-result" style="display:none"></div>
-    <div id="pq-next-actions" style="display:none" class="btn-group mt-12">
-      <button class="btn btn-primary" onclick="nextPracticeQuestion()">Next Question →</button>
-      <button class="btn btn-secondary" onclick="endPracticeSession()">End Session</button>
-    </div>
-  </div>
-
-  <!-- Empty State -->
-  <div id="practice-empty" class="card text-center" style="display:none; padding:32px 16px;">
-    <div style="font-size:48px; margin-bottom:12px;">📭</div>
-    <div style="font-size:16px; font-weight:600; margin-bottom:8px;">No questions match your filters</div>
-    <div class="text-sm text-secondary">Try adjusting your section, difficulty, or domain filters.</div>
-    <button class="btn btn-secondary mt-16" onclick="resetFilters()">Reset Filters</button>
+    <button class="btn btn-outline btn-sm mt-12" onclick="closeModal('switchUserModal')">Cancel</button>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     TIMED TEST SETUP
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-timed-setup" class="screen">
-  <div class="card">
-    <div class="card-title">Choose Your Module</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button class="btn btn-primary" onclick="startTimedTest('math')">
-        📐 Math — 22 Questions / 35 min
-      </button>
-      <button class="btn btn-primary" onclick="startTimedTest('rw')">
-        📖 R&amp;W — 27 Questions / 32 min
-      </button>
-      <button class="btn btn-accent" onclick="startTimedTest('full')">
-        📋 Full Test — Both Modules
-      </button>
-    </div>
-  </div>
-  <button class="btn btn-secondary mt-12" onclick="showScreen('home')">← Back to Home</button>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     TIMED TEST IN PROGRESS
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-timed-test" class="screen">
-  <!-- Timer Bar -->
-  <div class="timer-bar">
-    <span id="tt-timer" class="timer-display">35:00</span>
-    <div class="timer-progress"><div id="tt-timer-fill" class="timer-progress-fill" style="width:100%"></div></div>
-    <span id="tt-qcount" style="font-size:13px;font-weight:600;color:var(--text-secondary);white-space:nowrap;">Q1/22</span>
-  </div>
-
-  <!-- Nav Grid (collapsible) -->
-  <div class="nav-grid-wrapper">
-    <div class="nav-grid-toggle" onclick="toggleNavGrid()">
-      <span id="nav-grid-label">📋 Question Navigator</span>
-      <span class="arrow" id="nav-grid-arrow">▼</span>
-    </div>
-    <div id="nav-grid" class="q-nav-grid" style="display:none;"></div>
-  </div>
-
-  <!-- Question Area -->
-  <div id="tt-question-area">
-    <div id="tq-passage"></div>
-    <div id="tq-meta" class="mb-8" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;"></div>
-    <div id="tq-text" class="question-text"></div>
-    <div id="tq-difficulty" class="difficulty-dots"></div>
-    <div id="tq-answers" class="answer-list"></div>
-  </div>
-
-  <!-- Bottom Actions -->
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-    <button id="tt-flag" class="flag-btn" onclick="toggleFlag()">🚩 Flag</button>
-    <div style="flex:1"></div>
-    <button class="btn btn-secondary btn-sm" onclick="prevTimedQ()" id="tt-prev">← Prev</button>
-    <button class="btn btn-primary btn-sm" onclick="nextTimedQ()" id="tt-next">Next →</button>
-  </div>
-  <button class="btn btn-danger btn-sm mt-16" onclick="confirmEndTest()" style="width:auto;margin:16px auto 0;display:block;">End Test Early</button>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     TIMED TEST REVIEW / SCORE REPORT
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-timed-review" class="screen">
-  <div id="tr-score-hero" class="score-hero"></div>
-
-  <!-- Category Breakdown -->
-  <div class="card">
-    <div class="card-title">Category Breakdown</div>
-    <div id="tr-category-bars" class="domain-bars"></div>
-  </div>
-
-  <!-- Time Analysis -->
-  <div class="card">
-    <div class="card-title">Time Analysis</div>
-    <div id="tr-time-stats" class="time-stats"></div>
-  </div>
-
-  <!-- Missed Questions Review -->
-  <div class="card" id="tr-missed-section">
-    <div class="card-title">Missed Questions Review</div>
-    <div id="tr-missed-list"></div>
-  </div>
-
-  <!-- Actions -->
-  <div class="btn-group mt-16">
-    <button class="btn btn-secondary" onclick="copyResults()">📋 Copy Results</button>
-    <button class="btn btn-accent" onclick="retakeTest()">🔄 Retake</button>
-    <button class="btn btn-primary" onclick="showScreen('home')">🏠 Home</button>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     SETTINGS
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-settings" class="screen">
-  <div class="card">
-    <div class="card-title">Settings</div>
-    <div class="toggle-row">
-      <div>
-        <div class="toggle-label">Sound Effects</div>
-        <div class="toggle-sublabel">Play tones on correct/wrong answers</div>
-      </div>
-      <label class="toggle-switch">
-        <input type="checkbox" id="setting-sound" checked onchange="updateSetting('sound', this.checked)">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-    <div class="toggle-row">
-      <div>
-        <div class="toggle-label">Keyboard Shortcut Hints</div>
-        <div class="toggle-sublabel">Show shortcut badges on buttons</div>
-      </div>
-      <label class="toggle-switch">
-        <input type="checkbox" id="setting-kbd" checked onchange="updateSetting('kbd', this.checked)">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-    <div class="toggle-row">
-      <div>
-        <div class="toggle-label">Adaptive Difficulty</div>
-        <div class="toggle-sublabel">Auto-adjust difficulty based on performance</div>
-      </div>
-      <label class="toggle-switch">
-        <input type="checkbox" id="setting-adaptive" checked onchange="updateSetting('adaptive', this.checked)">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Data Management</div>
-    <button class="btn btn-danger" onclick="confirmResetAll()">🗑️ Reset All Progress</button>
-    <p class="text-sm text-secondary mt-8">This permanently deletes all saved stats, streaks, and session history.</p>
-  </div>
-
-  <button class="btn btn-secondary mt-12" onclick="showScreen('home')">← Back to Home</button>
-
-<!-- ════════════════════════════════════════════════════════
-     SPACED REPETITION REVIEW SCREEN
-     ════════════════════════════════════════════════════════ -->
-<div id="screen-spacedRep" class="screen">
-  <div class="card">
-    <div class="card-title"><span class="icon">🔄</span> Spaced Repetition Review</div>
-    <div id="spacedRepContent"></div>
-  </div>
-  <div style="text-align:center;margin-top:12px;">
-    <button onclick="showScreen('home');renderDashboard();" class="btn btn-secondary">← Back to Home</button>
-  </div>
-</div>
-
-</div>
-
-<!-- ════════════════════════════════════════════════════════
-     MODAL (Confirm Dialogs)
-     ════════════════════════════════════════════════════════ -->
-<div id="modal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
-    <div id="modal-title" class="modal-title"></div>
-    <div id="modal-text" class="modal-text"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger btn-sm" id="modal-confirm" onclick="">Confirm</button>
+<div class="modal-overlay" id="endTestModal">
+  <div class="modal">
+    <h3>End Test Early?</h3>
+    <p>Your answers will still be scored.</p>
+    <div class="btn-group">
+      <button class="btn btn-danger btn-sm" onclick="closeModal('endTestModal');endTimedTest()">End Test</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('endTestModal')">Continue</button>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     KEYBOARD SHORTCUT TOOLTIP
-     ════════════════════════════════════════════════════════ -->
-<div class="kbd-tooltip" id="kbd-tooltip">
-  <div class="kbd-toggle" onclick="toggleKbdPanel()">⌨️</div>
-  <div class="kbd-panel" id="kbd-panel">
-    <h4>Keyboard Shortcuts</h4>
-    <div class="kbd-row"><span>Select answer</span> <span><span class="kbd-key">A</span><span class="kbd-key">B</span><span class="kbd-key">C</span><span class="kbd-key">D</span></span></div>
-    <div class="kbd-row"><span>or</span> <span><span class="kbd-key">1</span><span class="kbd-key">2</span><span class="kbd-key">3</span><span class="kbd-key">4</span></span></div>
-    <div class="kbd-row"><span>Confirm / Next</span> <span class="kbd-key">Enter</span></div>
-    <div class="kbd-row"><span>Flag question</span> <span class="kbd-key">Space</span></div>
-    <div class="kbd-row"><span>Go back / Home</span> <span class="kbd-key">Esc</span></div>
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <h3>Reset Progress?</h3>
+    <p>This will delete all stats and history for the current profile. This cannot be undone.</p>
+    <div class="btn-group">
+      <button class="btn btn-danger btn-sm" onclick="resetProgress();closeModal('resetModal')">Reset</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('resetModal')">Cancel</button>
+    </div>
   </div>
 </div>
 
+<!-- ═══════ CONFETTI CONTAINER ═══════ -->
+<div id="confettiContainer"></div>
 
-<!-- ════════════════════════════════════════════════════════
-     JAVASCRIPT
-     ════════════════════════════════════════════════════════ -->
 <script>
-/* ==========================================================
-   QUESTION DATA PLACEHOLDERS
-   (Replace these comments to inject real question banks)
-   ========================================================== */
-
+/* ═══════════════════════════════════════════════════════
+   QUESTION DATA
+   ═══════════════════════════════════════════════════════ */
 const MATH_QUESTIONS = [
-
-  // ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
   //  DOMAIN 1: ALGEBRA  (24 questions, m1–m24)
   // ═══════════════════════════════════════════════════════════════
 
@@ -2505,10 +2037,7 @@ const MATH_QUESTIONS = [
     ],
     answer: 1,
     explanation: "The cone's base = the hemisphere's flat circular face, so the cone's base radius = 6 cm. The cone's height = the hemisphere's radius = 6 cm (the apex touches the top of the dome). Volume of cone = (1/3)π<em>r</em><sup>2</sup><em>h</em> = (1/3)π(6)<sup>2</sup>(6) = (1/3)(216π) = 72π cm³. Choice D (216π) forgets the 1/3 factor (that's the volume of a cylinder with the same dimensions). Choice A (36π) uses (1/3)π<em>r</em><sup>2</sup> without multiplying by the height."
-  }
-,
-
-// --- BATCH 2: m97-m196 ---
+  },
 // ─── ALGEBRA (m97–m121) ───────────────────────────────────────────────────
 
   {
@@ -3530,8 +3059,6 @@ const MATH_QUESTIONS = [
     answer: 0,
     explanation: "Set y = 0: x² − 4x + 3 = 0. Factor: (x − 1)(x − 3) = 0. Solutions: x = 1 and x = 3. Check: 1² − 4(1) + 3 = 1 − 4 + 3 = 0 ✓; 3² − 4(3) + 3 = 9 − 12 + 3 = 0 ✓. The parabola crosses the x-axis at these two points."
   },
-
-// --- BATCH 3: m197-m296 ---
 {
     id: "m197", 
     domain: "Algebra", 
@@ -4535,7 +4062,7 @@ const MATH_QUESTIONS = [
 ];
 
 const RW_QUESTIONS = [
-  {
+{
   id:"r1",
   domain:"Craft and Structure",
   category:"Words in Context",
@@ -5579,10 +5106,7 @@ const RW_QUESTIONS = [
   choices:["The Amazon rainforest, which contains 10% of all known species, has experienced a 75% increase in deforestation since 2012.","Research shows that Indigenous land management reduces deforestation rates by up to 50% compared to adjacent areas, suggesting that strengthening enforcement of existing Indigenous territorial rights could be one of the most effective strategies for protecting the Amazon's biodiversity.","Economists argue that the Amazon's biodiversity has incalculable value for pharmaceutical research and climate regulation.","Although Brazilian law recognizes Indigenous territorial rights, enforcement remains inconsistent across the Amazon region."],
   answer:1,
   explanation:"The goal is to argue that Indigenous land rights support conservation. Choice B cites the 50% deforestation reduction data and connects it to a policy recommendation (strengthening enforcement of existing rights), building a data-driven argument. Choice A describes the problem without mentioning Indigenous management. Choice C discusses economic value without connecting it to Indigenous rights. Choice D notes the enforcement gap but doesn't make the conservation argument."
-  }
-,
-
-// --- BATCH 2: r96-r195 ---
+  },
 {
     id: "r96",
     domain: "Craft and Structure",
@@ -6683,8 +6207,6 @@ const RW_QUESTIONS = [
     answer: 1,
     explanation: "This explains the mechanism linking diversity to superior performance, showing how diversity causes better outcomes."
   },,
-
-// --- BATCH 3: r196-r295 ---
 /* =====================================================================
      DOMAIN 1 — CRAFT AND STRUCTURE  (r196–r220)
      ===================================================================== */
@@ -8390,1900 +7912,1058 @@ const RW_QUESTIONS = [
   }
 ];
 
-
-
-
-
-
-/* ==========================================================
-   QUESTION NORMALIZATION
-   Maps question bank fields to app shell expected format
-   ========================================================== */
-(function normalizeQuestions() {
-  const DOMAIN_MAP = {
-    'Algebra': 'algebra',
-    'Advanced Math': 'advanced-math',
-    'Problem Solving & Data Analysis': 'problem-solving',
-    'Geometry & Trigonometry': 'geometry',
-    'Geometry & Trig': 'geometry',
-    'Craft and Structure': 'craft-structure',
-    'Information and Ideas': 'information-ideas',
-    'Standard English Conventions': 'standard-english',
-    'Expression of Ideas': 'expression-of-ideas'
-  };
-  
-  const DIFF_MAP = { 1: 'easy', 2: 'medium', 3: 'hard' };
-  
-  function normalize(arr) {
-    arr.forEach(q => {
-      // Map field names
-      if (q.text && !q.question) q.question = q.text;
-      if (q.choices && !q.answers) {
-        q.answers = q.choices.map(c => c.replace(/^[A-D]\)\s*/, ''));
-      }
-      if (typeof q.answer === 'number' && q.correct === undefined) q.correct = q.answer;
-      
-      // Map domain names to kebab-case keys
-      if (q.domain && DOMAIN_MAP[q.domain]) {
-        q.domainLabel = q.domain;  // Keep original for display
-        q.domain = DOMAIN_MAP[q.domain];
-      }
-      
-      // Map difficulty numbers to strings
-      if (typeof q.difficulty === 'number') {
-        q.difficulty = DIFF_MAP[q.difficulty] || 'medium';
-      }
-    });
-  }
-  normalize(MATH_QUESTIONS);
-  normalize(RW_QUESTIONS);
-})();
-
-
-
-/* ==========================================================
-   DOMAIN DEFINITIONS
-   ========================================================== */
-const DOMAINS = {
-  math: [
-    { key: 'algebra', label: 'Algebra' },
-    { key: 'advanced-math', label: 'Advanced Math' },
-    { key: 'problem-solving', label: 'Problem Solving & Data' },
-    { key: 'geometry', label: 'Geometry & Trig' }
-  ],
-  rw: [
-    { key: 'craft-structure', label: 'Craft & Structure' },
-    { key: 'information-ideas', label: 'Information & Ideas' },
-    { key: 'standard-english', label: 'Standard English' },
-    { key: 'expression-of-ideas', label: 'Expression of Ideas' }
-  ]
+/* ═══════════════════════════════════════════════════════
+   NORMALIZATION
+   ═══════════════════════════════════════════════════════ */
+const DOMAIN_MAP = {
+  'Algebra':'algebra','Advanced Math':'advanced-math',
+  'Problem Solving & Data Analysis':'problem-solving',
+  'Geometry & Trigonometry':'geometry','Geometry & Trig':'geometry',
+  'Craft and Structure':'craft-structure','Information and Ideas':'information-ideas',
+  'Standard English Conventions':'standard-english','Expression of Ideas':'expression-of-ideas'
 };
-const ALL_DOMAINS = [...DOMAINS.math, ...DOMAINS.rw];
+const DIFF_MAP = {1:'easy',2:'medium',3:'hard'};
+const AVATAR_COLORS = ['#e74c3c','#3498db','#27ae60','#8e44ad','#e67e22','#1abc9c','#c0392b','#2980b9'];
 
+function normalize(arr) {
+  arr.forEach(q => {
+    if (q.text && !q.question) q.question = q.text;
+    if (q.choices && !q.answers) q.answers = q.choices.map(c => c.replace(/^[A-D]\)\s*/,''));
+    if (typeof q.answer === 'number' && q.correct === undefined) q.correct = q.answer;
+    if (q.domain && DOMAIN_MAP[q.domain]) { q.domainLabel = q.domain; q.domain = DOMAIN_MAP[q.domain]; }
+    if (typeof q.difficulty === 'number') q.difficulty = DIFF_MAP[q.difficulty] || 'medium';
+  });
+}
+normalize(MATH_QUESTIONS);
+normalize(RW_QUESTIONS);
+const ALL_QS = [...MATH_QUESTIONS, ...RW_QUESTIONS];
 
-/* ==========================================================
-   CENTRAL STATE OBJECT
-   ========================================================== */
-const DEFAULT_STATE = {
-  // Cumulative stats
-  totalCorrect: 0,
-  totalWrong: 0,
-  mathCorrect: 0,
-  mathWrong: 0,
-  rwCorrect: 0,
-  rwWrong: 0,
-  domainStats: {},   // { domainKey: { correct: 0, wrong: 0 } }
-  difficultyStats: { easy: { c: 0, w: 0 }, medium: { c: 0, w: 0 }, hard: { c: 0, w: 0 } },
-  currentStreak: 0,
-  bestStreak: 0,
-  sessionsCompleted: 0,
-  recentResults: [],    // last 50: { correct, section, domain, difficulty, timestamp }
-  sessionAccuracies: [], // last 10 session accuracy percentages
-  timedTestHistory: [],  // saved timed test results with timestamps
+const MATH_DOMAINS = [
+  {key:'algebra',label:'Algebra'},{key:'advanced-math',label:'Advanced Math'},
+  {key:'problem-solving',label:'Problem Solving'},{key:'geometry',label:'Geometry & Trig'}
+];
+const RW_DOMAINS = [
+  {key:'craft-structure',label:'Craft & Structure'},{key:'information-ideas',label:'Info & Ideas'},
+  {key:'standard-english',label:'Std English'},{key:'expression-of-ideas',label:'Expression'}
+];
+const ALL_DOMAINS = [...MATH_DOMAINS, ...RW_DOMAINS];
 
-  // Settings
-  settings: {
-    sound: true,
-    kbd: true,
-    adaptive: true
-  },
-
-  // Transient (not persisted)
-  practice: null,
-  timed: null
-};
-
+/* ═══════════════════════════════════════════════════════
+   STATE MANAGEMENT
+   ═══════════════════════════════════════════════════════ */
+const PROFILES_KEY = 'sat-profiles';
+const ACTIVE_KEY = 'sat-active-profile';
+let profiles = [];
+let activeProfile = null;
 let state = {};
 
+function defaultState() {
+  return {
+    totalCorrect:0, totalWrong:0, mathCorrect:0, mathWrong:0, rwCorrect:0, rwWrong:0,
+    domainStats:{}, currentStreak:0, bestStreak:0, sessionsCompleted:0,
+    recentResults:[], sessionAccuracies:[], timedTestHistory:[],
+    dailyStreak:{lastDay:'',count:0,best:0},
+    spacedRep:[], qotdDate:'', qotdId:'', qotdAnswered:false,
+    settings:{sound:true, kbd:true}
+  };
+}
 
-/* ==========================================================
-   LOCAL STORAGE PERSISTENCE
-   ========================================================== */
-const STORAGE_KEY = 'sat-prep-caitlyn-v2';
+function loadProfiles() {
+  try { profiles = JSON.parse(localStorage.getItem(PROFILES_KEY)) || []; } catch(e) { profiles = []; }
+  const active = localStorage.getItem(ACTIVE_KEY);
+  if (active && profiles.find(p => p.id === active)) {
+    activeProfile = profiles.find(p => p.id === active);
+    loadUserState();
+  }
+}
+
+function saveProfiles() {
+  localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+  if (activeProfile) localStorage.setItem(ACTIVE_KEY, activeProfile.id);
+}
+
+function loadUserState() {
+  if (!activeProfile) return;
+  try {
+    const saved = JSON.parse(localStorage.getItem('sat-state-' + activeProfile.id));
+    state = Object.assign(defaultState(), saved || {});
+  } catch(e) { state = defaultState(); }
+  ALL_DOMAINS.forEach(d => { if (!state.domainStats[d.key]) state.domainStats[d.key] = {correct:0,wrong:0}; });
+}
 
 function saveState() {
-  const toSave = {
-    totalCorrect: state.totalCorrect,
-    totalWrong: state.totalWrong,
-    mathCorrect: state.mathCorrect,
-    mathWrong: state.mathWrong,
-    rwCorrect: state.rwCorrect,
-    rwWrong: state.rwWrong,
-    domainStats: state.domainStats,
-    difficultyStats: state.difficultyStats,
-    currentStreak: state.currentStreak,
-    bestStreak: state.bestStreak,
-    sessionsCompleted: state.sessionsCompleted,
-    recentResults: state.recentResults.slice(-50),
-    sessionAccuracies: state.sessionAccuracies.slice(-10),
-    timedTestHistory: state.timedTestHistory.slice(-20),
-    settings: state.settings
-  };
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-  } catch (e) { console.warn('localStorage save failed:', e); }
+  if (!activeProfile) return;
+  try { localStorage.setItem('sat-state-' + activeProfile.id, JSON.stringify(state)); } catch(e) {}
 }
 
-function loadState() {
-  state = JSON.parse(JSON.stringify(DEFAULT_STATE));
-  // Initialize domain stats
-  ALL_DOMAINS.forEach(d => {
-    state.domainStats[d.key] = { correct: 0, wrong: 0 };
-  });
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      Object.keys(parsed).forEach(k => {
-        if (k === 'domainStats') {
-          Object.keys(parsed.domainStats).forEach(dk => {
-            state.domainStats[dk] = parsed.domainStats[dk];
-          });
-        } else if (k === 'difficultyStats') {
-          Object.keys(parsed.difficultyStats).forEach(dk => {
-            state.difficultyStats[dk] = parsed.difficultyStats[dk];
-          });
-        } else if (k === 'settings') {
-          Object.assign(state.settings, parsed.settings);
-        } else {
-          state[k] = parsed[k];
-        }
-      });
-      return true; // had saved data
-    }
-  } catch (e) { console.warn('localStorage load failed:', e); }
-  return false;
+function createProfile(name) {
+  name = name || document.getElementById('newProfileInput').value;
+  if (!name || !name.trim()) return;
+  name = name.trim().substring(0, 20);
+  const id = 'p_' + Date.now();
+  const color = AVATAR_COLORS[profiles.length % AVATAR_COLORS.length];
+  const profile = { id, name, color };
+  profiles.push(profile);
+  activeProfile = profile;
+  saveProfiles();
+  loadUserState();
+  enterApp();
 }
 
-function resetAllData() {
-  localStorage.removeItem(STORAGE_KEY);
-  loadState();
-  saveState();
-  showScreen('home');
+function switchProfile(id) {
+  activeProfile = profiles.find(p => p.id === id);
+  saveProfiles();
+  loadUserState();
+  enterApp();
 }
 
+function deleteProfile(id) {
+  profiles = profiles.filter(p => p.id !== id);
+  localStorage.removeItem('sat-state-' + id);
+  saveProfiles();
+  if (activeProfile && activeProfile.id === id) {
+    activeProfile = null;
+    showProfileScreen();
+  }
+}
 
-/* ==========================================================
-   SCREEN MANAGEMENT
-   ========================================================== */
-let currentScreen = 'home';
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════ */
+let currentScreen = 'profileScreen';
 
 function showScreen(id) {
-  // Cleanup: stop timer if leaving timed test
-  if (currentScreen === 'timed-test' && id !== 'timed-test') {
-    stopTimer();
-  }
-
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById('screen-' + id);
-  if (target) {
-    target.classList.add('active');
-    requestAnimationFrame(() => { target.style.opacity = '1'; });
-  }
+  const el = document.getElementById(id + 'Screen') || document.getElementById(id);
+  if (el) el.classList.add('active');
   currentScreen = id;
-
-  // Screen-specific init
-  if (id === 'home') renderDashboard();
-  window.scrollTo(0, 0);
 }
 
-
-/* ==========================================================
-   DASHBOARD RENDERING
-   ========================================================== */
-function renderDashboard() {
-  const total = state.totalCorrect + state.totalWrong;
-  const accuracy = total > 0 ? Math.round((state.totalCorrect / total) * 100) : 0;
-
-  // Big accuracy number
-  const accEl = document.getElementById('dash-accuracy');
-  accEl.textContent = total > 0 ? accuracy + '%' : '—';
-  accEl.style.color = total === 0 ? 'var(--text-light)' :
-    accuracy >= 80 ? 'var(--success)' :
-    accuracy >= 60 ? 'var(--accent)' : 'var(--danger)';
-
-  // Quick stats
-  document.getElementById('dash-total').textContent = total;
-  document.getElementById('dash-streak').textContent = state.currentStreak;
-  document.getElementById('dash-best').textContent = state.bestStreak;
-  document.getElementById('dash-sessions').textContent = state.sessionsCompleted;
-
-  // Section bars
-  renderSectionBar('math', state.mathCorrect, state.mathWrong);
-  renderSectionBar('rw', state.rwCorrect, state.rwWrong);
-
-  // Domain bars
-  renderDomainBars();
-
-  // Sparkline
-  renderSparkline();
-
-  // Welcome banner
-  if (total > 0) {
-    const wb = document.getElementById('welcome-banner');
-    wb.classList.add('show');
-    document.getElementById('welcome-summary').textContent =
-      `${total} questions answered · ${accuracy}% accuracy · Best streak: ${state.bestStreak}`;
-  }
+function navigateTo(screen) {
+  showScreen(screen);
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.screen === screen);
+  });
+  if (screen === 'home') renderHome();
+  if (screen === 'stats') renderStats();
+  if (screen === 'settings') renderSettings();
 }
 
-function renderSectionBar(section, correct, wrong) {
-  const total = correct + wrong;
-  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const bar = document.getElementById('bar-' + section);
-  const pctEl = document.getElementById('pct-' + section);
-  bar.style.width = (total > 0 ? pct : 0) + '%';
-  bar.className = 'bar-fill ' + (pct >= 80 ? 'success' : pct >= 60 ? '' : 'danger');
-  pctEl.textContent = total > 0 ? pct + '%' : '—';
+function showProfileScreen() {
+  document.getElementById('appHeader').style.display = 'none';
+  document.getElementById('bottomNav').style.display = 'none';
+  showScreen('profile');
+  renderProfileList();
 }
 
-function renderDomainBars() {
-  const container = document.getElementById('domain-bars');
-  const weakAreas = document.getElementById('weak-areas');
-  let html = '';
-  let weakHtml = '';
+function enterApp() {
+  document.getElementById('appHeader').style.display = '';
+  document.getElementById('bottomNav').style.display = '';
+  updateHeaderUser();
+  navigateTo('home');
+}
 
-  ALL_DOMAINS.forEach(d => {
-    const s = state.domainStats[d.key] || { correct: 0, wrong: 0 };
-    const total = s.correct + s.wrong;
-    const pct = total > 0 ? Math.round((s.correct / total) * 100) : 0;
-    const color = total === 0 ? 'var(--border)' :
-      pct >= 80 ? 'var(--success)' :
-      pct >= 60 ? 'var(--primary)' : 'var(--danger)';
+function updateHeaderUser() {
+  if (!activeProfile) return;
+  document.getElementById('headerAvatar').textContent = activeProfile.name[0].toUpperCase();
+  document.getElementById('headerAvatar').style.background = activeProfile.color;
+  document.getElementById('headerName').textContent = activeProfile.name;
+}
 
-    html += `<div class="domain-bar-item">
-      <div class="domain-bar-header">
-        <span class="domain-bar-name">${d.label}</span>
-        <span class="domain-bar-stats">${total > 0 ? pct + '% (' + total + 'Q)' : 'No data'}</span>
-      </div>
-      <div class="domain-bar-track">
-        <div class="domain-bar-fill" style="width:${total > 0 ? pct : 0}%;background:${color};"></div>
-      </div>
-    </div>`;
+function renderProfileList() {
+  const container = document.getElementById('profileList');
+  container.innerHTML = profiles.map(p =>
+    `<button class="profile-btn" onclick="switchProfile('${p.id}')">
+      <span class="avatar" style="background:${p.color}">${p.name[0].toUpperCase()}</span>
+      ${p.name}
+    </button>`
+  ).join('');
+}
 
-    if (total >= 3 && pct < 60) {
-      weakHtml += `<div class="weak-callout-item">⚠️ ${d.label}: ${pct}% (${s.correct}/${total})</div>`;
+/* ═══════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════ */
+function showModal(id) {
+  document.getElementById(id).classList.add('open');
+  if (id === 'switchUserModal') renderModalProfiles();
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function renderModalProfiles() {
+  document.getElementById('modalProfileList').innerHTML = profiles.map(p =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-lt)">
+      <button class="profile-btn" style="flex:1;margin:0;border:none;padding:8px" onclick="switchProfile('${p.id}');closeModal('switchUserModal')">
+        <span class="avatar avatar-sm" style="background:${p.color}">${p.name[0].toUpperCase()}</span> ${p.name}
+      </button>
+      ${p.id !== activeProfile?.id ? `<button onclick="if(confirm('Delete \\'${p.name}\\'?'))deleteProfile('${p.id}');renderModalProfiles()" style="background:none;border:none;cursor:pointer;font-size:16px;padding:4px">🗑️</button>` : ''}
+    </div>`
+  ).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   HOME SCREEN
+   ═══════════════════════════════════════════════════════ */
+let filters = { section:'all', difficulty:'adaptive', domains:[] };
+
+function renderHome() {
+  if (!activeProfile) return;
+  document.getElementById('homeGreeting').textContent = `Hey ${activeProfile.name}! 👋`;
+
+  // Streak
+  const ds = state.dailyStreak || {count:0,best:0};
+  document.getElementById('homeStreak').textContent = ds.count;
+
+  // Est score
+  const est = getEstimatedScore();
+  document.getElementById('homeScore').textContent = est ? `${est.low}–${est.high}` : '?';
+
+  renderHomePills();
+  renderSpacedRepBadge();
+  renderQOTD();
+  renderHomeStats();
+}
+
+function renderHomePills() {
+  // Section pills
+  const secs = [{k:'all',l:'All'},{k:'math',l:'📐 Math'},{k:'rw',l:'📖 R&W'}];
+  document.getElementById('homeSectionPills').innerHTML = secs.map(s =>
+    `<button class="pill ${filters.section===s.k?'active':''}" onclick="setFilter('section','${s.k}')">${s.l}</button>`
+  ).join('');
+
+  // Difficulty pills
+  const diffs = [{k:'adaptive',l:'🎯 Dynamic'},{k:'all',l:'All'},{k:'easy',l:'Easy'},{k:'medium',l:'Medium'},{k:'hard',l:'Hard'}];
+  document.getElementById('homeDiffPills').innerHTML = diffs.map(d =>
+    `<button class="pill ${filters.difficulty===d.k?'active':''}" onclick="setFilter('difficulty','${d.k}')">${d.l}</button>`
+  ).join('');
+
+  // Domain pills
+  const domains = filters.section === 'math' ? MATH_DOMAINS : filters.section === 'rw' ? RW_DOMAINS : ALL_DOMAINS;
+  let domHtml = `<button class="pill ${filters.domains.length===0?'active':''}" onclick="setFilter('domain','all')">All</button>`;
+  domains.forEach(d => {
+    domHtml += `<button class="pill ${filters.domains.includes(d.key)?'active':''}" onclick="setFilter('domain','${d.key}')">${d.label}</button>`;
+  });
+  document.getElementById('homeDomainPills').innerHTML = domHtml;
+}
+
+function setFilter(type, val) {
+  if (type === 'section') { filters.section = val; filters.domains = []; }
+  else if (type === 'difficulty') { filters.difficulty = val; }
+  else if (type === 'domain') {
+    if (val === 'all') { filters.domains = []; }
+    else {
+      const idx = filters.domains.indexOf(val);
+      if (idx >= 0) filters.domains.splice(idx, 1); else filters.domains.push(val);
     }
-  });
-
-  container.innerHTML = html;
-  weakAreas.innerHTML = weakHtml ?
-    `<div class="weak-callout"><div class="weak-callout-title">🎯 Areas to Focus On</div>${weakHtml}</div>` : '';
-}
-
-function renderSparkline() {
-  const container = document.getElementById('sparkline');
-  const data = state.sessionAccuracies;
-  if (data.length === 0) {
-    container.innerHTML = '<div class="text-sm text-secondary text-center" style="width:100%">Complete a session to see trends</div>';
-    return;
   }
-  let html = '';
-  data.forEach((pct, i) => {
-    const h = Math.max(4, (pct / 100) * 42);
-    const color = pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--primary)' : 'var(--danger)';
-    html += `<div class="sparkline-dot-col">
-      <div class="sparkline-bar" style="height:${h}px;background:${color};"></div>
-      <div class="sparkline-dot" style="background:${color};"></div>
-      <div class="sparkline-label">${pct}%</div>
-    </div>`;
-  });
-  container.innerHTML = html;
+  renderHomePills();
 }
 
-
-/* ==========================================================
-   QUESTION UTILITIES
-   ========================================================== */
-function getAllQuestions() {
-  return [...MATH_QUESTIONS, ...RW_QUESTIONS];
-}
-
-function getFilteredQuestions(filters) {
+function getFilteredPool() {
   let pool = [];
   if (filters.section === 'all' || filters.section === 'math') pool.push(...MATH_QUESTIONS);
   if (filters.section === 'all' || filters.section === 'rw') pool.push(...RW_QUESTIONS);
-
-  if (filters.difficulty && filters.difficulty !== 'all') {
+  if (filters.difficulty !== 'all' && filters.difficulty !== 'adaptive') {
     pool = pool.filter(q => q.difficulty === filters.difficulty);
   }
-  if (filters.domains && filters.domains.length > 0) {
+  if (filters.domains.length > 0) {
     pool = pool.filter(q => filters.domains.includes(q.domain));
   }
   return pool;
 }
 
-function shuffleArray(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+function renderHomeStats() {
+  const total = state.totalCorrect + state.totalWrong;
+  // Section bars
+  const mTotal = state.mathCorrect + state.mathWrong;
+  const rTotal = state.rwCorrect + state.rwWrong;
+  const mPct = mTotal > 0 ? Math.round(state.mathCorrect/mTotal*100) : 0;
+  const rPct = rTotal > 0 ? Math.round(state.rwCorrect/rTotal*100) : 0;
+  document.getElementById('homeSectionBars').innerHTML = `
+    <div class="bar-row"><span class="bar-label">Math</span><div class="bar-track"><div class="bar-fill" style="width:${mPct}%"></div></div><span class="bar-pct">${mTotal?mPct+'%':'—'}</span></div>
+    <div class="bar-row"><span class="bar-label">R&W</span><div class="bar-track"><div class="bar-fill" style="width:${rPct}%"></div></div><span class="bar-pct">${rTotal?rPct+'%':'—'}</span></div>
+  `;
+
+  // Domain bars
+  let domHtml = '';
+  ALL_DOMAINS.forEach(d => {
+    const s = state.domainStats[d.key] || {correct:0,wrong:0};
+    const t = s.correct + s.wrong;
+    const pct = t > 0 ? Math.round(s.correct/t*100) : 0;
+    domHtml += `<div class="bar-row"><span class="bar-label" style="width:80px;font-size:11px">${d.label}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${pct<60?'var(--danger)':'var(--primary)'}"></div></div><span class="bar-pct">${t?pct+'%':'—'}</span></div>`;
+  });
+  document.getElementById('homeDomainBars').innerHTML = domHtml;
+
+  // Weak areas
+  const weak = ALL_DOMAINS.filter(d => {
+    const s = state.domainStats[d.key] || {correct:0,wrong:0};
+    const t = s.correct+s.wrong;
+    return t >= 5 && s.correct/t < 0.6;
+  });
+  document.getElementById('homeWeakAreas').innerHTML = weak.length > 0
+    ? '<div style="font-size:12px;font-weight:600;color:var(--danger);margin-bottom:4px">⚠️ Weak Areas:</div>' +
+      weak.map(d => `<span class="weak-badge">${d.label}</span>`).join('')
+    : '';
+
+  // Sparkline
+  const accs = state.sessionAccuracies || [];
+  if (accs.length > 1) {
+    const max = Math.max(...accs, 1);
+    document.getElementById('homeSparkline').innerHTML = '<div class="sparkline">' +
+      accs.slice(-10).map(v => `<div class="spark-bar" style="height:${Math.max(4,v/max*40)}px"></div>`).join('') +
+      '</div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Last ${Math.min(10,accs.length)} sessions</div>';
   }
-  return a;
 }
 
-function getDifficultyDots(level) {
-  const n = level === 'easy' ? 1 : level === 'medium' ? 2 : 3;
-  let html = '';
-  for (let i = 0; i < 3; i++) {
-    html += `<div class="dot ${i < n ? 'filled' : ''}"></div>`;
-  }
-  const label = level.charAt(0).toUpperCase() + level.slice(1);
-  html += `<span class="diff-label">${label}</span>`;
-  return html;
-}
-
-function getQuestionSection(q) {
-  return MATH_QUESTIONS.includes(q) ? 'math' : 'rw';
-}
-
-/**
- * Render a question into the specified DOM containers.
- * q: question object with { passage?, question, answers[], correct, difficulty, domain, explanation?, whyWrong? }
- * onSelect: name of global function to call when an answer is tapped
- * selectedIdx: index of currently selected answer (-1 for none)
- */
-function renderQuestion(q, passageEl, metaEl, textEl, diffEl, answersEl, onSelect, selectedIdx) {
-  // Passage (R&W questions typically have one)
-  if (q.passage) {
-    passageEl.innerHTML = `<div class="passage-box">${q.passage}</div>`;
-  } else {
-    passageEl.innerHTML = '';
-  }
-
-  // Meta tag: section icon + domain label
-  const section = getQuestionSection(q);
-  const domainLabel = ALL_DOMAINS.find(d => d.key === q.domain)?.label || q.domain;
-  metaEl.innerHTML = `
-    <span style="font-size:12px;font-weight:600;color:var(--primary);background:#e8f6f7;padding:2px 8px;border-radius:10px;">
-      ${section === 'math' ? '📐' : '📖'} ${domainLabel}
-    </span>`;
-
-  // Question text
-  textEl.innerHTML = q.question;
-
-  // Difficulty dots
-  diffEl.innerHTML = getDifficultyDots(q.difficulty);
-
-  // Answer buttons
-  const letters = ['A', 'B', 'C', 'D'];
-  answersEl.innerHTML = q.answers.map((ans, i) => `
-    <button class="answer-btn ${selectedIdx === i ? 'selected' : ''}"
-            onclick="(${onSelect})(${i})" data-idx="${i}">
-      <span class="letter">${letters[i]}</span>
-      <span class="answer-text">${ans}</span>
-    </button>
-  `).join('');
-}
-
-
-/* ==========================================================
-   SOUND EFFECTS (Web Audio API — simple tones, no files)
-   ========================================================== */
-let audioCtx = null;
-
-function getAudioCtx() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  return audioCtx;
-}
-
-function playTone(freq, duration, type) {
-  if (!state.settings.sound) return;
-  try {
-    const ctx = getAudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type || 'sine';
-    osc.frequency.value = freq;
-    gain.gain.value = 0.15;
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + duration);
-  } catch (e) { /* audio not available */ }
-}
-
-function playCorrect() {
-  playTone(523.25, 0.12, 'sine');   // C5
-  setTimeout(() => playTone(659.25, 0.15, 'sine'), 100);  // E5
-}
-
-function playWrong() {
-  playTone(200, 0.25, 'square');
-}
-
-
-/* ==========================================================
+/* ═══════════════════════════════════════════════════════
    PRACTICE MODE
-   ========================================================== */
-let practiceFilters = { section: 'all', difficulty: 'adaptive', domains: [] };
-let practicePool = [];
-let practiceSession = { correct: 0, wrong: 0, streak: 0, qNum: 0, answered: false };
-let practiceCurrentQ = null;
-let practiceSelectedIdx = -1;
-let adaptiveDifficulty = 'medium';
-let adaptiveStreakCorrect = 0;
-let adaptiveStreakWrong = 0;
+   ═══════════════════════════════════════════════════════ */
+let practiceSession = null;
+let adaptiveDiff = 'medium';
 
 function startPractice() {
-  practiceSession = { correct: 0, wrong: 0, streak: 0, qNum: 0, answered: false };
-  adaptiveDifficulty = 'medium';
-  adaptiveStreakCorrect = 0;
-  adaptiveStreakWrong = 0;
+  practiceSession = { correct:0, wrong:0, streak:0, qNum:0, answered:false, currentQ:null };
+  adaptiveDiff = 'medium';
   showScreen('practice');
-  buildDomainFilters();
-  nextPracticeQuestion();
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.screen==='practice'));
+  nextPracticeQ();
 }
 
-function buildDomainFilters() {
-  const container = document.getElementById('filter-domain');
-  let html = `<button class="filter-pill active" data-val="all" onclick="setDomainFilter('all',this)">All</button>`;
-  ALL_DOMAINS.forEach(d => {
-    html += `<button class="filter-pill" data-val="${d.key}" onclick="setDomainFilter('${d.key}',this)">${d.label}</button>`;
-  });
-  container.innerHTML = html;
-  practiceFilters.domains = [];
-}
-
-function setFilter(type, val, el) {
-  practiceFilters[type] = val;
-  el.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function setDomainFilter(key, el) {
-  if (key === 'all') {
-    practiceFilters.domains = [];
-    el.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-    el.classList.add('active');
-  } else {
-    // Toggle individual domain
-    const allPill = el.parentElement.querySelector('[data-val="all"]');
-    allPill.classList.remove('active');
-    el.classList.toggle('active');
-
-    if (el.classList.contains('active')) {
-      if (!practiceFilters.domains.includes(key)) practiceFilters.domains.push(key);
-    } else {
-      practiceFilters.domains = practiceFilters.domains.filter(d => d !== key);
-    }
-    // If none selected, revert to All
-    if (practiceFilters.domains.length === 0) allPill.classList.add('active');
-  }
-}
-
-function toggleFocusWeak(on) {
-  if (on) {
-    const weakDomains = ALL_DOMAINS.filter(d => {
-      const s = state.domainStats[d.key];
-      const total = s.correct + s.wrong;
-      return total >= 3 && (s.correct / total) < 0.7;
-    }).map(d => d.key);
-
-    if (weakDomains.length === 0) {
-      document.getElementById('focus-weak').checked = false;
-      alert('No weak areas detected yet! Keep practicing.');
-      return;
-    }
-    practiceFilters.domains = weakDomains;
-    // Update pill UI
-    document.querySelectorAll('#filter-domain .filter-pill').forEach(p => {
-      const v = p.dataset.val;
-      p.classList.toggle('active', weakDomains.includes(v));
-    });
-  }
-}
-
-function resetFilters() {
-  practiceFilters = { section: 'all', difficulty: 'adaptive', domains: [] };
-  document.querySelectorAll('#filter-section .filter-pill').forEach(p =>
-    p.classList.toggle('active', p.dataset.val === 'all'));
-  document.querySelectorAll('#filter-difficulty .filter-pill').forEach(p =>
-    p.classList.toggle('active', p.dataset.val === 'all'));
-  buildDomainFilters();
-  nextPracticeQuestion();
-}
-
-function toggleFilters() {
-  const toggle = document.getElementById('filters-toggle');
-  const body = document.getElementById('filters-body');
-  toggle.classList.toggle('open');
-  body.classList.toggle('open');
-}
-
-function getNextPracticeDifficulty() {
-  if (practiceFilters.difficulty === 'adaptive') {
-    return adaptiveDifficulty; // Dynamic: adjusts based on streaks
-  }
-  return practiceFilters.difficulty; // 'all', 'easy', 'medium', or 'hard'
-}
-
-function nextPracticeQuestion() {
+function nextPracticeQ() {
   practiceSession.answered = false;
-  practiceSelectedIdx = -1;
   practiceSession.qNum++;
+  let pool = getFilteredPool();
 
-  // Build filtered pool
-  const difficulty = getNextPracticeDifficulty();
-  let pool = getFilteredQuestions({
-    section: practiceFilters.section,
-    difficulty: difficulty,
-    domains: practiceFilters.domains
-  });
-
-  // Fallback: if adaptive difficulty yields nothing, try all difficulties
-  if (pool.length === 0 && state.settings.adaptive && practiceFilters.difficulty === 'all') {
-    pool = getFilteredQuestions({
-      section: practiceFilters.section,
-      difficulty: 'all',
-      domains: practiceFilters.domains
-    });
+  // Adaptive difficulty
+  if (filters.difficulty === 'adaptive') {
+    const diffPool = pool.filter(q => q.difficulty === adaptiveDiff);
+    if (diffPool.length > 0) pool = diffPool;
   }
 
   if (pool.length === 0) {
-    document.getElementById('practice-question-area').style.display = 'none';
-    document.getElementById('practice-empty').style.display = '';
+    document.getElementById('practiceQuestionArea').innerHTML = '<div class="empty-msg">No questions match your filters. Try broadening them.</div>';
     return;
   }
 
-  document.getElementById('practice-question-area').style.display = '';
-  document.getElementById('practice-empty').style.display = 'none';
-
-  // Pick random question from pool
-  practiceCurrentQ = pool[Math.floor(Math.random() * pool.length)];
-
-  renderQuestion(
-    practiceCurrentQ,
-    document.getElementById('pq-passage'),
-    document.getElementById('pq-meta'),
-    document.getElementById('pq-text'),
-    document.getElementById('pq-difficulty'),
-    document.getElementById('pq-answers'),
-    'selectPracticeAnswer',
-    -1
-  );
-
-  document.getElementById('pq-actions').style.display = 'none';
-  document.getElementById('pq-result').style.display = 'none';
-  document.getElementById('pq-next-actions').style.display = 'none';
-  updatePracticeSessionBar();
+  const q = pool[Math.floor(Math.random() * pool.length)];
+  practiceSession.currentQ = q;
+  renderPracticeQ(q);
+  updateSessionBar();
 }
 
-// Global function called from rendered answer button onclick
-window.selectPracticeAnswer = function(idx) {
+function renderPracticeQ(q) {
+  const section = MATH_QUESTIONS.includes(q) ? 'Math' : 'R&W';
+  const domLabel = ALL_DOMAINS.find(d => d.key === q.domain)?.label || q.domain;
+  const diffDots = [1,2,3].map(i => {
+    const lvl = q.difficulty === 'easy' ? 1 : q.difficulty === 'medium' ? 2 : 3;
+    return `<div class="dot ${i<=lvl?'on':''}"></div>`;
+  }).join('');
+
+  let html = '';
+  if (q.passage) html += `<div class="passage-box">${q.passage}</div>`;
+  html += `<div class="q-meta"><span class="q-domain">${section} · ${domLabel}</span><div class="q-diff">${diffDots}</div></div>`;
+  html += `<div class="q-text">${q.question || q.text}</div>`;
+  html += '<div class="choices">';
+  const answers = q.answers || q.choices || [];
+  const letters = ['A','B','C','D'];
+  answers.forEach((a, i) => {
+    html += `<button class="choice-card" onclick="practiceAnswer(${i})" data-idx="${i}">
+      <span class="choice-letter">${letters[i]}</span>
+      <span class="choice-text">${a.replace(/^[A-D]\)\s*/,'')}</span>
+    </button>`;
+  });
+  html += '</div><div id="practiceFeedback"></div>';
+  html += `<div id="practiceNextArea" style="display:none;margin-top:12px">
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="nextPracticeQ()">Next Question →</button>
+      <button class="btn btn-outline" onclick="endPracticeSession()">End Session</button>
+    </div>
+  </div>`;
+
+  document.getElementById('practiceQuestionArea').innerHTML = html;
+}
+
+function practiceAnswer(idx) {
   if (practiceSession.answered) return;
-  practiceSelectedIdx = idx;
-  document.querySelectorAll('#pq-answers .answer-btn').forEach((btn, i) => {
-    btn.classList.toggle('selected', i === idx);
-  });
-  document.getElementById('pq-actions').style.display = '';
-};
-
-function confirmPracticeAnswer() {
-  if (practiceSelectedIdx < 0 || practiceSession.answered) return;
   practiceSession.answered = true;
+  const q = practiceSession.currentQ;
+  const correct = idx === (q.correct ?? q.answer);
 
-  const q = practiceCurrentQ;
-  const correct = practiceSelectedIdx === q.correct;
-  const section = getQuestionSection(q);
-  const letters = ['A', 'B', 'C', 'D'];
+  // Update stats
+  if (correct) { practiceSession.correct++; practiceSession.streak++; state.totalCorrect++; }
+  else { practiceSession.wrong++; practiceSession.streak = 0; state.totalWrong++; }
 
-  // Highlight correct/wrong answer buttons
-  document.querySelectorAll('#pq-answers .answer-btn').forEach((btn, i) => {
-    btn.disabled = true;
-    if (i === q.correct) {
-      btn.classList.add('correct');
-      btn.classList.remove('selected');
-    } else if (i === practiceSelectedIdx && !correct) {
-      btn.classList.add('wrong');
-      btn.classList.remove('selected');
-    } else {
-      btn.classList.add('dimmed');
-    }
-  });
+  const section = MATH_QUESTIONS.includes(q) ? 'math' : 'rw';
+  if (section === 'math') { if(correct) state.mathCorrect++; else state.mathWrong++; }
+  else { if(correct) state.rwCorrect++; else state.rwWrong++; }
 
-  // Play sound
-  correct ? playCorrect() : playWrong();
+  const ds = state.domainStats[q.domain] || {correct:0,wrong:0};
+  if (correct) ds.correct++; else ds.wrong++;
+  state.domainStats[q.domain] = ds;
 
-  // Update session stats
-  if (correct) {
-    practiceSession.correct++;
-    practiceSession.streak++;
-  } else {
-    practiceSession.wrong++;
-    practiceSession.streak = 0;
+  if (correct) { state.currentStreak++; if(state.currentStreak>state.bestStreak) state.bestStreak=state.currentStreak; }
+  else state.currentStreak = 0;
+
+  state.recentResults.push({correct, section, domain:q.domain, difficulty:q.difficulty, ts:Date.now()});
+  if (state.recentResults.length > 100) state.recentResults = state.recentResults.slice(-100);
+
+  // Adaptive
+  if (correct && practiceSession.streak >= 3 && adaptiveDiff !== 'hard') {
+    adaptiveDiff = adaptiveDiff === 'easy' ? 'medium' : 'hard';
   }
-
-  // Update cumulative global stats
-  if (correct) {
-    state.totalCorrect++;
-    state.currentStreak++;
-    if (state.currentStreak > state.bestStreak) state.bestStreak = state.currentStreak;
-    if (section === 'math') state.mathCorrect++; else state.rwCorrect++;
-    if (state.domainStats[q.domain]) state.domainStats[q.domain].correct++;
-    state.difficultyStats[q.difficulty].c++;
-  } else {
-    state.totalWrong++;
-    state.currentStreak = 0;
-    if (section === 'math') state.mathWrong++; else state.rwWrong++;
-    if (state.domainStats[q.domain]) state.domainStats[q.domain].wrong++;
-    state.difficultyStats[q.difficulty].w++;
-  }
-
-  // Track in recent results (last 50)
-  state.recentResults.push({
-    correct, section, domain: q.domain,
-    difficulty: q.difficulty, timestamp: Date.now()
-  });
-  if (state.recentResults.length > 50) state.recentResults.shift();
-
-  // Adaptive difficulty adjustment
-  if (correct) {
-    adaptiveStreakCorrect++;
-    adaptiveStreakWrong = 0;
-    if (adaptiveStreakCorrect >= 3) {
-      adaptiveStreakCorrect = 0;
-      if (adaptiveDifficulty === 'easy') adaptiveDifficulty = 'medium';
-      else if (adaptiveDifficulty === 'medium') adaptiveDifficulty = 'hard';
-    }
-  } else {
-    adaptiveStreakWrong++;
-    adaptiveStreakCorrect = 0;
-    if (adaptiveStreakWrong >= 2) {
-      adaptiveStreakWrong = 0;
-      if (adaptiveDifficulty === 'hard') adaptiveDifficulty = 'medium';
-      else if (adaptiveDifficulty === 'medium') adaptiveDifficulty = 'easy';
+  if (!correct) {
+    const recent = state.recentResults.slice(-2);
+    if (recent.length >= 2 && recent.every(r => !r.correct) && adaptiveDiff !== 'easy') {
+      adaptiveDiff = adaptiveDiff === 'hard' ? 'medium' : 'easy';
     }
   }
+
+  // Spaced rep
+  if (!correct) addToSpacedRep(q.id);
+  else {
+    const sr = (state.spacedRep||[]).find(s => s.id === q.id);
+    if (sr) advanceSpacedRep(q.id);
+  }
+
+  // Daily streak
+  updateDailyStreak();
 
   saveState();
 
-  // Build explanation display
-  let resultHtml = '';
-  if (correct) {
-    resultHtml += `<div class="explanation-box"><div class="exp-title">✅ Correct!</div>`;
-  } else {
-    resultHtml += `<div class="explanation-box"><div class="exp-title">❌ Incorrect — Answer: ${letters[q.correct]}</div>`;
-  }
-  if (q.explanation) {
-    resultHtml += `<p>${q.explanation}</p>`;
-  }
-  if (!correct && q.whyWrong && q.whyWrong[practiceSelectedIdx]) {
-    resultHtml += `<div class="why-wrong">💡 Why ${letters[practiceSelectedIdx]} is wrong: ${q.whyWrong[practiceSelectedIdx]}</div>`;
-  }
-  resultHtml += '</div>';
+  // UI feedback
+  const cards = document.querySelectorAll('.choice-card');
+  cards.forEach((c, i) => {
+    c.classList.add('disabled');
+    if (i === (q.correct ?? q.answer)) c.classList.add('correct');
+    if (i === idx && !correct) c.classList.add('wrong');
+  });
 
-  document.getElementById('pq-result').innerHTML = resultHtml;
-  document.getElementById('pq-result').style.display = '';
-  document.getElementById('pq-actions').style.display = 'none';
-  document.getElementById('pq-next-actions').style.display = '';
-  updatePracticeSessionBar();
+  const fb = document.getElementById('practiceFeedback');
+  fb.innerHTML = `<div class="feedback ${correct?'correct':'wrong'}">
+    <div class="feedback-title">${correct ? '✅ Correct!' : '❌ Incorrect — Answer: ' + 'ABCD'[q.correct ?? q.answer]}</div>
+    <div>${q.explanation || ''}</div>
+  </div>`;
+
+  document.getElementById('practiceNextArea').style.display = '';
+
+  if (correct && state.settings.sound) playCorrect();
+  if (!correct && state.settings.sound) playWrong();
+  if (correct) spawnConfetti();
+
+  updateSessionBar();
 }
 
-function updatePracticeSessionBar() {
-  document.getElementById('p-correct').textContent = practiceSession.correct;
-  document.getElementById('p-wrong').textContent = practiceSession.wrong;
-  const total = practiceSession.correct + practiceSession.wrong;
-  const pct = total > 0 ? Math.round((practiceSession.correct / total) * 100) : 0;
-  document.getElementById('p-accuracy').textContent = pct + '%';
-  document.getElementById('p-streak').textContent = practiceSession.streak;
-  document.getElementById('p-qnum').textContent = practiceSession.qNum;
+function updateSessionBar() {
+  if (!practiceSession) return;
+  const pct = practiceSession.correct + practiceSession.wrong > 0
+    ? Math.round(practiceSession.correct / (practiceSession.correct + practiceSession.wrong) * 100) : 0;
+  document.getElementById('practiceSessionBar').innerHTML =
+    `<span class="sb-item">Q${practiceSession.qNum}</span>
+    <span class="sb-item" style="color:var(--success)">✅ ${practiceSession.correct}</span>
+    <span class="sb-item" style="color:var(--danger)">❌ ${practiceSession.wrong}</span>
+    <span class="sb-item">📊 ${pct}%</span>
+    <span class="sb-item">🔥 ${practiceSession.streak}</span>
+    <span style="flex:1"></span>
+    <button class="btn btn-sm btn-outline" style="width:auto;min-height:28px;padding:4px 10px;font-size:11px" onclick="endPracticeSession()">End</button>`;
 }
 
 function endPracticeSession() {
-  const total = practiceSession.correct + practiceSession.wrong;
-  if (total > 0) {
-    const pct = Math.round((practiceSession.correct / total) * 100);
-    state.sessionAccuracies.push(pct);
-    if (state.sessionAccuracies.length > 10) state.sessionAccuracies.shift();
-    state.sessionsCompleted++;
-    saveState();
-  }
-  showScreen('home');
+  const s = practiceSession;
+  const pct = s.correct + s.wrong > 0 ? Math.round(s.correct/(s.correct+s.wrong)*100) : 0;
+  state.sessionsCompleted++;
+  state.sessionAccuracies.push(pct);
+  if (state.sessionAccuracies.length > 20) state.sessionAccuracies = state.sessionAccuracies.slice(-20);
+  saveState();
+  document.getElementById('practiceSummary').innerHTML = `
+    <div class="card text-center">
+      <div style="font-size:40px;margin-bottom:8px">${pct>=80?'🌟':pct>=60?'👍':'💪'}</div>
+      <h3>Session Complete!</h3>
+      <div style="font-size:36px;font-weight:800;color:var(--primary);margin:12px 0">${pct}%</div>
+      <div style="color:var(--text-sec)">${s.correct} correct · ${s.wrong} wrong · ${s.qNum} questions</div>
+      <div class="btn-group mt-12">
+        <button class="btn btn-primary" onclick="startPractice()">Practice Again</button>
+        <button class="btn btn-outline" onclick="navigateTo('home')">Home</button>
+      </div>
+    </div>
+  `;
+  showScreen('practiceSummary');
 }
 
-
-/* ==========================================================
+/* ═══════════════════════════════════════════════════════
    TIMED TEST MODE
-   ========================================================== */
-let timedInterval = null;
-let timedStartTime = 0;
-let timedQuestionTimes = [];  // seconds spent on each question
-let lastQSwitchTime = 0;
+   ═══════════════════════════════════════════════════════ */
+let timedTest = null;
+let timedTimer = null;
 
 function startTimedTest(mode) {
-  let questions = [];
-  let totalTime = 0;
+  const config = {
+    math: { count:22, time:35*60, label:'Math' },
+    rw: { count:27, time:32*60, label:'R&W' },
+    full: { count:49, time:67*60, label:'Full Test' }
+  };
+  const c = config[mode];
+  let pool = mode === 'rw' ? [...RW_QUESTIONS] : mode === 'math' ? [...MATH_QUESTIONS] : [...ALL_QS];
+  shuffle(pool);
+  const questions = pool.slice(0, c.count);
 
-  if (mode === 'math') {
-    questions = shuffleArray(MATH_QUESTIONS).slice(0, 22);
-    totalTime = 35 * 60;
-  } else if (mode === 'rw') {
-    questions = shuffleArray(RW_QUESTIONS).slice(0, 27);
-    totalTime = 32 * 60;
-  } else {
-    // Full test: R&W first, then Math
-    questions = [
-      ...shuffleArray(RW_QUESTIONS).slice(0, 27),
-      ...shuffleArray(MATH_QUESTIONS).slice(0, 22)
-    ];
-    totalTime = 67 * 60; // 32 + 35
-  }
-
-  if (questions.length === 0) {
-    alert('No questions available for this module! Question banks need to be loaded.');
-    return;
-  }
-
-  state.timed = {
-    mode,
-    questions,
-    answers: new Array(questions.length).fill(-1),
-    flags: new Array(questions.length).fill(false),
-    currentIdx: 0,
-    totalTime,
-    timeRemaining: totalTime,
-    startTimestamp: Date.now()
+  timedTest = {
+    mode, label:c.label, questions, answers:new Array(c.count).fill(-1),
+    flags:new Array(c.count).fill(false), currentIdx:0,
+    timeLeft:c.time, totalTime:c.time, startTime:Date.now(),
+    qTimes:new Array(c.count).fill(0), lastQTime:Date.now()
   };
 
-  timedQuestionTimes = new Array(questions.length).fill(0);
-  timedStartTime = Date.now();
-  lastQSwitchTime = Date.now();
-
-  showScreen('timed-test');
-  renderTimedQuestion();
-  renderNavGrid();
-  startTimer();
+  showScreen('timedTest');
+  renderTimedQ();
+  renderTimedNav();
+  startTimedTimer();
 }
 
-function startTimer() {
-  stopTimer();
-  timedInterval = setInterval(() => {
-    if (!state.timed) return;
-    state.timed.timeRemaining--;
+function startTimedTimer() {
+  if (timedTimer) clearInterval(timedTimer);
+  timedTimer = setInterval(() => {
+    timedTest.timeLeft--;
+    if (timedTest.timeLeft <= 0) { clearInterval(timedTimer); endTimedTest(); return; }
     updateTimerDisplay();
-    if (state.timed.timeRemaining <= 0) {
-      stopTimer();
-      endTimedTest();
-    }
   }, 1000);
-}
-
-function stopTimer() {
-  if (timedInterval) {
-    clearInterval(timedInterval);
-    timedInterval = null;
-  }
+  updateTimerDisplay();
 }
 
 function updateTimerDisplay() {
-  const t = state.timed;
-  const mins = Math.floor(t.timeRemaining / 60);
-  const secs = t.timeRemaining % 60;
-  const display = document.getElementById('tt-timer');
-  const fill = document.getElementById('tt-timer-fill');
+  const m = Math.floor(timedTest.timeLeft / 60);
+  const s = timedTest.timeLeft % 60;
+  const el = document.getElementById('timerDisplay');
+  el.textContent = `${m}:${String(s).padStart(2,'0')}`;
+  el.className = 'timer-display' + (timedTest.timeLeft <= 120 ? ' danger' : timedTest.timeLeft <= 300 ? ' warning' : '');
+  document.getElementById('timerQCount').textContent = `Q${timedTest.currentIdx+1} / ${timedTest.questions.length}`;
+}
 
-  display.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-  const pct = (t.timeRemaining / t.totalTime) * 100;
-  fill.style.width = pct + '%';
+function renderTimedQ() {
+  const q = timedTest.questions[timedTest.currentIdx];
+  const selected = timedTest.answers[timedTest.currentIdx];
+  const section = MATH_QUESTIONS.includes(q) ? 'Math' : 'R&W';
+  const domLabel = ALL_DOMAINS.find(d => d.key === q.domain)?.label || q.domain;
+  const letters = ['A','B','C','D'];
+  const answers = q.answers || q.choices || [];
 
-  // Color warnings
-  display.classList.remove('warning', 'danger');
-  fill.classList.remove('warning', 'danger');
-  if (t.timeRemaining <= 120) {           // Red at 2 min
-    display.classList.add('danger');
-    fill.classList.add('danger');
-  } else if (t.timeRemaining <= 300) {    // Yellow at 5 min
-    display.classList.add('warning');
-    fill.classList.add('warning');
+  let html = '';
+  if (q.passage) html += `<div class="passage-box">${q.passage}</div>`;
+  html += `<div class="q-meta"><span class="q-domain">${section} · ${domLabel}</span></div>`;
+  html += `<div class="q-text">${q.question || q.text}</div>`;
+  html += '<div class="choices">';
+  answers.forEach((a, i) => {
+    html += `<button class="choice-card ${selected===i?'selected':''}" onclick="timedAnswer(${i})" data-idx="${i}">
+      <span class="choice-letter">${letters[i]}</span>
+      <span class="choice-text">${a.replace(/^[A-D]\)\s*/,'')}</span>
+    </button>`;
+  });
+  html += '</div>';
+  document.getElementById('timedQuestionArea').innerHTML = html;
+
+  // Update nav buttons
+  document.getElementById('ttPrevBtn').disabled = timedTest.currentIdx === 0;
+  document.getElementById('ttFlagBtn').textContent = timedTest.flags[timedTest.currentIdx] ? '🚩 Unflag' : '🚩 Flag';
+  document.getElementById('ttNextBtn').textContent = timedTest.currentIdx === timedTest.questions.length - 1 ? 'Finish' : 'Next →';
+}
+
+function timedAnswer(idx) {
+  // Track time on previous question
+  const now = Date.now();
+  timedTest.qTimes[timedTest.currentIdx] += (now - timedTest.lastQTime) / 1000;
+  timedTest.lastQTime = now;
+
+  timedTest.answers[timedTest.currentIdx] = idx;
+  renderTimedQ();
+  renderTimedNav();
+}
+
+function timedNext() {
+  trackTimedQTime();
+  if (timedTest.currentIdx < timedTest.questions.length - 1) {
+    timedTest.currentIdx++;
+    timedTest.lastQTime = Date.now();
+    renderTimedQ();
+    renderTimedNav();
+  } else {
+    endTimedTest();
   }
 }
 
-function renderTimedQuestion() {
-  const t = state.timed;
-  const q = t.questions[t.currentIdx];
-
-  document.getElementById('tt-qcount').textContent = `Q${t.currentIdx + 1}/${t.questions.length}`;
-
-  renderQuestion(
-    q,
-    document.getElementById('tq-passage'),
-    document.getElementById('tq-meta'),
-    document.getElementById('tq-text'),
-    document.getElementById('tq-difficulty'),
-    document.getElementById('tq-answers'),
-    'selectTimedAnswer',
-    t.answers[t.currentIdx]
-  );
-
-  // Flag button state
-  const flagBtn = document.getElementById('tt-flag');
-  flagBtn.classList.toggle('flagged', t.flags[t.currentIdx]);
-  flagBtn.innerHTML = t.flags[t.currentIdx] ? '🚩 Flagged' : '🚩 Flag';
-
-  // Prev/Next buttons
-  document.getElementById('tt-prev').disabled = t.currentIdx === 0;
-  document.getElementById('tt-next').textContent =
-    t.currentIdx === t.questions.length - 1 ? 'Finish ✓' : 'Next →';
-
-  updateNavGrid();
-}
-
-// Global function for timed answer selection
-window.selectTimedAnswer = function(idx) {
-  const t = state.timed;
-  t.answers[t.currentIdx] = idx;
-  document.querySelectorAll('#tq-answers .answer-btn').forEach((btn, i) => {
-    btn.classList.toggle('selected', i === idx);
-  });
-  updateNavGrid();
-};
-
-function renderNavGrid() {
-  const t = state.timed;
-  const container = document.getElementById('nav-grid');
-  let html = '';
-  t.questions.forEach((_, i) => {
-    html += `<button class="q-nav-btn" onclick="goToTimedQ(${i})">${i + 1}</button>`;
-  });
-  container.innerHTML = html;
-  updateNavGrid();
-}
-
-function updateNavGrid() {
-  const t = state.timed;
-  document.querySelectorAll('#nav-grid .q-nav-btn').forEach((btn, i) => {
-    btn.classList.remove('answered', 'flagged', 'current');
-    if (t.answers[i] >= 0) btn.classList.add('answered');
-    if (t.flags[i]) btn.classList.add('flagged');
-    if (i === t.currentIdx) btn.classList.add('current');
-  });
+function timedPrev() {
+  if (timedTest.currentIdx > 0) {
+    trackTimedQTime();
+    timedTest.currentIdx--;
+    timedTest.lastQTime = Date.now();
+    renderTimedQ();
+    renderTimedNav();
+  }
 }
 
 function goToTimedQ(idx) {
   trackTimedQTime();
-  state.timed.currentIdx = idx;
-  lastQSwitchTime = Date.now();
-  renderTimedQuestion();
+  timedTest.currentIdx = idx;
+  timedTest.lastQTime = Date.now();
+  renderTimedQ();
+  renderTimedNav();
 }
 
-function nextTimedQ() {
-  const t = state.timed;
-  if (t.currentIdx === t.questions.length - 1) {
-    confirmEndTest();
-    return;
-  }
-  trackTimedQTime();
-  t.currentIdx++;
-  lastQSwitchTime = Date.now();
-  renderTimedQuestion();
-}
-
-function prevTimedQ() {
-  const t = state.timed;
-  if (t.currentIdx === 0) return;
-  trackTimedQTime();
-  t.currentIdx--;
-  lastQSwitchTime = Date.now();
-  renderTimedQuestion();
-}
-
-function toggleFlag() {
-  const t = state.timed;
-  t.flags[t.currentIdx] = !t.flags[t.currentIdx];
-  const flagBtn = document.getElementById('tt-flag');
-  flagBtn.classList.toggle('flagged', t.flags[t.currentIdx]);
-  flagBtn.innerHTML = t.flags[t.currentIdx] ? '🚩 Flagged' : '🚩 Flag';
-  updateNavGrid();
-}
-
-function toggleNavGrid() {
-  const grid = document.getElementById('nav-grid');
-  const arrow = document.getElementById('nav-grid-arrow');
-  const open = grid.style.display === 'none';
-  grid.style.display = open ? '' : 'none';
-  arrow.style.transform = open ? 'rotate(180deg)' : '';
+function toggleTimedFlag() {
+  timedTest.flags[timedTest.currentIdx] = !timedTest.flags[timedTest.currentIdx];
+  renderTimedQ();
+  renderTimedNav();
 }
 
 function trackTimedQTime() {
   const now = Date.now();
-  const elapsed = (now - lastQSwitchTime) / 1000;
-  if (state.timed) {
-    timedQuestionTimes[state.timed.currentIdx] += elapsed;
-  }
+  timedTest.qTimes[timedTest.currentIdx] += (now - timedTest.lastQTime) / 1000;
+  timedTest.lastQTime = now;
 }
 
-function confirmEndTest() {
-  showModal(
-    'End Test?',
-    'Are you sure you want to end this test? Unanswered questions will be marked wrong.',
-    () => { closeModal(); endTimedTest(); }
-  );
+function renderTimedNav() {
+  let html = '<div class="nav-grid">';
+  timedTest.questions.forEach((q, i) => {
+    let cls = 'nav-grid-btn';
+    if (i === timedTest.currentIdx) cls += ' current';
+    else if (timedTest.flags[i]) cls += ' flagged';
+    else if (timedTest.answers[i] >= 0) cls += ' answered';
+    html += `<button class="${cls}" onclick="goToTimedQ(${i})">${i+1}</button>`;
+  });
+  html += '</div>';
+  document.getElementById('timedNavGrid').innerHTML = html;
 }
 
 function endTimedTest() {
-  stopTimer();
+  if (timedTimer) { clearInterval(timedTimer); timedTimer = null; }
   trackTimedQTime();
 
-  const t = state.timed;
-  const totalElapsed = (Date.now() - t.startTimestamp) / 1000;
-
-  // Score every question
-  let correct = 0, wrong = 0;
+  let correct = 0;
   const missed = [];
-  const categoryResults = {};
+  const catStats = {};
 
-  t.questions.forEach((q, i) => {
-    const isCorrect = t.answers[i] === q.correct;
-    const section = getQuestionSection(q);
-    const domainLabel = ALL_DOMAINS.find(d => d.key === q.domain)?.label || q.domain;
+  timedTest.questions.forEach((q, i) => {
+    const isCorrect = timedTest.answers[i] === (q.correct ?? q.answer);
+    if (isCorrect) correct++;
+    else missed.push({ q, userAnswer:timedTest.answers[i], idx:i });
+    const cat = q.domain;
+    if (!catStats[cat]) catStats[cat] = {correct:0,total:0};
+    catStats[cat].total++;
+    if (isCorrect) catStats[cat].correct++;
 
-    if (!categoryResults[q.domain]) {
-      categoryResults[q.domain] = { label: domainLabel, correct: 0, wrong: 0 };
-    }
-
-    if (isCorrect) {
-      correct++;
-      categoryResults[q.domain].correct++;
-      state.totalCorrect++;
-      state.currentStreak++;
-      if (state.currentStreak > state.bestStreak) state.bestStreak = state.currentStreak;
-      if (section === 'math') state.mathCorrect++; else state.rwCorrect++;
-      if (state.domainStats[q.domain]) state.domainStats[q.domain].correct++;
-      state.difficultyStats[q.difficulty].c++;
-    } else {
-      wrong++;
-      categoryResults[q.domain].wrong++;
-      state.totalWrong++;
-      state.currentStreak = 0;
-      if (section === 'math') state.mathWrong++; else state.rwWrong++;
-      if (state.domainStats[q.domain]) state.domainStats[q.domain].wrong++;
-      state.difficultyStats[q.difficulty].w++;
-      missed.push({ idx: i, question: q, userAnswer: t.answers[i], time: timedQuestionTimes[i] });
-    }
-
-    state.recentResults.push({
-      correct: isCorrect, section, domain: q.domain,
-      difficulty: q.difficulty, timestamp: Date.now()
-    });
+    // Update main stats
+    const section = MATH_QUESTIONS.includes(q) ? 'math' : 'rw';
+    if (isCorrect) { state.totalCorrect++; if(section==='math') state.mathCorrect++; else state.rwCorrect++; }
+    else { state.totalWrong++; if(section==='math') state.mathWrong++; else state.rwWrong++; }
+    const ds = state.domainStats[q.domain] || {correct:0,wrong:0};
+    if (isCorrect) ds.correct++; else ds.wrong++;
+    state.domainStats[q.domain] = ds;
+    if (!isCorrect) addToSpacedRep(q.id);
   });
 
-  // Trim recent results to 50
-  while (state.recentResults.length > 50) state.recentResults.shift();
+  const total = timedTest.questions.length;
+  const pct = Math.round(correct/total*100);
+  const totalTimeSec = timedTest.qTimes.reduce((a,b) => a+b, 0);
+  const avgTime = totalTimeSec / total;
 
-  // Record session accuracy
-  const totalQ = t.questions.length;
-  const pct = Math.round((correct / totalQ) * 100);
-  state.sessionAccuracies.push(pct);
-  if (state.sessionAccuracies.length > 10) state.sessionAccuracies.shift();
-  state.sessionsCompleted++;
-
-  // Save timed test to history
-  const testResult = {
-    timestamp: Date.now(),
-    mode: t.mode,
-    totalQ, correct, wrong, pct,
-    totalTime: Math.round(totalElapsed),
-    categoryResults,
-    missed: missed.map(m => ({
-      qIdx: m.idx + 1,
-      domain: m.question.domain,
-      userAnswer: m.userAnswer,
-      correctAnswer: m.question.correct,
-      time: Math.round(m.time)
-    }))
-  };
-  state.timedTestHistory.push(testResult);
-  if (state.timedTestHistory.length > 20) state.timedTestHistory.shift();
-
+  state.timedTestHistory.push({ date:Date.now(), module:timedTest.label, score:pct, correct, total });
+  if (state.timedTestHistory.length > 30) state.timedTestHistory = state.timedTestHistory.slice(-30);
+  updateDailyStreak();
   saveState();
 
-  // Render the score report
-  renderScoreReport(correct, wrong, totalQ, pct, totalElapsed, categoryResults, missed, t);
-  showScreen('timed-review');
-}
+  // Build results
+  let grade = pct >= 90 ? '🌟 Excellent — 1350+ Level!' : pct >= 75 ? '👍 Good — Keep pushing!' : pct >= 60 ? '📈 Getting there!' : '💪 More practice needed!';
 
-function renderScoreReport(correct, wrong, totalQ, pct, totalTime, categoryResults, missed, t) {
-  // ── Score Hero ──
-  const grade = pct >= 90 ? '🌟 Outstanding!' :
-    pct >= 80 ? '💪 Great Job!' :
-    pct >= 70 ? '👍 Good Work' :
-    pct >= 60 ? '📈 Keep Going' : '💪 More Practice Needed';
-
-  document.getElementById('tr-score-hero').innerHTML = `
-    <div class="score-pct">${pct}%</div>
-    <div class="score-label">${correct} of ${totalQ} correct</div>
-    <div class="score-grade">${grade}</div>`;
-
-  // ── Category Breakdown ──
-  const catContainer = document.getElementById('tr-category-bars');
   let catHtml = '';
-  Object.keys(categoryResults).forEach(key => {
-    const cat = categoryResults[key];
-    const catTotal = cat.correct + cat.wrong;
-    const catPct = Math.round((cat.correct / catTotal) * 100);
-    const color = catPct >= 80 ? 'var(--success)' : catPct >= 60 ? 'var(--primary)' : 'var(--danger)';
-    catHtml += `<div class="domain-bar-item">
-      <div class="domain-bar-header">
-        <span class="domain-bar-name">${cat.label}</span>
-        <span class="domain-bar-stats">${catPct}% (${cat.correct}/${catTotal})</span>
-      </div>
-      <div class="domain-bar-track">
-        <div class="domain-bar-fill" style="width:${catPct}%;background:${color};"></div>
-      </div>
-    </div>`;
+  Object.keys(catStats).sort().forEach(cat => {
+    const s = catStats[cat];
+    const cp = Math.round(s.correct/s.total*100);
+    const label = ALL_DOMAINS.find(d=>d.key===cat)?.label || cat;
+    catHtml += `<div class="bar-row"><span class="bar-label" style="width:90px;font-size:11px">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${cp}%;background:${cp<60?'var(--danger)':'var(--primary)'}"></div></div><span class="bar-pct">${cp}%</span></div>`;
   });
-  catContainer.innerHTML = catHtml;
 
-  // ── Time Analysis ──
-  const avgTime = totalTime / totalQ;
-  const slowestIdx = timedQuestionTimes.indexOf(Math.max(...timedQuestionTimes));
-  const slowestTime = timedQuestionTimes[slowestIdx] || 0;
-
-  document.getElementById('tr-time-stats').innerHTML = `
-    <div class="time-stat-box">
-      <div class="time-stat-val">${formatTime(Math.round(totalTime))}</div>
-      <div class="time-stat-lbl">Total Time</div>
-    </div>
-    <div class="time-stat-box">
-      <div class="time-stat-val">${Math.round(avgTime)}s</div>
-      <div class="time-stat-lbl">Avg / Question</div>
-    </div>
-    <div class="time-stat-box">
-      <div class="time-stat-val">Q${slowestIdx + 1} (${Math.round(slowestTime)}s)</div>
-      <div class="time-stat-lbl">Slowest</div>
-    </div>`;
-
-  // ── Missed Questions Review ──
-  const missedSection = document.getElementById('tr-missed-section');
-  const missedList = document.getElementById('tr-missed-list');
-  if (missed.length === 0) {
-    missedSection.style.display = 'none';
-  } else {
-    missedSection.style.display = '';
-    const letters = ['A', 'B', 'C', 'D'];
-    missedList.innerHTML = missed.map(m => {
-      const q = m.question;
-      const domainLabel = ALL_DOMAINS.find(d => d.key === q.domain)?.label || q.domain;
-      const userLetter = m.userAnswer >= 0 ? letters[m.userAnswer] : '—';
-      return `<div class="missed-q-card">
-        <div class="mq-header">
-          <span class="mq-num">Question ${m.idx + 1}</span>
-          <span class="mq-domain">${domainLabel}</span>
-        </div>
-        ${q.passage ? `<div class="mq-passage">${q.passage}</div>` : ''}
-        <div class="mq-question">${q.question}</div>
-        <div class="mq-answers">
-          <span class="your-ans">Your answer: ${userLetter}${m.userAnswer >= 0 ? ' — ' + q.answers[m.userAnswer] : ' (unanswered)'}</span><br>
-          <span class="correct-ans">Correct: ${letters[q.correct]} — ${q.answers[q.correct]}</span>
-        </div>
-        ${q.explanation ? `<div class="mq-explanation">💡 ${q.explanation}</div>` : ''}
+  let missedHtml = missed.length === 0
+    ? '<div class="empty-msg" style="color:var(--success)">🎉 Perfect score!</div>'
+    : missed.map(m => {
+      const letters = ['A','B','C','D'];
+      const userL = m.userAnswer >= 0 ? letters[m.userAnswer] : '—';
+      const correctL = letters[m.q.correct ?? m.q.answer];
+      return `<div class="review-item">
+        ${m.q.passage ? '<div style="font-size:12px;color:var(--text-sec);margin-bottom:4px">' + m.q.passage.substring(0,120) + '...</div>' : ''}
+        <div class="q-text" style="font-size:13px">${(m.q.question||m.q.text).substring(0,150)}</div>
+        <span class="review-answer wrong">Yours: ${userL}</span>
+        <span class="review-answer correct">Correct: ${correctL}</span>
+        <div style="margin-top:6px;font-size:12px;color:var(--text-sec)">${m.q.explanation||''}</div>
       </div>`;
     }).join('');
-  }
 
-  // Store for copy/retake
-  state._lastTest = { correct, wrong, totalQ, pct, totalTime, categoryResults, missed, mode: t.mode };
+  document.getElementById('testResultsScreen').innerHTML = `
+    <div class="card text-center">
+      <div style="font-size:40px;margin-bottom:4px">${pct>=80?'🌟':pct>=60?'📈':'💪'}</div>
+      <div style="font-size:42px;font-weight:900;color:var(--primary)">${pct}%</div>
+      <div style="color:var(--text-sec);margin-bottom:4px">${correct} / ${total} correct</div>
+      <div style="font-size:14px;font-weight:600">${grade}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Category Breakdown</div>
+      ${catHtml}
+    </div>
+    <div class="card">
+      <div class="card-title">Time</div>
+      <div style="font-size:13px;color:var(--text-sec)">
+        ⏱️ Total: ${Math.floor(totalTimeSec/60)}m ${Math.round(totalTimeSec%60)}s · Avg: ${Math.round(avgTime)}s/question
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Missed Questions (${missed.length})</div>
+      ${missedHtml}
+    </div>
+    <button class="btn btn-outline btn-sm mt-8" id="copyResultsBtn" onclick="copyTestResults(${pct},${correct},${total})">📋 Copy Results</button>
+    <div class="btn-group mt-12">
+      <button class="btn btn-primary" onclick="navigateTo('testSetup')">Retake</button>
+      <button class="btn btn-outline" onclick="navigateTo('home')">Home</button>
+    </div>
+  `;
+  showScreen('testResults');
 }
 
-function formatTime(secs) {
-  const m = Math.floor(secs / 60);
-  const s = secs % 60;
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-function retakeTest() {
-  const mode = state._lastTest?.mode || 'math';
-  startTimedTest(mode);
-}
-
-
-/* ==========================================================
-   EXPORT / COPY RESULTS TO CLIPBOARD
-   ========================================================== */
-function copyResults() {
-  const t = state._lastTest;
-  if (!t) return;
-
-  const date = new Date().toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
-  });
-  const modeLabel = t.mode === 'math' ? 'Math' : t.mode === 'rw' ? 'R&W' : 'Full Test';
-  const letters = ['A', 'B', 'C', 'D'];
-
-  let text = `SAT Practice Test Results — ${date}\n`;
-  text += `Module: ${modeLabel}\n`;
-  text += `Score: ${t.pct}% (${t.correct}/${t.totalQ})\n`;
-  text += `Time: ${formatTime(Math.round(t.totalTime))}\n\n`;
-
-  text += `Category Breakdown:\n`;
-  Object.keys(t.categoryResults).forEach(key => {
-    const cat = t.categoryResults[key];
-    const catTotal = cat.correct + cat.wrong;
-    const catPct = Math.round((cat.correct / catTotal) * 100);
-    text += `  ${cat.label}: ${catPct}% (${cat.correct}/${catTotal})\n`;
-  });
-
-  if (t.missed.length > 0) {
-    text += `\nMissed Questions (${t.missed.length}):\n`;
-    t.missed.forEach(m => {
-      const q = m.question;
-      const userLetter = m.userAnswer >= 0 ? letters[m.userAnswer] : '—';
-      text += `  Q${m.idx + 1}: Your answer: ${userLetter}, Correct: ${letters[q.correct]}\n`;
-      text += `    ${q.question.substring(0, 80)}${q.question.length > 80 ? '...' : ''}\n`;
-    });
-  }
-
+function copyTestResults(pct, correct, total) {
+  const text = `SAT Practice Test — ${new Date().toLocaleDateString()}\n${activeProfile.name}\nScore: ${pct}% (${correct}/${total})\nTarget: 1350+`;
   navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('#screen-timed-review .btn-secondary');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✅ Copied!';
-    setTimeout(() => { btn.innerHTML = orig; }, 2000);
-  }).catch(() => {
-    // Fallback for older browsers
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
+    document.getElementById('copyResultsBtn').textContent = '✅ Copied!';
+    setTimeout(() => { document.getElementById('copyResultsBtn').textContent = '📋 Copy Results'; }, 2000);
   });
 }
 
-
-/* ==========================================================
-   SETTINGS
-   ========================================================== */
-function updateSetting(key, val) {
-  state.settings[key] = val;
-  saveState();
-  if (key === 'kbd') {
-    document.getElementById('kbd-tooltip').style.display = val ? '' : 'none';
-  }
-}
-
-function confirmResetAll() {
-  showModal(
-    'Reset All Progress?',
-    'This will permanently delete ALL your stats, streaks, session history, and timed test results. This cannot be undone.',
-    () => { closeModal(); resetAllData(); }
-  );
-}
-
-
-/* ==========================================================
-   MODAL (Confirm Dialogs)
-   ========================================================== */
-function showModal(title, text, onConfirm) {
-  document.getElementById('modal-title').textContent = title;
-  document.getElementById('modal-text').textContent = text;
-  document.getElementById('modal-confirm').onclick = onConfirm;
-  document.getElementById('modal').classList.add('active');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('active');
-}
-
-
-/* ==========================================================
-   KEYBOARD SHORTCUTS
-   ========================================================== */
-function toggleKbdPanel() {
-  document.getElementById('kbd-panel').classList.toggle('open');
-}
-
-document.addEventListener('keydown', (e) => {
-  // Don't capture when typing in inputs
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-  const key = e.key.toLowerCase();
-
-  // Escape — close modal, go home, or confirm end test
-  if (key === 'escape') {
-    if (document.getElementById('modal').classList.contains('active')) {
-      closeModal();
-    } else if (currentScreen !== 'home') {
-      if (currentScreen === 'timed-test') {
-        confirmEndTest();
-      } else {
-        showScreen('home');
-      }
-    }
-    return;
-  }
-
-  // Answer selection: A/B/C/D or 1/2/3/4
-  const answerMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3, '1': 0, '2': 1, '3': 2, '4': 3 };
-  if (answerMap[key] !== undefined) {
-    if (currentScreen === 'practice' && !practiceSession.answered) {
-      selectPracticeAnswer(answerMap[key]);
-    } else if (currentScreen === 'timed-test') {
-      selectTimedAnswer(answerMap[key]);
-    }
-    return;
-  }
-
-  // Enter — confirm answer or advance to next question
-  if (key === 'enter') {
-    e.preventDefault();
-    if (currentScreen === 'practice') {
-      if (!practiceSession.answered && practiceSelectedIdx >= 0) {
-        confirmPracticeAnswer();
-      } else if (practiceSession.answered) {
-        nextPracticeQuestion();
-      }
-    } else if (currentScreen === 'timed-test') {
-      nextTimedQ();
-    }
-    return;
-  }
-
-  // Space — toggle flag (timed mode only)
-  if (key === ' ') {
-    e.preventDefault();
-    if (currentScreen === 'timed-test') {
-      toggleFlag();
-    }
-    return;
-  }
-});
-
-
-/* ==========================================================
-   INITIALIZATION
-   ========================================================== */
-function init() {
-  const hadData = loadState();
-
-  // Sync settings toggles with loaded state
-  document.getElementById('setting-sound').checked = state.settings.sound;
-  document.getElementById('setting-kbd').checked = state.settings.kbd;
-  document.getElementById('setting-adaptive').checked = state.settings.adaptive;
-
-  if (!state.settings.kbd) {
-    document.getElementById('kbd-tooltip').style.display = 'none';
-  }
-
-  renderDashboard();
-  buildHomeDomainFilters();
-
-  // Only show welcome banner if user has prior data
-  if (!hadData) {
-    document.getElementById('welcome-banner').classList.remove('show');
-  }
-}
-
-// Run on page load
-init();
-
-
-
-
-// --- HOME SCREEN QUICK FILTERS ---
-function setHomeFilter(type, val, el) {
-  // Update pill UI
-  el.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  if (val === 'all' && type === 'domains') {
-    el.classList.add('active');
-    practiceFilters.domains = [];
-  } else if (type === 'domains') {
-    // Toggle domain
-    const allPill = el.parentElement.querySelector('[data-val="all"]');
-    if (allPill) allPill.classList.remove('active');
-    el.classList.toggle('active');
-    const activeDomains = [...el.parentElement.querySelectorAll('.filter-pill.active:not([data-val="all"])')].map(p => p.dataset.val);
-    practiceFilters.domains = activeDomains;
-    if (activeDomains.length === 0 && allPill) allPill.classList.add('active');
-  } else {
-    el.classList.add('active');
-    practiceFilters[type] = val;
-  }
-  
-  // When section changes, rebuild domain pills to show only relevant domains
-  if (type === 'section') {
-    practiceFilters.domains = []; // Reset domain selection
-    buildHomeDomainFilters(val);
-  }
-  
-  // Also sync the practice mode filters if they exist
-  const practiceEl = document.getElementById('filter-' + type);
-  if (practiceEl) {
-    practiceEl.querySelectorAll('.filter-pill').forEach(p => {
-      p.classList.toggle('active', p.dataset.val === val);
-    });
-  }
-}
-
-function buildHomeDomainFilters(section) {
-  const container = document.getElementById('home-filter-domain');
-  if (!container) return;
-  
-  section = section || practiceFilters.section || 'all';
-  
-  let domains;
-  if (section === 'math') {
-    domains = DOMAINS.math;
-  } else if (section === 'rw') {
-    domains = DOMAINS.rw;
-  } else {
-    domains = ALL_DOMAINS;
-  }
-  
-  let html = '<button class="filter-pill active" data-val="all" onclick="setHomeFilter(\'domains\',\'all\',this)">All</button>';
-  domains.forEach(d => {
-    html += '<button class="filter-pill" data-val="' + d.key + '" onclick="setHomeFilter(\'domains\',\'' + d.key + '\',this)">' + d.label + '</button>';
-  });
-  container.innerHTML = html;
-}
-
-
-/* ==========================================================
-   PREMIUM FEATURES
-   Spaced Repetition, Question of the Day, Estimated SAT Score,
-   Daily Streak, Parent Progress Report
-   ========================================================== */
-
-// --- DAILY STREAK ---
-function getDayKey(date) {
-  const d = date || new Date();
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-
-function updateDailyStreak() {
-  const today = getDayKey();
-  if (!state.dailyStreak) {
-    state.dailyStreak = { lastDay: '', count: 0, best: 0 };
-  }
-  if (state.dailyStreak.lastDay === today) return; // Already counted today
-  
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayKey = getDayKey(yesterday);
-  
-  if (state.dailyStreak.lastDay === yesterdayKey) {
-    state.dailyStreak.count++;
-  } else if (state.dailyStreak.lastDay !== today) {
-    state.dailyStreak.count = 1; // Reset
-  }
-  state.dailyStreak.lastDay = today;
-  if (state.dailyStreak.count > state.dailyStreak.best) {
-    state.dailyStreak.best = state.dailyStreak.count;
-  }
-  saveState();
-}
-
-function renderDailyStreak() {
-  const el = document.getElementById('daily-streak-display');
-  if (!el) return;
-  if (!state.dailyStreak) state.dailyStreak = { lastDay: '', count: 0, best: 0 };
-  
-  const today = getDayKey();
-  const isActive = state.dailyStreak.lastDay === today;
-  const count = state.dailyStreak.count;
-  const best = state.dailyStreak.best;
-  
-  el.innerHTML = `
-    <div style="padding:14px;background:${isActive ? 'linear-gradient(135deg,#fff8e7,#fef3cd)' : 'var(--bg)'};border-radius:12px;border:1.5px solid ${isActive ? '#f7b731' : 'var(--border-light)'};height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-      <div style="font-size:24px;margin-bottom:2px;">${isActive ? '🔥' : '❄️'}</div>
-      <div style="font-size:22px;font-weight:800;color:${isActive ? '#e67e22' : 'var(--text-muted)'};">${count}</div>
-      <div style="font-size:11px;color:var(--text-secondary);font-weight:600;">day streak</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">best: ${best}</div>
-    </div>
-  `;
-}
-
-// --- SPACED REPETITION ---
-function getSpacedRepQueue() {
+/* ═══════════════════════════════════════════════════════
+   SPACED REPETITION
+   ═══════════════════════════════════════════════════════ */
+const DAY_MS = 86400000;
+function addToSpacedRep(qId) {
   if (!state.spacedRep) state.spacedRep = [];
-  const now = Date.now();
-  // Return questions due for review (sorted by due date, oldest first)
-  return state.spacedRep
-    .filter(sr => sr.dueAt <= now)
-    .sort((a, b) => a.dueAt - b.dueAt);
-}
-
-function addToSpacedRep(questionId) {
-  if (!state.spacedRep) state.spacedRep = [];
-  // Intervals: 1 day, 3 days, 7 days
-  const DAY = 86400000;
-  const existing = state.spacedRep.find(sr => sr.id === questionId);
-  if (existing) {
-    // Bump to next interval
-    if (existing.interval === 1) { existing.interval = 3; existing.dueAt = Date.now() + 3 * DAY; }
-    else if (existing.interval === 3) { existing.interval = 7; existing.dueAt = Date.now() + 7 * DAY; }
-    else { state.spacedRep = state.spacedRep.filter(sr => sr.id !== questionId); } // Graduated
-  } else {
-    state.spacedRep.push({ id: questionId, dueAt: Date.now() + 1 * DAY, interval: 1 });
-  }
+  const existing = state.spacedRep.find(s => s.id === qId);
+  if (!existing) state.spacedRep.push({id:qId, dueAt:Date.now()+DAY_MS, interval:1});
+  else { existing.interval = 1; existing.dueAt = Date.now() + DAY_MS; }
   saveState();
 }
-
-function removeFromSpacedRep(questionId) {
-  if (!state.spacedRep) return;
-  state.spacedRep = state.spacedRep.filter(sr => sr.id !== questionId);
+function advanceSpacedRep(qId) {
+  const sr = (state.spacedRep||[]).find(s => s.id === qId);
+  if (!sr) return;
+  if (sr.interval >= 7) state.spacedRep = state.spacedRep.filter(s => s.id !== qId);
+  else { sr.interval = sr.interval === 1 ? 3 : 7; sr.dueAt = Date.now() + sr.interval * DAY_MS; }
   saveState();
 }
-
-function findQuestionById(qId) {
-  return MATH_QUESTIONS.find(q => q.id === qId) || RW_QUESTIONS.find(q => q.id === qId);
+function getDueSpacedRep() {
+  return (state.spacedRep||[]).filter(s => s.dueAt <= Date.now());
 }
-
 function renderSpacedRepBadge() {
-  const el = document.getElementById('spaced-rep-badge');
-  if (!el) return;
-  const queue = getSpacedRepQueue();
-  if (queue.length > 0) {
-    el.style.display = 'flex';
-    el.innerHTML = `
-      <button onclick="startSpacedRepReview()" style="width:100%;padding:14px 18px;background:linear-gradient(135deg,#e6f4f5,#d0ecee);border:1.5px solid var(--primary);border-radius:12px;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;">
-        <div style="font-size:28px;">🔄</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--primary);">${queue.length} question${queue.length>1?'s':''} due for review</div>
-          <div style="font-size:11px;color:var(--text-secondary);">Spaced repetition — reinforce what you missed</div>
-        </div>
-      </button>
-    `;
-  } else {
-    el.style.display = 'none';
-  }
+  const due = getDueSpacedRep();
+  const el = document.getElementById('spacedRepBadge');
+  if (due.length > 0) {
+    el.style.display = '';
+    el.innerHTML = `<div class="spaced-rep-card" onclick="startSpacedRepReview()">
+      <div style="font-size:24px">🔄</div>
+      <div><div style="font-weight:700;color:var(--primary)">${due.length} question${due.length>1?'s':''} due for review</div>
+      <div style="font-size:12px;color:var(--text-sec)">Spaced repetition — reinforce what you missed</div></div>
+    </div>`;
+  } else el.style.display = 'none';
 }
 
-let spacedRepQueue = [];
-let spacedRepIdx = 0;
-
+let srQueue = [], srIdx = 0;
 function startSpacedRepReview() {
-  spacedRepQueue = getSpacedRepQueue().map(sr => {
-    const q = findQuestionById(sr.id);
-    return q ? { ...q, srEntry: sr } : null;
-  }).filter(Boolean);
-  
-  if (spacedRepQueue.length === 0) return;
-  spacedRepIdx = 0;
-  showScreen('spacedRepScreen');
-  renderSpacedRepQuestion();
+  srQueue = getDueSpacedRep().map(s => ALL_QS.find(q => q.id === s.id)).filter(Boolean);
+  if (!srQueue.length) return;
+  srIdx = 0;
+  showScreen('spacedRep');
+  renderSRQuestion();
 }
-
-function renderSpacedRepQuestion() {
-  const q = spacedRepQueue[spacedRepIdx];
-  const container = document.getElementById('spacedRepContent');
-  if (!q || !container) return;
-  
-  const section = MATH_QUESTIONS.includes(q) || q.id.startsWith('m') ? 'Math' : 'R&W';
-  
-  container.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <span style="font-size:12px;font-weight:600;color:var(--text-muted);">REVIEW ${spacedRepIdx+1} of ${spacedRepQueue.length}</span>
-      <span style="font-size:11px;padding:4px 10px;background:var(--primary-bg);color:var(--primary);border-radius:12px;font-weight:600;">${section} · ${q.domainLabel || q.domain}</span>
+function renderSRQuestion() {
+  const q = srQueue[srIdx];
+  const letters = ['A','B','C','D'];
+  const answers = q.answers || q.choices || [];
+  document.getElementById('spacedRepScreen').innerHTML = `
+    <div class="card">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">REVIEW ${srIdx+1} of ${srQueue.length}</div>
+      ${q.passage ? '<div class="passage-box">' + q.passage + '</div>' : ''}
+      <div class="q-text">${q.question||q.text}</div>
+      <div class="choices" id="srChoices">${answers.map((a,i) =>
+        `<button class="choice-card" onclick="srAnswer(${i})" data-idx="${i}">
+          <span class="choice-letter">${letters[i]}</span>
+          <span class="choice-text">${a.replace(/^[A-D]\)\s*/,'')}</span>
+        </button>`).join('')}</div>
+      <div id="srFeedback"></div>
     </div>
-    ${q.passage ? '<div style="padding:12px 16px;background:#f0f7ff;border-radius:8px;margin-bottom:14px;font-size:14px;line-height:1.7;border-left:3px solid var(--primary);">' + q.passage + '</div>' : ''}
-    <div style="font-size:15px;font-weight:600;line-height:1.6;margin-bottom:16px;">${q.text}</div>
-    <div id="sr-choices">
-      ${q.choices.map((c, i) => `
-        <button onclick="answerSpacedRep(${i})" class="choice-btn" style="display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);cursor:pointer;text-align:left;font-size:14px;transition:all 0.15s;">
-          <span style="width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;">${String.fromCharCode(65+i)}</span>
-          <span>${c}</span>
-        </button>
-      `).join('')}
-    </div>
-    <div id="sr-feedback" style="display:none;"></div>
+    <button class="btn btn-outline btn-sm" onclick="navigateTo('home')">← Back</button>
   `;
 }
-
-function answerSpacedRep(idx) {
-  const q = spacedRepQueue[spacedRepIdx];
-  const correct = idx === q.answer;
-  const fb = document.getElementById('sr-feedback');
-  
-  // Highlight correct/wrong
-  const btns = document.querySelectorAll('#sr-choices .choice-btn');
-  btns.forEach((btn, i) => {
-    btn.disabled = true;
-    btn.style.cursor = 'default';
-    if (i === q.answer) { btn.style.borderColor = 'var(--success)'; btn.style.background = 'var(--success-bg)'; }
-    if (i === idx && !correct) { btn.style.borderColor = 'var(--danger)'; btn.style.background = 'var(--danger-bg)'; }
+function srAnswer(idx) {
+  const q = srQueue[srIdx];
+  const correct = idx === (q.correct ?? q.answer);
+  document.querySelectorAll('#srChoices .choice-card').forEach((c,i) => {
+    c.classList.add('disabled');
+    if (i === (q.correct ?? q.answer)) c.classList.add('correct');
+    if (i === idx && !correct) c.classList.add('wrong');
   });
-  
-  if (correct) {
-    // Got it right — advance interval or graduate
-    if (q.srEntry.interval >= 7) { removeFromSpacedRep(q.id); }
-    else { addToSpacedRep(q.id); } // bumps interval
-    if (state.settings.sound) playCorrect();
-  } else {
-    // Got it wrong again — reset to 1-day interval
-    if (!state.spacedRep) state.spacedRep = [];
-    const entry = state.spacedRep.find(sr => sr.id === q.id);
-    if (entry) { entry.interval = 1; entry.dueAt = Date.now() + 86400000; }
-    if (state.settings.sound) playWrong();
-    saveState();
-  }
-  
-  fb.style.display = 'block';
-  fb.innerHTML = `
-    <div style="padding:14px 16px;margin-top:12px;border-radius:10px;background:${correct ? 'var(--success-bg)' : 'var(--danger-bg)'};border:1px solid ${correct ? 'var(--success)' : 'var(--danger)'};">
-      <div style="font-weight:700;margin-bottom:6px;color:${correct ? 'var(--success)' : 'var(--danger)'};">${correct ? '✅ Correct!' : '❌ Not quite'}</div>
-      <div style="font-size:13px;line-height:1.6;">${q.explanation}</div>
+  if (correct) advanceSpacedRep(q.id); else addToSpacedRep(q.id);
+  if (state.settings.sound) { correct ? playCorrect() : playWrong(); }
+  document.getElementById('srFeedback').innerHTML = `
+    <div class="feedback ${correct?'correct':'wrong'}" style="margin-top:12px">
+      <div class="feedback-title">${correct?'✅ Correct!':'❌ Not quite'}</div>
+      <div>${q.explanation||''}</div>
     </div>
-    <button onclick="nextSpacedRep()" style="margin-top:12px;width:100%;padding:12px;background:var(--primary);color:white;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">
-      ${spacedRepIdx < spacedRepQueue.length - 1 ? 'Next Review Question →' : 'Finish Review ✓'}
-    </button>
+    <button class="btn btn-primary btn-sm mt-8" onclick="${srIdx<srQueue.length-1?'srIdx++;renderSRQuestion()':'navigateTo(\'home\')'}">${srIdx<srQueue.length-1?'Next →':'Done ✓'}</button>
   `;
 }
 
-function nextSpacedRep() {
-  spacedRepIdx++;
-  if (spacedRepIdx >= spacedRepQueue.length) {
-    showScreen('homeScreen');
-    renderDashboard();
-    return;
-  }
-  renderSpacedRepQuestion();
-}
-
-// --- QUESTION OF THE DAY ---
-function getQuestionOfTheDay() {
-  if (!state.dailyStreak) state.dailyStreak = { lastDay: '', count: 0, best: 0 };
-  const today = getDayKey();
-  
-  if (state.qotdDate === today && state.qotdId) {
-    // Already have today's QOTD
-    return { q: findQuestionById(state.qotdId), answered: state.qotdAnswered || false };
-  }
-  
-  // Pick a new QOTD from weak areas
-  const weakDomains = [];
-  if (state.domainStats) {
-    Object.keys(state.domainStats).forEach(d => {
-      const s = state.domainStats[d];
-      const total = s.correct + s.wrong;
-      if (total >= 3 && (s.correct / total) < 0.7) weakDomains.push(d);
-    });
-  }
-  
-  const allQs = [...MATH_QUESTIONS, ...RW_QUESTIONS];
-  let pool = weakDomains.length > 0
-    ? allQs.filter(q => weakDomains.includes(q.domain))
-    : allQs;
-  
-  if (pool.length === 0) pool = allQs;
-  
-  // Use date as seed for deterministic "random"
-  const seed = today.split('-').reduce((a, b) => a + parseInt(b), 0);
-  const q = pool[seed % pool.length];
-  
-  state.qotdDate = today;
-  state.qotdId = q.id;
-  state.qotdAnswered = false;
-  saveState();
-  
-  return { q, answered: false };
-}
+/* ═══════════════════════════════════════════════════════
+   QUESTION OF THE DAY
+   ═══════════════════════════════════════════════════════ */
+function getDayKey(d) { d=d||new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
 function renderQOTD() {
-  const el = document.getElementById('qotd-container');
-  if (!el) return;
-  
-  const { q, answered } = getQuestionOfTheDay();
-  if (!q) { el.style.display = 'none'; return; }
-  
-  const section = q.id.startsWith('m') ? 'Math' : 'R&W';
-  
-  if (answered) {
-    el.innerHTML = `
-      <div style="padding:14px 18px;background:var(--success-bg);border:1.5px solid var(--success);border-radius:12px;text-align:center;">
-        <div style="font-size:13px;font-weight:600;color:var(--success);">✅ Question of the Day — Complete!</div>
-        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Come back tomorrow for a new one</div>
-      </div>
-    `;
+  const today = getDayKey();
+  const el = document.getElementById('qotdContainer');
+  if (state.qotdDate === today && state.qotdAnswered) {
+    el.innerHTML = '<div class="qotd-card" style="text-align:center;font-size:13px;color:var(--success);font-weight:600">✅ Question of the Day — Complete!</div>';
     return;
   }
-  
-  el.innerHTML = `
-    <div style="padding:16px 18px;background:linear-gradient(135deg,#f0f4ff,#e8eeff);border:1.5px solid #5b7cfa;border-radius:12px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <span style="font-size:13px;font-weight:700;color:#5b7cfa;">📅 Question of the Day</span>
-        <span style="font-size:11px;padding:3px 8px;background:white;border-radius:8px;color:var(--text-secondary);">${section} · ${q.domainLabel || q.domain}</span>
-      </div>
-      ${q.passage ? '<div style="padding:10px 14px;background:rgba(255,255,255,0.7);border-radius:8px;margin-bottom:10px;font-size:13px;line-height:1.6;border-left:3px solid #5b7cfa;">' + q.passage + '</div>' : ''}
-      <div style="font-size:14px;font-weight:600;line-height:1.6;margin-bottom:12px;">${q.text}</div>
-      <div id="qotd-choices">
-        ${q.choices.map((c, i) => `
-          <button onclick="answerQOTD(${i})" style="display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;margin-bottom:6px;border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;text-align:left;font-size:13px;transition:all 0.15s;">
-            <span style="width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0;">${String.fromCharCode(65+i)}</span>
-            <span>${c}</span>
-          </button>
-        `).join('')}
-      </div>
-      <div id="qotd-feedback" style="display:none;"></div>
-    </div>
-  `;
+  // Pick QOTD
+  if (state.qotdDate !== today) {
+    const seed = today.split('-').reduce((a,b)=>a+parseInt(b),0);
+    const q = ALL_QS[seed % ALL_QS.length];
+    state.qotdDate = today; state.qotdId = q.id; state.qotdAnswered = false; saveState();
+  }
+  const q = ALL_QS.find(qq => qq.id === state.qotdId);
+  if (!q) { el.innerHTML = ''; return; }
+  const letters = ['A','B','C','D'];
+  const answers = q.answers || q.choices || [];
+  el.innerHTML = `<div class="qotd-card">
+    <div style="font-size:13px;font-weight:700;color:#5b7cfa;margin-bottom:8px">📅 Question of the Day</div>
+    ${q.passage ? '<div style="font-size:13px;padding:8px;background:rgba(255,255,255,0.6);border-radius:8px;margin-bottom:8px">' + q.passage + '</div>' : ''}
+    <div style="font-size:14px;font-weight:600;margin-bottom:10px">${q.question||q.text}</div>
+    <div id="qotdChoices">${answers.map((a,i) =>
+      `<button style="display:flex;align-items:center;gap:8px;width:100%;padding:10px;margin-bottom:4px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;text-align:left;font-family:var(--font)" onclick="answerQOTD(${i})">
+        <span style="width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">${letters[i]}</span>
+        <span>${a.replace(/^[A-D]\)\s*/,'')}</span>
+      </button>`).join('')}</div>
+    <div id="qotdFeedback"></div>
+  </div>`;
 }
 
 function answerQOTD(idx) {
-  const { q } = getQuestionOfTheDay();
-  const correct = idx === q.answer;
-  
-  state.qotdAnswered = true;
-  saveState();
-  
-  const btns = document.querySelectorAll('#qotd-choices button');
-  btns.forEach((btn, i) => {
-    btn.disabled = true; btn.style.cursor = 'default';
-    if (i === q.answer) { btn.style.borderColor = 'var(--success)'; btn.style.background = 'var(--success-bg)'; }
-    if (i === idx && !correct) { btn.style.borderColor = 'var(--danger)'; btn.style.background = 'var(--danger-bg)'; }
+  const q = ALL_QS.find(qq => qq.id === state.qotdId);
+  if (!q) return;
+  const correct = idx === (q.correct ?? q.answer);
+  state.qotdAnswered = true; saveState();
+  document.querySelectorAll('#qotdChoices button').forEach((b,i) => {
+    b.disabled = true; b.style.cursor = 'default';
+    if (i === (q.correct ?? q.answer)) { b.style.borderColor = 'var(--success)'; b.style.background = 'var(--success-bg)'; }
+    if (i === idx && !correct) { b.style.borderColor = 'var(--danger)'; b.style.background = 'var(--danger-bg)'; }
   });
-  
   if (state.settings.sound) { correct ? playCorrect() : playWrong(); }
-  
-  const fb = document.getElementById('qotd-feedback');
-  fb.style.display = 'block';
-  fb.innerHTML = `
-    <div style="padding:10px 14px;margin-top:8px;border-radius:8px;background:${correct ? 'var(--success-bg)' : 'var(--danger-bg)'};font-size:13px;line-height:1.5;">
-      <strong>${correct ? '✅ Correct!' : '❌ The answer is ' + String.fromCharCode(65 + q.answer)}</strong><br>${q.explanation}
+  document.getElementById('qotdFeedback').innerHTML = `<div style="margin-top:8px;padding:10px;border-radius:8px;background:${correct?'var(--success-bg)':'var(--danger-bg)'};font-size:13px">
+    <strong>${correct?'✅ Correct!':'❌ Answer: '+['A','B','C','D'][q.correct??q.answer]}</strong><br>${q.explanation||''}
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   DAILY STREAK
+   ═══════════════════════════════════════════════════════ */
+function updateDailyStreak() {
+  if (!state.dailyStreak) state.dailyStreak = {lastDay:'',count:0,best:0};
+  const today = getDayKey();
+  if (state.dailyStreak.lastDay === today) return;
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+  if (state.dailyStreak.lastDay === getDayKey(yesterday)) state.dailyStreak.count++;
+  else state.dailyStreak.count = 1;
+  state.dailyStreak.lastDay = today;
+  if (state.dailyStreak.count > state.dailyStreak.best) state.dailyStreak.best = state.dailyStreak.count;
+  saveState();
+}
+
+/* ═══════════════════════════════════════════════════════
+   ESTIMATED SCORE
+   ═══════════════════════════════════════════════════════ */
+function getEstimatedScore() {
+  const total = state.totalCorrect + state.totalWrong;
+  if (total < 10) return null;
+  const mT = state.mathCorrect+state.mathWrong, rT = state.rwCorrect+state.rwWrong;
+  const mP = mT>0?state.mathCorrect/mT:0.5, rP = rT>0?state.rwCorrect/rT:0.5;
+  function p2s(p) {
+    if(p>=0.98)return 800;if(p>=0.93)return 760;if(p>=0.88)return 730;if(p>=0.83)return 700;
+    if(p>=0.78)return 670;if(p>=0.73)return 640;if(p>=0.68)return 610;if(p>=0.63)return 580;
+    if(p>=0.58)return 550;if(p>=0.53)return 520;if(p>=0.48)return 490;if(p>=0.43)return 460;
+    if(p>=0.38)return 430;if(p>=0.33)return 400;return 370;
+  }
+  const comp = p2s(mP)+p2s(rP);
+  return {low:Math.max(400,comp-40), high:Math.min(1600,comp+40), math:p2s(mP), rw:p2s(rP), total};
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATS SCREEN
+   ═══════════════════════════════════════════════════════ */
+function renderStats() {
+  const total = state.totalCorrect + state.totalWrong;
+  const pct = total > 0 ? Math.round(state.totalCorrect/total*100) : 0;
+  const circumference = 2 * Math.PI * 54;
+  const offset = circumference - (pct/100) * circumference;
+
+  const est = getEstimatedScore();
+  const ds = state.dailyStreak || {count:0,best:0};
+
+  let html = `
+    <div class="ring-wrap">
+      <svg width="140" height="140" class="ring-svg">
+        <circle class="ring-bg" cx="70" cy="70" r="54" stroke-width="12"/>
+        <circle class="ring-fg" cx="70" cy="70" r="54" stroke-width="12" stroke-dasharray="${circumference}" stroke-dashoffset="${total>0?offset:circumference}"/>
+        <text x="70" y="72" class="ring-text" transform="rotate(90 70 70)" text-anchor="middle" dominant-baseline="middle">${total>0?pct+'%':'—'}</text>
+        <text x="70" y="92" class="ring-label" transform="rotate(90 70 70)" text-anchor="middle">accuracy</text>
+      </svg>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-tile"><div class="val">${total}</div><div class="label">Questions</div></div>
+      <div class="stat-tile"><div class="val">${state.sessionsCompleted}</div><div class="label">Sessions</div></div>
+      <div class="stat-tile"><div class="val">🔥 ${ds.count}</div><div class="label">Day Streak</div></div>
+      <div class="stat-tile"><div class="val">${state.bestStreak}</div><div class="label">Best Streak</div></div>
     </div>
   `;
-}
 
-// --- ESTIMATED SAT SCORE ---
-function getEstimatedSATScore() {
-  const total = state.totalCorrect + state.totalWrong;
-  if (total < 10) return null; // Need at least 10 questions
-  
-  const mathTotal = state.mathCorrect + state.mathWrong;
-  const rwTotal = state.rwCorrect + state.rwWrong;
-  
-  const mathPct = mathTotal > 0 ? state.mathCorrect / mathTotal : 0.5;
-  const rwPct = rwTotal > 0 ? state.rwCorrect / rwTotal : 0.5;
-  
-  // Map accuracy to SAT section scores (200-800 each)
-  // Based on approximate SAT scoring curves:
-  // 100% ≈ 800, 90% ≈ 750, 80% ≈ 700, 70% ≈ 640, 60% ≈ 580, 50% ≈ 520, 40% ≈ 460
-  function pctToScore(pct) {
-    if (pct >= 0.98) return 800;
-    if (pct >= 0.93) return 760;
-    if (pct >= 0.88) return 730;
-    if (pct >= 0.83) return 700;
-    if (pct >= 0.78) return 670;
-    if (pct >= 0.73) return 640;
-    if (pct >= 0.68) return 610;
-    if (pct >= 0.63) return 580;
-    if (pct >= 0.58) return 550;
-    if (pct >= 0.53) return 520;
-    if (pct >= 0.48) return 490;
-    if (pct >= 0.43) return 460;
-    if (pct >= 0.38) return 430;
-    if (pct >= 0.33) return 400;
-    return 370;
-  }
-  
-  const mathScore = pctToScore(mathPct);
-  const rwScore = pctToScore(rwPct);
-  const composite = mathScore + rwScore;
-  
-  // Create a range (±40 points)
-  const low = Math.max(400, composite - 40);
-  const high = Math.min(1600, composite + 40);
-  
-  return { mathScore, rwScore, composite, low, high, mathPct, rwPct, totalQs: total };
-}
-
-function renderEstimatedScore() {
-  const el = document.getElementById('estimated-score-display');
-  if (!el) return;
-  
-  const est = getEstimatedSATScore();
-  if (!est) {
-    el.innerHTML = `
-      <div style="padding:14px;background:var(--bg);border-radius:12px;border:1.5px solid var(--border-light);height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-        <div style="font-size:24px;margin-bottom:2px;">📊</div>
-        <div style="font-size:13px;font-weight:700;color:var(--text-muted);">?</div>
-        <div style="font-size:11px;color:var(--text-muted);font-weight:600;">est. score</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">10+ Qs to unlock</div>
-      </div>
-    `;
-    return;
-  }
-  
-  const target = 1350;
-  const onTrack = est.composite >= target;
-  
-  el.innerHTML = `
-    <div style="padding:14px;background:${onTrack ? 'linear-gradient(135deg,#eafaf1,#d5f5e3)' : 'linear-gradient(135deg,#fef9e7,#fdebd0)'};border-radius:12px;border:1.5px solid ${onTrack ? 'var(--success)' : '#f7b731'};height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-      <div style="font-size:24px;margin-bottom:2px;">${onTrack ? '🎯' : '📈'}</div>
-      <div style="font-size:22px;font-weight:800;color:${onTrack ? 'var(--success)' : '#e67e22'};">${est.low}–${est.high}</div>
-      <div style="font-size:11px;color:var(--text-secondary);font-weight:600;">est. score</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${onTrack ? 'on track!' : `${target - est.composite} to go`}</div>
-    </div>
-  `;
-}
-
-// --- PARENT PROGRESS REPORT ---
-function generateParentReport() {
-  const est = getEstimatedSATScore();
-  const total = state.totalCorrect + state.totalWrong;
-  const accuracy = total > 0 ? Math.round((state.totalCorrect / total) * 100) : 0;
-  const streak = state.dailyStreak || { count: 0, best: 0 };
-  
-  let report = `📊 SAT PREP PROGRESS REPORT — ${new Date().toLocaleDateString()}\n`;
-  report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-  report += `Student: Caitlyn Byers\n`;
-  report += `Target Score: 1350+\n\n`;
-  
-  report += `📈 OVERALL STATS\n`;
-  report += `  Questions Answered: ${total}\n`;
-  report += `  Accuracy: ${accuracy}%\n`;
-  report += `  Current Streak: ${state.currentStreak} · Best: ${state.bestStreak}\n`;
-  report += `  Daily Practice Streak: ${streak.count} day${streak.count!==1?'s':''}\n`;
-  report += `  Sessions Completed: ${state.sessionsCompleted}\n\n`;
-  
   if (est) {
-    report += `🎯 ESTIMATED SAT SCORE: ${est.low}–${est.high}\n`;
-    report += `  Math: ~${est.mathScore} (${Math.round(est.mathPct*100)}% accuracy)\n`;
-    report += `  R&W: ~${est.rwScore} (${Math.round(est.rwPct*100)}% accuracy)\n\n`;
+    html += `<div class="card text-center"><div class="card-title">Estimated SAT Score</div>
+      <div style="font-size:28px;font-weight:800;color:var(--primary)">${est.low}–${est.high}</div>
+      <div style="font-size:12px;color:var(--text-sec)">Math ~${est.math} · R&W ~${est.rw}</div>
+    </div>`;
   }
-  
-  report += `📊 BY DOMAIN\n`;
-  if (state.domainStats) {
-    Object.keys(state.domainStats).forEach(d => {
-      const s = state.domainStats[d];
-      const t = s.correct + s.wrong;
-      if (t > 0) {
-        const pct = Math.round((s.correct / t) * 100);
-        const label = pct >= 80 ? '✅' : pct >= 60 ? '⚠️' : '❌';
-        report += `  ${label} ${d.replace(/_/g,' ')}: ${pct}% (${t} questions)\n`;
-      }
-    });
-  }
-  
-  if (state.timedTestHistory && state.timedTestHistory.length > 0) {
-    report += `\n📝 RECENT TIMED TESTS\n`;
-    state.timedTestHistory.slice(-5).forEach(t => {
-      report += `  ${new Date(t.date).toLocaleDateString()} — ${t.module}: ${t.score}%\n`;
-    });
-  }
-  
-  report += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  report += `Generated by Caitlyn's SAT Prep Tool`;
-  
-  return report;
-}
 
-function shareParentReport() {
-  const report = generateParentReport();
-  navigator.clipboard.writeText(report).then(() => {
-    const btn = document.getElementById('share-report-btn');
-    if (btn) { btn.textContent = '✅ Copied to clipboard!'; setTimeout(() => { btn.textContent = '📋 Copy Progress Report'; }, 2000); }
-  }).catch(() => {
-    // Fallback
-    const ta = document.createElement('textarea');
-    ta.value = report;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    const btn = document.getElementById('share-report-btn');
-    if (btn) { btn.textContent = '✅ Copied!'; setTimeout(() => { btn.textContent = '📋 Copy Progress Report'; }, 2000); }
+  // Section bars
+  const mT=state.mathCorrect+state.mathWrong, rT=state.rwCorrect+state.rwWrong;
+  const mP=mT>0?Math.round(state.mathCorrect/mT*100):0, rP=rT>0?Math.round(state.rwCorrect/rT*100):0;
+  html += `<div class="card"><div class="card-title">By Section</div>
+    <div class="bar-row"><span class="bar-label">Math</span><div class="bar-track"><div class="bar-fill" style="width:${mP}%"></div></div><span class="bar-pct">${mT?mP+'%':'—'}</span></div>
+    <div class="bar-row"><span class="bar-label">R&W</span><div class="bar-track"><div class="bar-fill" style="width:${rP}%"></div></div><span class="bar-pct">${rT?rP+'%':'—'}</span></div>
+  </div>`;
+
+  // Domain bars
+  html += '<div class="card"><div class="card-title">By Domain</div>';
+  ALL_DOMAINS.forEach(d => {
+    const s = state.domainStats[d.key]||{correct:0,wrong:0};
+    const t=s.correct+s.wrong, p=t>0?Math.round(s.correct/t*100):0;
+    html += `<div class="bar-row"><span class="bar-label" style="width:90px;font-size:11px">${d.label}</span><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${p<60?'var(--danger)':'var(--primary)'}"></div></div><span class="bar-pct">${t?p+'%':'—'}</span></div>`;
   });
-}
+  html += '</div>';
 
-// --- HOOK INTO EXISTING FUNCTIONS ---
-// Extend the original renderDashboard to include premium features
-const _origRenderDashboard = typeof renderDashboard === 'function' ? renderDashboard : null;
-
-// We'll inject premium UI into the dashboard after it renders
-function renderPremiumDashboard() {
-  renderDailyStreak();
-  renderSpacedRepBadge();
-  renderQOTD();
-  renderEstimatedScore();
-}
-
-// Extend saveState to include premium state
-const _origSaveState = saveState;
-saveState = function() {
-  // Add premium fields before saving
-  const premiumFields = {
-    dailyStreak: state.dailyStreak,
-    spacedRep: state.spacedRep,
-    qotdDate: state.qotdDate,
-    qotdId: state.qotdId,
-    qotdAnswered: state.qotdAnswered
-  };
-  
-  _origSaveState();
-  
-  // Also save premium fields
-  try {
-    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    Object.assign(existing, premiumFields);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
-  } catch(e) {}
-};
-
-// Extend loadState
-const _origLoadState = loadState;
-loadState = function() {
-  const result = _origLoadState();
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    state.dailyStreak = saved.dailyStreak || { lastDay: '', count: 0, best: 0 };
-    state.spacedRep = saved.spacedRep || [];
-    state.qotdDate = saved.qotdDate || '';
-    state.qotdId = saved.qotdId || '';
-    state.qotdAnswered = saved.qotdAnswered || false;
-  } catch(e) {
-    state.dailyStreak = { lastDay: '', count: 0, best: 0 };
-    state.spacedRep = [];
+  // Test history
+  if (state.timedTestHistory?.length > 0) {
+    html += '<div class="card"><div class="card-title">Timed Test History</div>';
+    state.timedTestHistory.slice(-5).reverse().forEach(t => {
+      html += `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-lt);font-size:13px">
+        <span>${new Date(t.date).toLocaleDateString()} — ${t.module}</span>
+        <span style="font-weight:700">${t.score}%</span>
+      </div>`;
+    });
+    html += '</div>';
   }
-  return result;
-};
 
-// Hook into practice answer to add spaced rep tracking
-const _origConfirmPracticeAnswer = typeof confirmPracticeAnswer === 'function' ? confirmPracticeAnswer : null;
-if (_origConfirmPracticeAnswer) {
-  const __origCPA = confirmPracticeAnswer;
-  confirmPracticeAnswer = function() {
-    __origCPA();
-    // After answering, update daily streak
-    updateDailyStreak();
-    // If wrong, add to spaced rep
-    const session = state.practice;
-    if (session && session.currentQ) {
-      const lastResult = state.recentResults[state.recentResults.length - 1];
-      if (lastResult && !lastResult.correct) {
-        addToSpacedRep(session.currentQ.id);
-      } else if (lastResult && lastResult.correct) {
-        // If in spaced rep and got it right, advance it
-        const sr = (state.spacedRep || []).find(s => s.id === session.currentQ.id);
-        if (sr) addToSpacedRep(session.currentQ.id);
-      }
-    }
-  };
+  html += '<button class="btn btn-outline btn-sm mt-8" onclick="copyProgressReport()">📋 Copy Progress Report</button>';
+
+  document.getElementById('statsScreen').innerHTML = html;
 }
 
+function copyProgressReport() {
+  const total=state.totalCorrect+state.totalWrong;
+  const pct=total>0?Math.round(state.totalCorrect/total*100):0;
+  const est=getEstimatedScore();
+  const ds=state.dailyStreak||{count:0};
+  let t=`📊 SAT PREP PROGRESS — ${new Date().toLocaleDateString()}\n`;
+  t+=`Student: ${activeProfile.name}\n`;
+  t+=`Questions: ${total} · Accuracy: ${pct}%\n`;
+  t+=`Streak: ${ds.count} days · Sessions: ${state.sessionsCompleted}\n`;
+  if(est) t+=`Est. Score: ${est.low}–${est.high}\n`;
+  navigator.clipboard.writeText(t).catch(()=>{});
+}
 
+/* ═══════════════════════════════════════════════════════
+   SETTINGS
+   ═══════════════════════════════════════════════════════ */
+function renderSettings() {
+  document.getElementById('settingSound').checked = state.settings?.sound !== false;
+  document.getElementById('settingKbd').checked = state.settings?.kbd !== false;
+  document.getElementById('settingsQCount').textContent = ALL_QS.length + ' questions';
+  document.getElementById('settingsProfile').innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <span class="avatar" style="background:${activeProfile.color};width:40px;height:40px;font-size:18px">${activeProfile.name[0].toUpperCase()}</span>
+      <div><div style="font-weight:700">${activeProfile.name}</div><div style="font-size:12px;color:var(--text-sec)">Current profile</div></div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="showModal('switchUserModal')">Switch User</button>
+  `;
+}
+function updateSetting(key, val) { if(!state.settings) state.settings={}; state.settings[key]=val; saveState(); }
+function resetProgress() { state=defaultState(); ALL_DOMAINS.forEach(d=>{state.domainStats[d.key]={correct:0,wrong:0};}); saveState(); navigateTo('home'); }
 
-// Hook premium features into init
+/* ═══════════════════════════════════════════════════════
+   SOUND EFFECTS
+   ═══════════════════════════════════════════════════════ */
+let audioCtx = null;
+function getAudio() { if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+function playTone(freq, dur) { try{const a=getAudio(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=freq;o.type='sine';g.gain.value=0.1;o.start();g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+dur);o.stop(a.currentTime+dur);}catch(e){} }
+function playCorrect() { playTone(523,0.1); setTimeout(()=>playTone(659,0.15),100); }
+function playWrong() { playTone(200,0.2); }
 
-const _origInit = init;
-init = function() {
-  _origInit();
-  renderPremiumDashboard();
-};
+/* ═══════════════════════════════════════════════════════
+   CONFETTI
+   ═══════════════════════════════════════════════════════ */
+function spawnConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#e74c3c','#3498db','#27ae60','#f7b731','#9b59b6','#1abc9c'];
+  const burst = document.createElement('div');
+  burst.className = 'confetti-burst';
+  burst.style.left = '50%'; burst.style.top = '40%';
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.background = colors[i % colors.length];
+    p.style.setProperty('--tx', (Math.random()-0.5)*120+'px');
+    p.style.setProperty('--ty', (Math.random()-0.5)*100-30+'px');
+    p.style.setProperty('--r', Math.random()*360+'deg');
+    burst.appendChild(p);
+  }
+  container.appendChild(burst);
+  setTimeout(() => burst.remove(), 1000);
+}
 
-// Also hook into renderDashboard to refresh premium features
-const _origRD = renderDashboard;
-renderDashboard = function() {
-  _origRD();
-  renderPremiumDashboard();
-};
+/* ═══════════════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+   ═══════════════════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (state.settings?.kbd === false) return;
+  const key = e.key.toUpperCase();
+  if (['A','B','C','D'].includes(key) || ['1','2','3','4'].includes(key)) {
+    const idx = 'ABCD'.includes(key) ? 'ABCD'.indexOf(key) : parseInt(key)-1;
+    const cards = document.querySelectorAll('.choice-card:not(.disabled)');
+    if (cards.length > idx) cards[idx].click();
+  }
+  if (e.key === 'Enter') {
+    const nextBtn = document.querySelector('#practiceNextArea:not([style*="display:none"]) .btn-primary');
+    if (nextBtn) nextBtn.click();
+  }
+  if (e.key === ' ' && currentScreen === 'timedTest') { e.preventDefault(); toggleTimedFlag(); }
+  if (e.key === 'Escape') navigateTo('home');
+});
 
-// Re-run init with premium features
-init();
+/* ═══════════════════════════════════════════════════════
+   UTILITY
+   ═══════════════════════════════════════════════════════ */
+function shuffle(arr) { for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+function toggleCollapse(el) {
+  const body = el.nextElementSibling;
+  body.classList.toggle('open');
+  el.querySelector('.chevron').style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
 
+/* ═══════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════ */
+loadProfiles();
+if (activeProfile) { enterApp(); }
+else { showProfileScreen(); }
 </script>
 </body>
 </html>
