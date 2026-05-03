@@ -1,14 +1,22 @@
 /* ====== SETTINGS ====== */
 
 function showSettings() {
-  var syncText = lastCloudSync > 0 ? 'Last synced: ' + new Date(lastCloudSync).toLocaleTimeString() : 'Not synced yet';
+  var syncText;
+  if (lastCloudSync > 0) {
+    var ago = Math.round((Date.now() - lastCloudSync) / 1000);
+    if (ago < 60) syncText = '\u2705 Synced ' + ago + 's ago';
+    else if (ago < 3600) syncText = '\u2705 Synced ' + Math.round(ago/60) + 'm ago';
+    else syncText = '\u2705 Last synced: ' + new Date(lastCloudSync).toLocaleTimeString();
+  } else {
+    syncText = '\u26a0\ufe0f Not synced yet';
+  }
   var html = '<div class="fade-in"><h2>Settings</h2>';
   html += '<div class="card"><p style="font-weight:600;margin-bottom:8px">' + activeProfile.name + '</p>';
   html += '<p class="text-sm">Profile</p></div>';
   // Cloud sync status
   html += '<div class="card"><h3 style="font-size:15px;margin-bottom:10px">☁️ Cloud Sync</h3>';
   html += '<p class="text-sm mb-8">' + syncText + '</p>';
-  html += '<p class="text-sm mb-8" style="font-size:11px;color:#94a3b8">Profiles sync automatically across all devices. Any device with the link sees the same profiles.</p>';
+  html += '<p class="text-sm mb-8" style="font-size:11px;color:#94a3b8">Auto-syncs every 60 seconds and after each answer. All devices with the link share the same data.</p>';
   html += '<button class="btn btn-primary btn-sm mb-8" style="width:100%" onclick="manualSync()">🔄 Sync Now</button>';
   html += '</div>';
   html += '<div class="card">';
@@ -28,9 +36,12 @@ function showSettings() {
 }
 
 function manualSync() {
-  var btn = event.target;
-  btn.textContent = 'Syncing...';
-  btn.disabled = true;
+  var btns = document.querySelectorAll('button');
+  var btn = null;
+  for (var bi = 0; bi < btns.length; bi++) {
+    if (btns[bi].textContent.includes('Sync Now')) { btn = btns[bi]; break; }
+  }
+  if (btn) { btn.textContent = 'Syncing...'; btn.disabled = true; }
   // First push local to cloud
   cloudSave();
   // Then pull cloud to local
