@@ -27,6 +27,9 @@ input[type="text"]:focus { border-color: #0d9488; }
 .choice.correct .choice-letter { background: #22c55e; color: white; }
 .choice.wrong .choice-letter { background: #ef4444; color: white; }
 .passage-card { font-size: 14px; line-height: 1.6; padding: 16px; background: #f8fafc; border-left: 3px solid #6366f1; border-radius: 8px; margin-bottom: 16px; color: #334155; }
+.q-text { font-size: 20px; line-height: 1.6; font-weight: 600; }
+.choice.selected { border-color: #0d9488; background: #f0fdfa; box-shadow: 0 0 0 2px #0d9488; }
+.submit-row { margin-top: 12px; }
 .pill { display: inline-block; padding: 8px 16px; border-radius: 20px; border: 2px solid #e2e8f0; background: white; font-size: 14px; font-weight: 500; cursor: pointer; margin: 0 4px 8px 0; transition: all 0.2s; }
 .pill.active { background: #0d9488; color: white; border-color: #0d9488; }
 .pill:hover { border-color: #0d9488; }
