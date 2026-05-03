@@ -1,5 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #0f172a; min-height: 100vh; padding-bottom: 70px; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #0f172a; min-height: 100dvh; min-height: -webkit-fill-available; padding-bottom: 70px; }
 #app { max-width: 480px; margin: 0 auto; padding: 16px; }
 h1 { font-size: 24px; font-weight: 800; }
 h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
@@ -98,10 +98,26 @@ i { font-style: italic; font-family: 'Cambria Math', Georgia, serif; }
 .km { white-space: nowrap; }
 
 
-/* Prevent pull-to-refresh on mobile */
-html, body { overscroll-behavior-y: contain; }
-html { overflow: hidden; height: 100%; }
-body { overflow-y: auto; height: 100%; -webkit-overflow-scrolling: touch; }
+/* Mobile viewport & scroll fixes */
+body { 
+  overscroll-behavior-y: contain;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+html { height: -webkit-fill-available; }
+
+/* Sticky header for home screen (user + score always visible) */
+.home-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #f8fafc;
+  padding: 8px 0 12px;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
 
 /* Strikethrough on answer choices */
 .choice.crossed { opacity: 0.4; text-decoration: line-through; border-color: #e2e8f0 !important; background: #f8fafc !important; box-shadow: none !important; }
