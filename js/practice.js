@@ -251,7 +251,7 @@ function practiceAnswer(idx) {
   }
   var fb = '<div class="card mt-12 fade-in">';
   fb += '<p style="font-weight:700;color:' + (correct ? '#22c55e' : '#ef4444') + '">' + (correct ? '&#10004; Correct!' : '&#10008; Incorrect') + '</p>';
-  fb += '<p class="text-sm mt-8">' + (q.explanation || '') + '</p>';
+  fb += '<p class="text-sm mt-8">' + cleanMath(q.explanation || '') + '</p>';
   if (!correct) {
     fb += '<div style="margin-top:10px;padding:10px;background:#fef2f2;border-radius:8px;border-left:3px solid #ef4444">';
     fb += '<p style="font-weight:600;font-size:13px;color:#b91c1c;margin-bottom:4px">Why wrong answers fail:</p>';
