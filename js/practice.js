@@ -254,12 +254,15 @@ function practiceAnswer(idx) {
   fb += '<p class="text-sm mt-8">' + cleanMath(q.explanation || '') + '</p>';
   if (!correct) {
     fb += '<div style="margin-top:10px;padding:10px;background:#fef2f2;border-radius:8px;border-left:3px solid #ef4444">';
-    fb += '<p style="font-weight:600;font-size:13px;color:#b91c1c;margin-bottom:4px">Why wrong answers fail:</p>';
+    fb += '<p style="font-weight:600;font-size:13px;color:#b91c1c;margin-bottom:6px">Why the other choices are wrong:</p>';
     for (var wi = 0; wi < q.answers.length; wi++) {
-      if (wi === q.correct || wi === idx) continue;
+      if (wi === q.correct) continue;
       var wrongLetter = String.fromCharCode(65 + wi);
-      fb += '<p style="font-size:12px;color:#64748b;margin-top:3px"><b>' + wrongLetter + ')</b> ' + cleanMath(q.answers[wi]) + ' &mdash; does not satisfy the given conditions.</p>';
-      break;
+      var isYourPick = wi === idx;
+      fb += '<p style="font-size:12px;color:' + (isYourPick ? '#b91c1c' : '#64748b') + ';margin-top:4px">';
+      fb += '<b>' + wrongLetter + ')</b> ' + cleanMath(q.answers[wi]);
+      if (isYourPick) fb += ' <span style="font-size:11px;background:#fecaca;padding:1px 6px;border-radius:4px;margin-left:4px">your answer</span>';
+      fb += '</p>';
     }
     fb += '</div>';
   }
