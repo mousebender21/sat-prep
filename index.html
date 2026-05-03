@@ -98,7 +98,14 @@ i { font-style: italic; font-family: 'Cambria Math', Georgia, serif; }
 .formula-card table { width:100%;border-collapse:collapse;font-size:12px;margin-top:4px; }
 .formula-card th,.formula-card td { padding:4px 6px;border:1px solid #e2e8f0;text-align:center; }
 .formula-card th { background:#f1f5f9;font-weight:600;color:#64748b; }
+
+/* KaTeX overrides */
+.katex { font-size: 1.05em !important; }
+.km { white-space: nowrap; }
 </style>
+<!-- KaTeX Math Rendering -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -107,12 +114,15 @@ i { font-style: italic; font-family: 'Cambria Math', Georgia, serif; }
   <div class="nav-item" onclick="navTo('practice')"><span class="nav-icon">&#128221;</span>Practice</div>
   <div class="nav-item" onclick="navTo('test')"><span class="nav-icon">&#9201;</span>Test</div>
   <div class="nav-item" onclick="navTo('stats')"><span class="nav-icon">&#128202;</span>Stats</div>
+  <span id="syncStatus" style="position:absolute;top:-16px;right:8px;font-size:10px;color:#94a3b8"></span>
 </div>
 <div class="timer-bar" id="timerBar">
   <span id="timerDisplay">35:00</span>
   <span id="timerQCount">1/22</span>
 </div>
 <script>
+
+/* ====== MATH QUESTIONS ====== */
 const MATH_QUESTIONS = [
 // ═══════════════════════════════════════════════════════════════
   //  DOMAIN 1: ALGEBRA  (24 questions, m1–m24)
@@ -3596,6 +3606,7 @@ const MATH_QUESTIONS = [
   }
 ];
 
+/* ====== R&W QUESTIONS ====== */
 const RW_QUESTIONS = [
 {
   id:"r1",
@@ -7447,6 +7458,7 @@ const RW_QUESTIONS = [
   }
 ];
 
+/* ====== MARINE THEME ====== */
 var THEME_MARINE = [
   // MATH: ALGEBRA (5 questions)
   {
@@ -8065,11 +8077,8 @@ var THEME_MARINE = [
   }
 ];
 
+/* ====== CONFIG ====== */
 
-
-/* ============================================================
-   CONFIGURATION
-   ============================================================ */
 var DOMAIN_MAP = {
   'Algebra':'algebra','Advanced Math':'advanced-math',
   'Problem Solving & Data Analysis':'data-analysis',
@@ -8083,10 +8092,6 @@ var DIFF_MAP = {1:'easy',2:'medium',3:'hard'};
 var MATH_DOMAINS = ['algebra','advanced-math','data-analysis','geometry'];
 var RW_DOMAINS = ['craft-structure','info-ideas','standard-english','expression-ideas'];
 var ALL_DOMAIN_KEYS = MATH_DOMAINS.concat(RW_DOMAINS);
-var DOMAIN_LABELS = {
-  'algebra':'Algebra','advanced-math':'Advanced Math','data-analysis':'Data Analysis','geometry':'Geometry',
-  'craft-structure':'Craft & Structure','info-ideas':'Information & Ideas','standard-english':'Standard English','expression-ideas':'Expression of Ideas'
-};
 var COLORS = ['#0d9488','#6366f1','#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#f97316'];
 var DAY = 86400000;
 var profiles = [];
@@ -8113,9 +8118,12 @@ var consecutiveCorrect = 0;
 var consecutiveWrong = 0;
 var milestoneShown = {};
 
-/* ============================================================
-   NORMALIZE
-   ============================================================ */
+var DOMAIN_LABELS = {
+  'algebra':'Algebra','advanced-math':'Advanced Math','data-analysis':'Data Analysis','geometry':'Geometry',
+  'craft-structure':'Craft & Structure','info-ideas':'Information & Ideas','standard-english':'Standard English','expression-ideas':'Expression of Ideas'
+};
+
+/* ============================================================ */
 function normalize(arr) {
   for (var i = 0; i < arr.length; i++) {
     var q = arr[i];
@@ -8134,15 +8142,10 @@ function normalize(arr) {
     if (!q.difficulty) q.difficulty = 'medium';
   }
 }
-normalize(MATH_QUESTIONS);
-normalize(RW_QUESTIONS);
-normalize(THEME_MARINE);
-ALL_QS = MATH_QUESTIONS.concat(RW_QUESTIONS);
 
-/* ============================================================
-   UTILITY
-   ============================================================ */
+/* ============================================================ */
 function getApp() { return document.getElementById('app'); }
+
 function shuffle(arr) {
   var a = arr.slice();
   var seed = Date.now() + Math.random() * 10000;
@@ -8153,44 +8156,228 @@ function shuffle(arr) {
   }
   return a;
 }
+
 function defaultState() {
   var ds = {};
   for (var i = 0; i < ALL_DOMAIN_KEYS.length; i++) ds[ALL_DOMAIN_KEYS[i]] = {c:0,w:0};
   return { correct:0, wrong:0, streak:0, bestStreak:0, domainStats:ds, spacedRep:[], qotdId:null, qotdDate:null, qotdAnswered:false, settings:{sound:false,keyboard:true}, sessionHistory:[], timedHistory:[] };
 }
-function saveState() { try { localStorage.setItem('sat-state-'+activeProfile.id, JSON.stringify(state)); } catch(e){} }
-function loadState() { try { var s = JSON.parse(localStorage.getItem('sat-state-'+activeProfile.id)); state = s ? Object.assign(defaultState(), s) : defaultState(); } catch(e){ state = defaultState(); } }
-function saveProfiles() { try { localStorage.setItem('sat-profiles', JSON.stringify(profiles)); } catch(e){} }
-function loadProfiles() { try { profiles = JSON.parse(localStorage.getItem('sat-profiles')) || []; } catch(e){ profiles = []; } }
+
 function getEstScore() {
   var total = state.correct + state.wrong;
   if (total < 5) return '?';
   var pct = state.correct / total;
   return Math.round(400 + pct * 1200);
 }
+
 function getDayKey() { var d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+
 function isMath(q) { return MATH_DOMAINS.indexOf(q.domain) >= 0; }
 
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-function navTo(screen) {
-  var nav = document.getElementById('bottomNav');
-  var items = nav.querySelectorAll('.nav-item');
-  for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
-  if (screen === 'home') { items[0].classList.add('active'); showHome(); }
-  else if (screen === 'practice') { items[1].classList.add('active'); showPracticeSetup(); }
-  else if (screen === 'test') { items[2].classList.add('active'); showTestSetup(); }
-  else if (screen === 'stats') { items[3].classList.add('active'); showStats(); }
-  document.getElementById('timerBar').style.display = 'none';
-  if (timedTimer) { clearInterval(timedTimer); timedTimer = null; }
-}
-function showNav() { document.getElementById('bottomNav').style.display = 'flex'; }
-function hideNav() { document.getElementById('bottomNav').style.display = 'none'; }
 
-/* ============================================================
-   PROFILES
-   ============================================================ */
+
+function getVisual(qId) {
+  // Right triangles
+  if (qId === 'm86') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="30,170 230,170 30,30" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="30" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="20" y="105" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">8</text><text x="130" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">15</text><text x="140" y="90" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">?</text><text x="30" y="185" font-size="12" fill="#64748b" font-family="system-ui">C</text><text x="235" y="185" font-size="12" fill="#64748b" font-family="system-ui">B</text><text x="22" y="25" font-size="12" fill="#64748b" font-family="system-ui">A</text></svg>';
+  if (qId === 'm184') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="30,170 220,170 30,40" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="30" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="20" y="110" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">5</text><text x="125" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">12</text><text x="135" y="95" font-size="14" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">hyp</text></svg>';
+  if (qId === 'm273') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="40,170 200,170 40,50" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="40" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="30" y="115" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">3</text><text x="120" y="190" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">?</text><text x="130" y="100" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">5</text></svg>';
+  if (qId === 'm282') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="30,170 250,170 30,30" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="30" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="20" y="105" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">7</text><text x="140" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">24</text><text x="150" y="90" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">?</text></svg>';
+  if (qId === 'm289') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="40,170 240,170 40,20" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="40" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="30" y="100" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">9</text><text x="140" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">40</text><text x="150" y="85" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">41</text></svg>';
+  // 30-60-90 triangle
+  if (qId === 'm83') return '<svg viewBox="0 0 280 220" width="280" style="max-width:100%"><polygon points="40,190 240,190 40,30" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="40" y="175" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="30" y="115" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">7</text><text x="140" y="210" font-size="14" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">?</text><text x="150" y="100" font-size="14" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">hyp?</text><text x="55" y="195" font-size="11" fill="#64748b" font-family="system-ui">30&#176;</text><text x="220" y="186" font-size="11" fill="#64748b" font-family="system-ui">60&#176;</text></svg>';
+  // Similar triangles
+  if (qId === 'm81') return '<svg viewBox="0 0 300 180" width="280" style="max-width:100%"><polygon points="20,150 100,150 20,60" fill="none" stroke="#0d9488" stroke-width="2"/><polygon points="150,150 280,150 150,20" fill="none" stroke="#6366f1" stroke-width="2"/><text x="10" y="110" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">4</text><text x="60" y="168" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">3</text><text x="65" y="100" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui">5</text><text x="215" y="168" font-size="12" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">?</text><text x="140" y="90" font-size="12" fill="#6366f1" font-weight="600" font-family="system-ui">12.5</text></svg>';
+  // Equilateral triangle
+  if (qId === 'm275') return '<svg viewBox="0 0 260 220" width="260" style="max-width:100%"><polygon points="130,20 30,190 230,190" fill="none" stroke="#0d9488" stroke-width="2.5"/><text x="130" y="210" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">4 cm</text><text x="70" y="110" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">4 cm</text><text x="190" y="110" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui">4 cm</text><text x="130" y="195" font-size="11" fill="#64748b" font-family="system-ui" text-anchor="middle">60&#176;</text><text x="55" y="185" font-size="11" fill="#64748b" font-family="system-ui">60&#176;</text><text x="200" y="185" font-size="11" fill="#64748b" font-family="system-ui">60&#176;</text></svg>';
+  // Circle with arc
+  if (qId === 'm78') return '<svg viewBox="0 0 260 260" width="240" style="max-width:100%"><circle cx="130" cy="130" r="95" fill="none" stroke="#e2e8f0" stroke-width="2"/><line x1="130" y1="130" x2="225" y2="130" stroke="#0d9488" stroke-width="2"/><line x1="130" y1="130" x2="196" y2="60" stroke="#0d9488" stroke-width="2"/><path d="M 225 130 A 95 95 0 0 0 196 60" stroke="#6366f1" stroke-width="3" fill="none"/><text x="175" y="145" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui">r=10</text><text x="160" y="80" font-size="13" fill="#64748b" font-family="system-ui">72&#176;</text><text x="218" y="90" font-size="13" fill="#6366f1" font-weight="700" font-family="system-ui">arc?</text><circle cx="130" cy="130" r="3" fill="#0d9488"/></svg>';
+  // Circle with sector
+  if (qId === 'm79') return '<svg viewBox="0 0 260 260" width="240" style="max-width:100%"><circle cx="130" cy="130" r="95" fill="none" stroke="#e2e8f0" stroke-width="2"/><path d="M 130 130 L 225 130 A 95 95 0 0 0 130 35 Z" fill="rgba(99,102,241,0.1)" stroke="#6366f1" stroke-width="2"/><text x="175" y="145" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui">r=8</text><text x="170" y="100" font-size="13" fill="#64748b" font-family="system-ui">90&#176;</text><circle cx="130" cy="130" r="3" fill="#0d9488"/></svg>';
+  // Bar charts
+  if (qId === 'm68') return '<svg viewBox="0 0 300 200" width="280" style="max-width:100%"><line x1="40" y1="170" x2="290" y2="170" stroke="#64748b" stroke-width="1"/><line x1="40" y1="170" x2="40" y2="20" stroke="#64748b" stroke-width="1"/><rect x="55" y="62" width="30" height="108" fill="#0d9488" rx="3"/><rect x="95" y="72" width="30" height="98" fill="#14b8a6" rx="3"/><rect x="135" y="90" width="30" height="80" fill="#0d9488" rx="3"/><rect x="175" y="108" width="30" height="62" fill="#14b8a6" rx="3"/><rect x="215" y="44" width="30" height="126" fill="#0d9488" rx="3"/><rect x="255" y="26" width="30" height="144" fill="#14b8a6" rx="3"/><text x="70" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Jan</text><text x="110" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Feb</text><text x="150" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Mar</text><text x="190" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Apr</text><text x="230" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">May</text><text x="270" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Jun</text><text x="70" y="57" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">4.2</text><text x="110" y="67" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">3.8</text><text x="150" y="85" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">3.1</text><text x="190" y="103" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">2.4</text><text x="230" y="39" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">4.9</text><text x="270" y="21" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">5.6</text><text x="15" y="15" font-size="10" fill="#64748b" font-family="system-ui">in.</text></svg>';
+  if (qId === 'm168') return '<svg viewBox="0 0 280 200" width="260" style="max-width:100%"><line x1="40" y1="170" x2="260" y2="170" stroke="#64748b" stroke-width="1"/><line x1="40" y1="170" x2="40" y2="20" stroke="#64748b" stroke-width="1"/><rect x="55" y="70" width="40" height="100" fill="#0d9488" rx="3"/><rect x="110" y="48" width="40" height="122" fill="#14b8a6" rx="3"/><rect x="165" y="60" width="40" height="110" fill="#0d9488" rx="3"/><rect x="220" y="36" width="40" height="134" fill="#14b8a6" rx="3"/><text x="75" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2020</text><text x="130" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2021</text><text x="185" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2022</text><text x="240" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2023</text><text x="75" y="65" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">120</text><text x="130" y="43" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">145</text><text x="185" y="55" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">130</text><text x="240" y="31" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">160</text><text x="15" y="15" font-size="10" fill="#64748b" font-family="system-ui">tons</text></svg>';
+  // Scatterplot
+  if (qId === 'm60') return '<svg viewBox="0 0 280 220" width="270" style="max-width:100%"><line x1="40" y1="190" x2="270" y2="190" stroke="#64748b" stroke-width="1"/><line x1="40" y1="190" x2="40" y2="20" stroke="#64748b" stroke-width="1"/><circle cx="60" cy="170" r="4" fill="#6366f1"/><circle cx="80" cy="155" r="4" fill="#6366f1"/><circle cx="100" cy="140" r="4" fill="#6366f1"/><circle cx="110" cy="145" r="4" fill="#6366f1"/><circle cx="130" cy="120" r="4" fill="#6366f1"/><circle cx="150" cy="110" r="4" fill="#6366f1"/><circle cx="160" cy="100" r="4" fill="#6366f1"/><circle cx="180" cy="85" r="4" fill="#6366f1"/><circle cx="200" cy="75" r="4" fill="#6366f1"/><circle cx="220" cy="60" r="4" fill="#6366f1"/><circle cx="240" cy="50" r="4" fill="#6366f1"/><circle cx="250" cy="55" r="4" fill="#6366f1"/><line x1="50" y1="175" x2="260" y2="45" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="4,3"/><text x="155" y="208" font-size="11" fill="#64748b" font-family="system-ui" text-anchor="middle">Hours studied</text><text x="15" y="105" font-size="11" fill="#64748b" font-family="system-ui" transform="rotate(-90,15,105)">Score</text></svg>';
+  // Rectangle
+  if (qId === 'm93') return '<svg viewBox="0 0 280 180" width="260" style="max-width:100%"><rect x="40" y="30" width="200" height="110" fill="none" stroke="#0d9488" stroke-width="2.5" rx="2"/><text x="140" y="20" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">length</text><text x="260" y="90" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui">width</text><text x="140" y="160" font-size="12" fill="#64748b" font-family="system-ui" text-anchor="middle">Perimeter = 56 cm</text></svg>';
+  // Trapezoid
+  if (qId === 'm183') return '<svg viewBox="0 0 280 180" width="260" style="max-width:100%"><polygon points="60,30 220,30 260,140 20,140" fill="none" stroke="#0d9488" stroke-width="2.5"/><text x="140" y="22" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">8 m</text><text x="140" y="160" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">12 m</text><line x1="140" y1="30" x2="140" y2="140" stroke="#64748b" stroke-width="1" stroke-dasharray="4,3"/><text x="148" y="90" font-size="12" fill="#6366f1" font-weight="600" font-family="system-ui">5 m</text></svg>';
+  // Running track (rectangle + semicircles)
+  if (qId === 'm74') return '<svg viewBox="0 0 300 160" width="280" style="max-width:100%"><rect x="70" y="20" width="160" height="110" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/><path d="M 70 20 A 55 55 0 0 0 70 130" stroke="#0d9488" stroke-width="2.5" fill="none"/><path d="M 230 20 A 55 55 0 0 1 230 130" stroke="#0d9488" stroke-width="2.5" fill="none"/><line x1="70" y1="20" x2="230" y2="20" stroke="#0d9488" stroke-width="2.5"/><line x1="70" y1="130" x2="230" y2="130" stroke="#0d9488" stroke-width="2.5"/><text x="150" y="13" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">100 m</text><text x="250" y="80" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui">60 m</text></svg>';
+  return '';
+}
+
+
+
+function cleanMath(s) {
+  if (!s) return '';
+  if (!/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^]/.test(s)) return s;
+  var t = s;
+  t = t.replace(/²/g, '^{2}');
+  t = t.replace(/³/g, '^{3}');
+  t = t.replace(/⁴/g, '^{4}');
+  t = t.replace(/⁵/g, '^{5}');
+  t = t.replace(/⁶/g, '^{6}');
+  t = t.replace(/⁷/g, '^{7}');
+  t = t.replace(/⁸/g, '^{8}');
+  t = t.replace(/⁹/g, '^{9}');
+  t = t.replace(/⁰/g, '^{0}');
+  t = t.replace(/ⁿ/g, '^{n}');
+  t = t.replace(/ˣ/g, '^{x}');
+  t = t.replace(/ʸ/g, '^{y}');
+  t = t.replace(/ᵐ/g, '^{m}');
+  t = t.replace(/ᵗ/g, '^{t}');
+  t = t.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
+  t = t.replace(/√(\d+)/g, '\\sqrt{$1}');
+  t = t.replace(/√([a-zA-Z])/g, '\\sqrt{$1}');
+  // Check if pure math (no English words)
+  var words = t.split(/\s+/);
+  var eng = 0;
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i].replace(/[^a-zA-Z]/g, '');
+    if (w.length > 2 && !/^(sqrt|frac|log|sin|cos|tan|max|min|abs|mod)$/i.test(w)) eng++;
+  }
+  if (eng === 0) {
+    // Pure math — wrap entire expression, convert fractions
+    t = t.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    t = t.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
+    t = t.replace(/(\w+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    return '<span class="km">' + t + '</span>';
+  }
+  // Mixed text+math — find math regions
+  var result = [];
+  var mathBuf = [];
+  function flushMath() {
+    if (mathBuf.length === 0) return;
+    var m = mathBuf.join(' ');
+    m = m.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    m = m.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
+    result.push('<span class="km">' + m + '</span>');
+    mathBuf = [];
+  }
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i];
+    var hasMath = /[\^{}\\]/.test(w) || /^\d/.test(w) || /^[a-zA-Z][\^(]/.test(w) || /^[(]/.test(w) || /[=<>+×·≤≥≠]/.test(w) || w === '−';
+    if (hasMath) { mathBuf.push(w); }
+    else { flushMath(); result.push(w); }
+  }
+  flushMath();
+  return result.join(' ');
+}
+
+
+// Auto-render math whenever #app content changes
+var _mathObserver = null;
+function setupMathObserver() {
+  var app = document.getElementById('app');
+  if (!app || _mathObserver) return;
+  _mathObserver = new MutationObserver(function() {
+    renderMath();
+  });
+  _mathObserver.observe(app, { childList: true, subtree: true });
+}
+
+function renderMath() {
+  if (typeof katex === 'undefined') return;
+  var els = document.querySelectorAll('.km');
+  for (var i = 0; i < els.length; i++) {
+    if (els[i].classList.contains('kd')) continue;
+    var tex = els[i].textContent;
+    try {
+      katex.render(tex, els[i], { throwOnError: false, displayMode: false });
+      els[i].classList.add('kd');
+    } catch(e) { /* leave as plain text */ }
+  }
+}
+
+
+/* ====== CLOUD SYNC ====== */
+
+var CLOUD_URL = 'https://api.npoint.io/3ca380c0dcae8008ce4a';
+var cloudSyncPending = false;
+var lastCloudSync = 0;
+
+function cloudSave() {
+  if (cloudSyncPending) return;
+  cloudSyncPending = true;
+  var data = { profiles: profiles, states: {} };
+  for (var i = 0; i < profiles.length; i++) {
+    try {
+      var s = localStorage.getItem('sat-state-' + profiles[i].id);
+      if (s) data.states[profiles[i].id] = JSON.parse(s);
+    } catch(e) {}
+  }
+  fetch(CLOUD_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(function() {
+    cloudSyncPending = false;
+    lastCloudSync = Date.now();
+    var el = document.getElementById('syncStatus');
+    if (el) el.textContent = '☁️ Synced';
+  }).catch(function(e) {
+    cloudSyncPending = false;
+    console.log('Cloud save failed:', e);
+    var el = document.getElementById('syncStatus');
+    if (el) el.textContent = '⚠️ Offline';
+  });
+}
+
+function cloudLoad(callback) {
+  fetch(CLOUD_URL).then(function(r) { return r.json(); }).then(function(data) {
+    if (data && data.profiles && Array.isArray(data.profiles)) {
+      // Merge cloud profiles with local
+      var localIds = {};
+      for (var i = 0; i < profiles.length; i++) localIds[profiles[i].id] = i;
+      for (var j = 0; j < data.profiles.length; j++) {
+        var cp = data.profiles[j];
+        if (localIds[cp.id] !== undefined) {
+          // Update existing
+          profiles[localIds[cp.id]] = cp;
+        } else {
+          // Add new from cloud
+          profiles.push(cp);
+        }
+        // Import state data from cloud
+        if (data.states && data.states[cp.id]) {
+          // Cloud state wins if local has fewer questions answered
+          try {
+            var localState = JSON.parse(localStorage.getItem('sat-state-' + cp.id));
+            var cloudState = data.states[cp.id];
+            var localTotal = (localState ? (localState.correct||0) + (localState.wrong||0) : 0);
+            var cloudTotal = (cloudState.correct||0) + (cloudState.wrong||0);
+            if (cloudTotal >= localTotal) {
+              localStorage.setItem('sat-state-' + cp.id, JSON.stringify(cloudState));
+            }
+          } catch(e) {
+            localStorage.setItem('sat-state-' + cp.id, JSON.stringify(data.states[cp.id]));
+          }
+        }
+      }
+      saveProfiles();
+      lastCloudSync = Date.now();
+    }
+    if (callback) callback(true);
+  }).catch(function(e) {
+    console.log('Cloud load failed (offline mode):', e);
+    if (callback) callback(false);
+  });
+}
+
+
+
+/* ====== PROFILES ====== */
+
+function saveState() { try { localStorage.setItem('sat-state-'+activeProfile.id, JSON.stringify(state)); } catch(e){} cloudSave(); }
+
+function loadState() { try { var s = JSON.parse(localStorage.getItem('sat-state-'+activeProfile.id)); state = s ? Object.assign(defaultState(), s) : defaultState(); } catch(e){ state = defaultState(); } }
+
+function saveProfiles() { try { localStorage.setItem('sat-profiles', JSON.stringify(profiles)); } catch(e){} }
+
+function loadProfiles() { try { profiles = JSON.parse(localStorage.getItem('sat-profiles')) || []; } catch(e){ profiles = []; } }
+
+/* ============================================================ */
 function showProfiles() {
   hideNav();
   var html = '<div class="text-center" style="padding-top:40px">';
@@ -8207,6 +8394,7 @@ function showProfiles() {
   getApp().innerHTML = html;
   renderProfileList();
 }
+
 function renderProfileList() {
   var el = document.getElementById('profileList');
   if (!el) return;
@@ -8221,11 +8409,14 @@ function renderProfileList() {
   }
   el.innerHTML = html;
 }
+
 function showNewProfile() {
   document.getElementById('newProfileArea').classList.remove('hidden');
   document.getElementById('nameInput').focus();
 }
+
 function cancelNew() { document.getElementById('newProfileArea').classList.add('hidden'); }
+
 function createProfile() {
   var name = document.getElementById('nameInput').value.trim();
   if (!name) return;
@@ -8235,8 +8426,10 @@ function createProfile() {
   activeProfile = p;
   try { localStorage.setItem('sat-active', p.id); } catch(e){}
   loadState();
+  cloudSave();
   showMajorSurvey();
 }
+
 function showMajorSurvey() {
   hideNav();
   var html = '<div class="text-center" style="padding-top:20px">';
@@ -8262,12 +8455,14 @@ function showMajorSurvey() {
   html += '</div>';
   getApp().innerHTML = html;
 }
+
 function pickMajor(key) {
   activeProfile.major = key;
   saveProfiles();
   showNav();
   showHome();
 }
+
 function selectProfile(i) {
   activeProfile = profiles[i];
   try { localStorage.setItem('sat-active', activeProfile.id); } catch(e){}
@@ -8275,19 +8470,53 @@ function selectProfile(i) {
   showNav();
   showHome();
 }
+
 function deleteProfile(i) {
   if (!confirm('Delete ' + profiles[i].name + '?')) return;
   var id = profiles[i].id;
   profiles.splice(i, 1);
   saveProfiles();
   try { localStorage.removeItem('sat-state-'+id); } catch(e){}
+  cloudSave();
   if (activeProfile && activeProfile.id === id) { activeProfile = null; showProfiles(); }
   else renderProfileList();
 }
 
-/* ============================================================
-   HOME
-   ============================================================ */
+function switchUser() { activeProfile = null; try{localStorage.removeItem('sat-active');}catch(e){} showProfiles(); }
+
+function resetProgress() {
+  if (!confirm('Reset all progress for ' + activeProfile.name + '?')) return;
+  state = defaultState();
+  saveState();
+  navTo('home');
+}
+
+
+
+/* ====== NAVIGATION ====== */
+
+/* ============================================================ */
+function navTo(screen) {
+  var nav = document.getElementById('bottomNav');
+  var items = nav.querySelectorAll('.nav-item');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
+  if (screen === 'home') { items[0].classList.add('active'); showHome(); }
+  else if (screen === 'practice') { items[1].classList.add('active'); showPracticeSetup(); }
+  else if (screen === 'test') { items[2].classList.add('active'); showTestSetup(); }
+  else if (screen === 'stats') { items[3].classList.add('active'); showStats(); }
+  document.getElementById('timerBar').style.display = 'none';
+  if (timedTimer) { clearInterval(timedTimer); timedTimer = null; }
+}
+
+function showNav() { document.getElementById('bottomNav').style.display = 'flex'; }
+
+function hideNav() { document.getElementById('bottomNav').style.display = 'none'; }
+
+
+
+/* ====== HOME SCREEN ====== */
+
+/* ============================================================ */
 function showHome() {
   showNav();
   var total = state.correct + state.wrong;
@@ -8380,9 +8609,7 @@ function showHome() {
   getApp().innerHTML = html;
 }
 
-/* ============================================================
-   QOTD
-   ============================================================ */
+/* ============================================================ */
 function buildQOTD() {
   if (ALL_QS.length === 0) return '';
   var today = getDayKey();
@@ -8406,6 +8633,7 @@ function buildQOTD() {
     '<div><div style="font-weight:700;color:#d97706">Question of the Day</div>' +
     '<div class="text-sm">Tap to answer</div></div></div></div>';
 }
+
 function startQOTD() {
   var q = null;
   for (var i = 0; i < ALL_QS.length; i++) {
@@ -8420,9 +8648,7 @@ function startQOTD() {
   saveState();
 }
 
-/* ============================================================
-   SPACED REP
-   ============================================================ */
+/* ============================================================ */
 function getSRCount() {
   var now = Date.now();
   var count = 0;
@@ -8431,6 +8657,7 @@ function getSRCount() {
   }
   return count;
 }
+
 function startSR() {
   var now = Date.now();
   var due = [];
@@ -8449,6 +8676,7 @@ function startSR() {
   srAnswered = false;
   showSRQ();
 }
+
 function showSRQ() {
   if (srIdx >= srQueue.length) { navTo('home'); return; }
   srAnswered = false;
@@ -8468,6 +8696,7 @@ function showSRQ() {
   html += '</div><div id="srFeedback"></div>';
   getApp().innerHTML = html;
 }
+
 function srAnswer(idx) {
   if (srAnswered) return;
   srAnswered = true;
@@ -8498,42 +8727,95 @@ function srAnswer(idx) {
   fb += '<button class="btn btn-primary mt-12" onclick="nextSR()">Next</button></div>';
   document.getElementById('srFeedback').innerHTML = fb;
 }
+
 function nextSR() { srIdx++; showSRQ(); }
 
-
-function cleanMath(s) {
-  if (!s) return '';
-  // STEP 1: Convert fractions FIRST (before radicals, so √2/2 → fraction with √2 in numerator)
-  // (expr)/(expr)
-  s = s.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // (expr)/number
-  s = s.replace(/\(([^()]+)\)\/(\d+)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // number/(expr)
-  s = s.replace(/([\d]+)\/\(([^()]+)\)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // √number/number (radical fraction like √2/2, √3/2)
-  s = s.replace(/(√\d+)\/(\d+)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // simple number/number
-  s = s.replace(/(^|[\s=>,])([−\-]?\d+)\/(\d+)(?=$|[\s<.,;)"])/g, function(m, pre, num, den) {
-    return pre + '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // STEP 2: Convert radicals AFTER fractions (so √2 in numerators gets treated)
-  var radSVG = '<span style="white-space:nowrap;display:inline-flex;align-items:flex-end"><svg width="12" height="16" viewBox="0 0 12 16" style="vertical-align:bottom;margin-bottom:-1px"><path d="M1 9 L4 15 L10 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="border-top:1.5px solid currentColor;padding:0 2px;display:inline-block;margin-left:-2px;line-height:1.2">';
-  var radEnd = '</span></span>';
-  s = s.replace(/√\(([^)]+)\)/g, radSVG + '$1' + radEnd);
-  s = s.replace(/√(\d+)/g, radSVG + '$1' + radEnd);
-  return s;
+function addToSR(qId) {
+  for (var i = 0; i < state.spacedRep.length; i++) {
+    if (state.spacedRep[i].id === qId) { state.spacedRep[i].interval = 1; state.spacedRep[i].dueAt = Date.now() + DAY; return; }
+  }
+  state.spacedRep.push({ id: qId, interval: 1, dueAt: Date.now() + DAY });
 }
-/* ============================================================
-   PRACTICE SETUP
-   ============================================================ */
+
+/* ============================================================ */
+function showFormulaSheet() {
+  hideNav();
+  var k = function(tex) { return '<span class="km">' + tex + '</span>'; };
+  var html = '<div style="padding:16px 16px 100px;max-width:520px;margin:0 auto">';
+  html += '<h2 style="font-size:20px;margin-bottom:16px">📐 Formula Reference</h2>';
+
+  // Algebra (teal)
+  html += '<div style="background:#f0fdfa;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #14b8a6">';
+  html += '<div style="font-weight:700;color:#0d9488;margin-bottom:10px">Algebra</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Slope:</b> ' + k('m = \\frac{y_2 - y_1}{x_2 - x_1}') + '<br>';
+  html += '<b>Slope-Intercept:</b> ' + k('y = mx + b') + '<br>';
+  html += '<b>Point-Slope:</b> ' + k('y - y_1 = m(x - x_1)') + '<br>';
+  html += '<b>Standard Form:</b> ' + k('Ax + By = C') + '<br>';
+  html += '<b>Direct Variation:</b> ' + k('y = kx') + '<br>';
+  html += '<b>Midpoint:</b> ' + k('\\left(\\frac{x_1+x_2}{2},\\frac{y_1+y_2}{2}\\right)') + '<br>';
+  html += '<b>Distance:</b> ' + k('d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}') + '</div></div>';
+
+  // Advanced Math (indigo)
+  html += '<div style="background:#eef2ff;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #6366f1">';
+  html += '<div style="font-weight:700;color:#4f46e5;margin-bottom:10px">Advanced Math</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Quadratic Formula:</b> ' + k('x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}') + '<br>';
+  html += '<b>Vertex Form:</b> ' + k('f(x) = a(x-h)^2 + k') + '<br>';
+  html += '<b>Discriminant:</b> ' + k('\\Delta = b^2 - 4ac') + '<br>';
+  html += '<b>Difference of Squares:</b> ' + k('a^2 - b^2 = (a+b)(a-b)') + '<br>';
+  html += '<b>Exponent Rules:</b> ' + k('a^m \\cdot a^n = a^{m+n}') + ' &nbsp; ' + k('\\frac{a^m}{a^n} = a^{m-n}') + ' &nbsp; ' + k('(a^m)^n = a^{mn}') + '<br>';
+  html += '<b>Negative Exp:</b> ' + k('a^{-n} = \\frac{1}{a^n}') + '</div></div>';
+
+  // Geometry (amber)
+  html += '<div style="background:#fffbeb;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #f59e0b">';
+  html += '<div style="font-weight:700;color:#d97706;margin-bottom:10px">Geometry & Trigonometry</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Circle Area:</b> ' + k('A = \\pi r^2') + ' &nbsp; <b>Circumference:</b> ' + k('C = 2\\pi r') + '<br>';
+  html += '<b>Arc Length:</b> ' + k('s = r\\theta') + ' &nbsp; <b>Sector Area:</b> ' + k('A = \\frac{1}{2}r^2\\theta') + '<br>';
+  html += '<b>Triangle Area:</b> ' + k('A = \\frac{1}{2}bh') + '<br>';
+  html += '<b>Pythagorean:</b> ' + k('a^2 + b^2 = c^2') + '<br>';
+  html += '<b>Rectangle:</b> ' + k('A = lw') + ' &nbsp; <b>Trapezoid:</b> ' + k('A = \\frac{1}{2}(b_1 + b_2)h') + '<br>';
+  html += '<b>Cylinder Vol:</b> ' + k('V = \\pi r^2 h') + ' &nbsp; <b>Sphere Vol:</b> ' + k('V = \\frac{4}{3}\\pi r^3') + '<br>';
+  html += '<b>Cone Vol:</b> ' + k('V = \\frac{1}{3}\\pi r^2 h') + '</div></div>';
+
+  // Special Triangles (pink)
+  html += '<div style="background:#fdf2f8;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #ec4899">';
+  html += '<div style="font-weight:700;color:#db2777;margin-bottom:10px">Special Right Triangles</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>45-45-90:</b> sides ' + k('1 : 1 : \\sqrt{2}') + '<br>';
+  html += '<b>30-60-90:</b> sides ' + k('1 : \\sqrt{3} : 2') + '</div></div>';
+
+  // Trig Values (purple)
+  html += '<div style="background:#f5f3ff;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #8b5cf6">';
+  html += '<div style="font-weight:700;color:#7c3aed;margin-bottom:10px">Trig Values</div>';
+  html += '<table style="width:100%;font-size:14px;border-collapse:collapse;text-align:center">';
+  html += '<tr style="border-bottom:1.5px solid #ddd6fe"><th style="padding:6px">θ</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>';
+  html += '<tr style="border-bottom:1px solid #ede9fe"><td style="font-weight:600;padding:6px">sin</td><td>0</td><td>' + k('\\frac{1}{2}') + '</td><td>' + k('\\frac{\\sqrt{2}}{2}') + '</td><td>' + k('\\frac{\\sqrt{3}}{2}') + '</td><td>1</td></tr>';
+  html += '<tr style="border-bottom:1px solid #ede9fe"><td style="font-weight:600;padding:6px">cos</td><td>1</td><td>' + k('\\frac{\\sqrt{3}}{2}') + '</td><td>' + k('\\frac{\\sqrt{2}}{2}') + '</td><td>' + k('\\frac{1}{2}') + '</td><td>0</td></tr>';
+  html += '<tr><td style="font-weight:600;padding:6px">tan</td><td>0</td><td>' + k('\\frac{\\sqrt{3}}{3}') + '</td><td>1</td><td>' + k('\\sqrt{3}') + '</td><td>∞</td></tr>';
+  html += '</table></div>';
+
+  // Data & Statistics (teal)
+  html += '<div style="background:#f0fdfa;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #14b8a6">';
+  html += '<div style="font-weight:700;color:#0d9488;margin-bottom:10px">Data & Statistics</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Mean:</b> ' + k('\\bar{x} = \\frac{\\sum x_i}{n}') + '<br>';
+  html += '<b>Probability:</b> ' + k('P(A) = \\frac{\\text{favorable}}{\\text{total}}') + '<br>';
+  html += '<b>Linear:</b> ' + k('y = a + bx') + ' &nbsp;|&nbsp; <b>Exponential:</b> ' + k('y = a \\cdot b^x') + '</div></div>';
+
+  html += '<button class="btn btn-outline mt-8" onclick="navTo(' + "'home'" + ')">← Back</button>';
+  html += '</div>';
+  getApp().innerHTML = html;
+}
+
+
+
+/* ====== PRACTICE MODE ====== */
+
+var _pSec = 'all', _pDiff = 'all', _pDoms = [];
+
+/* ============================================================ */
 function showPracticeSetup() {
   showNav();
   var html = '<h2>Practice</h2>';
@@ -8556,7 +8838,7 @@ function showPracticeSetup() {
   updateDomainPills();
   updatePoolCount();
 }
-var _pSec = 'all', _pDiff = 'all', _pDoms = [];
+
 function setSec(val, el) {
   _pSec = val;
   _pDoms = [];
@@ -8566,6 +8848,7 @@ function setSec(val, el) {
   updateDomainPills();
   updatePoolCount();
 }
+
 function setDiff(val, el) {
   _pDiff = val;
   var pills = el.parentElement.querySelectorAll('.pill');
@@ -8573,12 +8856,14 @@ function setDiff(val, el) {
   el.classList.add('active');
   updatePoolCount();
 }
+
 function toggleDom(key, el) {
   var idx = _pDoms.indexOf(key);
   if (idx >= 0) { _pDoms.splice(idx, 1); el.classList.remove('active'); }
   else { _pDoms.push(key); el.classList.add('active'); }
   updatePoolCount();
 }
+
 function updateDomainPills() {
   var area = document.getElementById('domainArea');
   if (!area) return;
@@ -8599,11 +8884,13 @@ function updateDomainPills() {
   html += '</div>';
   area.innerHTML = html;
 }
+
 function updatePoolCount() {
   var pool = buildPool();
   var el = document.getElementById('poolCount');
   if (el) el.textContent = pool.length + ' questions available';
 }
+
 function buildPool() {
   var pool = [];
   if (_pSec === 'all' || _pSec === 'math') pool = pool.concat(MATH_QUESTIONS);
@@ -8615,6 +8902,7 @@ function buildPool() {
   if (_pDoms.length > 0) pool = pool.filter(function(q){ return _pDoms.indexOf(q.domain) >= 0; });
   return pool;
 }
+
 function startPractice() {
   practicePool = shuffle(buildPool());
   practiceIdx = 0;
@@ -8641,37 +8929,6 @@ function startPractice() {
   }
   if (practicePool.length === 0) { getApp().innerHTML = '<div class="card text-center fade-in"><p>No questions match your filters.</p><button class="btn btn-outline mt-12" onclick="navTo(' + "'home'" + ')">Home</button></div>'; return; }
   showQuestion();
-}
-
-function getVisual(qId) {
-  // Right triangles
-  if (qId === 'm86') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="30,170 230,170 30,30" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="30" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="20" y="105" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">8</text><text x="130" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">15</text><text x="140" y="90" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">?</text><text x="30" y="185" font-size="12" fill="#64748b" font-family="system-ui">C</text><text x="235" y="185" font-size="12" fill="#64748b" font-family="system-ui">B</text><text x="22" y="25" font-size="12" fill="#64748b" font-family="system-ui">A</text></svg>';
-  if (qId === 'm184') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="30,170 220,170 30,40" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="30" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="20" y="110" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">5</text><text x="125" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">12</text><text x="135" y="95" font-size="14" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">hyp</text></svg>';
-  if (qId === 'm273') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="40,170 200,170 40,50" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="40" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="30" y="115" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">3</text><text x="120" y="190" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">?</text><text x="130" y="100" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">5</text></svg>';
-  if (qId === 'm282') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="30,170 250,170 30,30" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="30" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="20" y="105" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">7</text><text x="140" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">24</text><text x="150" y="90" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">?</text></svg>';
-  if (qId === 'm289') return '<svg viewBox="0 0 280 200" width="280" style="max-width:100%"><polygon points="40,170 240,170 40,20" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="40" y="155" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="30" y="100" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">9</text><text x="140" y="190" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">40</text><text x="150" y="85" font-size="14" fill="#6366f1" font-weight="700" font-family="system-ui" text-anchor="middle">41</text></svg>';
-  // 30-60-90 triangle
-  if (qId === 'm83') return '<svg viewBox="0 0 280 220" width="280" style="max-width:100%"><polygon points="40,190 240,190 40,30" fill="none" stroke="#0d9488" stroke-width="2.5"/><rect x="40" y="175" width="15" height="15" fill="none" stroke="#64748b" stroke-width="1.5"/><text x="30" y="115" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">7</text><text x="140" y="210" font-size="14" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">?</text><text x="150" y="100" font-size="14" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">hyp?</text><text x="55" y="195" font-size="11" fill="#64748b" font-family="system-ui">30&#176;</text><text x="220" y="186" font-size="11" fill="#64748b" font-family="system-ui">60&#176;</text></svg>';
-  // Similar triangles
-  if (qId === 'm81') return '<svg viewBox="0 0 300 180" width="280" style="max-width:100%"><polygon points="20,150 100,150 20,60" fill="none" stroke="#0d9488" stroke-width="2"/><polygon points="150,150 280,150 150,20" fill="none" stroke="#6366f1" stroke-width="2"/><text x="10" y="110" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">4</text><text x="60" y="168" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">3</text><text x="65" y="100" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui">5</text><text x="215" y="168" font-size="12" fill="#6366f1" font-weight="600" font-family="system-ui" text-anchor="middle">?</text><text x="140" y="90" font-size="12" fill="#6366f1" font-weight="600" font-family="system-ui">12.5</text></svg>';
-  // Equilateral triangle
-  if (qId === 'm275') return '<svg viewBox="0 0 260 220" width="260" style="max-width:100%"><polygon points="130,20 30,190 230,190" fill="none" stroke="#0d9488" stroke-width="2.5"/><text x="130" y="210" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">4 cm</text><text x="70" y="110" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="end">4 cm</text><text x="190" y="110" font-size="14" fill="#0d9488" font-weight="600" font-family="system-ui">4 cm</text><text x="130" y="195" font-size="11" fill="#64748b" font-family="system-ui" text-anchor="middle">60&#176;</text><text x="55" y="185" font-size="11" fill="#64748b" font-family="system-ui">60&#176;</text><text x="200" y="185" font-size="11" fill="#64748b" font-family="system-ui">60&#176;</text></svg>';
-  // Circle with arc
-  if (qId === 'm78') return '<svg viewBox="0 0 260 260" width="240" style="max-width:100%"><circle cx="130" cy="130" r="95" fill="none" stroke="#e2e8f0" stroke-width="2"/><line x1="130" y1="130" x2="225" y2="130" stroke="#0d9488" stroke-width="2"/><line x1="130" y1="130" x2="196" y2="60" stroke="#0d9488" stroke-width="2"/><path d="M 225 130 A 95 95 0 0 0 196 60" stroke="#6366f1" stroke-width="3" fill="none"/><text x="175" y="145" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui">r=10</text><text x="160" y="80" font-size="13" fill="#64748b" font-family="system-ui">72&#176;</text><text x="218" y="90" font-size="13" fill="#6366f1" font-weight="700" font-family="system-ui">arc?</text><circle cx="130" cy="130" r="3" fill="#0d9488"/></svg>';
-  // Circle with sector
-  if (qId === 'm79') return '<svg viewBox="0 0 260 260" width="240" style="max-width:100%"><circle cx="130" cy="130" r="95" fill="none" stroke="#e2e8f0" stroke-width="2"/><path d="M 130 130 L 225 130 A 95 95 0 0 0 130 35 Z" fill="rgba(99,102,241,0.1)" stroke="#6366f1" stroke-width="2"/><text x="175" y="145" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui">r=8</text><text x="170" y="100" font-size="13" fill="#64748b" font-family="system-ui">90&#176;</text><circle cx="130" cy="130" r="3" fill="#0d9488"/></svg>';
-  // Bar charts
-  if (qId === 'm68') return '<svg viewBox="0 0 300 200" width="280" style="max-width:100%"><line x1="40" y1="170" x2="290" y2="170" stroke="#64748b" stroke-width="1"/><line x1="40" y1="170" x2="40" y2="20" stroke="#64748b" stroke-width="1"/><rect x="55" y="62" width="30" height="108" fill="#0d9488" rx="3"/><rect x="95" y="72" width="30" height="98" fill="#14b8a6" rx="3"/><rect x="135" y="90" width="30" height="80" fill="#0d9488" rx="3"/><rect x="175" y="108" width="30" height="62" fill="#14b8a6" rx="3"/><rect x="215" y="44" width="30" height="126" fill="#0d9488" rx="3"/><rect x="255" y="26" width="30" height="144" fill="#14b8a6" rx="3"/><text x="70" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Jan</text><text x="110" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Feb</text><text x="150" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Mar</text><text x="190" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Apr</text><text x="230" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">May</text><text x="270" y="185" font-size="9" fill="#64748b" font-family="system-ui" text-anchor="middle">Jun</text><text x="70" y="57" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">4.2</text><text x="110" y="67" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">3.8</text><text x="150" y="85" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">3.1</text><text x="190" y="103" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">2.4</text><text x="230" y="39" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">4.9</text><text x="270" y="21" font-size="9" fill="#0d9488" font-family="system-ui" text-anchor="middle">5.6</text><text x="15" y="15" font-size="10" fill="#64748b" font-family="system-ui">in.</text></svg>';
-  if (qId === 'm168') return '<svg viewBox="0 0 280 200" width="260" style="max-width:100%"><line x1="40" y1="170" x2="260" y2="170" stroke="#64748b" stroke-width="1"/><line x1="40" y1="170" x2="40" y2="20" stroke="#64748b" stroke-width="1"/><rect x="55" y="70" width="40" height="100" fill="#0d9488" rx="3"/><rect x="110" y="48" width="40" height="122" fill="#14b8a6" rx="3"/><rect x="165" y="60" width="40" height="110" fill="#0d9488" rx="3"/><rect x="220" y="36" width="40" height="134" fill="#14b8a6" rx="3"/><text x="75" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2020</text><text x="130" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2021</text><text x="185" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2022</text><text x="240" y="185" font-size="10" fill="#64748b" font-family="system-ui" text-anchor="middle">2023</text><text x="75" y="65" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">120</text><text x="130" y="43" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">145</text><text x="185" y="55" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">130</text><text x="240" y="31" font-size="10" fill="#0d9488" font-family="system-ui" text-anchor="middle">160</text><text x="15" y="15" font-size="10" fill="#64748b" font-family="system-ui">tons</text></svg>';
-  // Scatterplot
-  if (qId === 'm60') return '<svg viewBox="0 0 280 220" width="270" style="max-width:100%"><line x1="40" y1="190" x2="270" y2="190" stroke="#64748b" stroke-width="1"/><line x1="40" y1="190" x2="40" y2="20" stroke="#64748b" stroke-width="1"/><circle cx="60" cy="170" r="4" fill="#6366f1"/><circle cx="80" cy="155" r="4" fill="#6366f1"/><circle cx="100" cy="140" r="4" fill="#6366f1"/><circle cx="110" cy="145" r="4" fill="#6366f1"/><circle cx="130" cy="120" r="4" fill="#6366f1"/><circle cx="150" cy="110" r="4" fill="#6366f1"/><circle cx="160" cy="100" r="4" fill="#6366f1"/><circle cx="180" cy="85" r="4" fill="#6366f1"/><circle cx="200" cy="75" r="4" fill="#6366f1"/><circle cx="220" cy="60" r="4" fill="#6366f1"/><circle cx="240" cy="50" r="4" fill="#6366f1"/><circle cx="250" cy="55" r="4" fill="#6366f1"/><line x1="50" y1="175" x2="260" y2="45" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="4,3"/><text x="155" y="208" font-size="11" fill="#64748b" font-family="system-ui" text-anchor="middle">Hours studied</text><text x="15" y="105" font-size="11" fill="#64748b" font-family="system-ui" transform="rotate(-90,15,105)">Score</text></svg>';
-  // Rectangle
-  if (qId === 'm93') return '<svg viewBox="0 0 280 180" width="260" style="max-width:100%"><rect x="40" y="30" width="200" height="110" fill="none" stroke="#0d9488" stroke-width="2.5" rx="2"/><text x="140" y="20" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">length</text><text x="260" y="90" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui">width</text><text x="140" y="160" font-size="12" fill="#64748b" font-family="system-ui" text-anchor="middle">Perimeter = 56 cm</text></svg>';
-  // Trapezoid
-  if (qId === 'm183') return '<svg viewBox="0 0 280 180" width="260" style="max-width:100%"><polygon points="60,30 220,30 260,140 20,140" fill="none" stroke="#0d9488" stroke-width="2.5"/><text x="140" y="22" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">8 m</text><text x="140" y="160" font-size="13" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">12 m</text><line x1="140" y1="30" x2="140" y2="140" stroke="#64748b" stroke-width="1" stroke-dasharray="4,3"/><text x="148" y="90" font-size="12" fill="#6366f1" font-weight="600" font-family="system-ui">5 m</text></svg>';
-  // Running track (rectangle + semicircles)
-  if (qId === 'm74') return '<svg viewBox="0 0 300 160" width="280" style="max-width:100%"><rect x="70" y="20" width="160" height="110" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/><path d="M 70 20 A 55 55 0 0 0 70 130" stroke="#0d9488" stroke-width="2.5" fill="none"/><path d="M 230 20 A 55 55 0 0 1 230 130" stroke="#0d9488" stroke-width="2.5" fill="none"/><line x1="70" y1="20" x2="230" y2="20" stroke="#0d9488" stroke-width="2.5"/><line x1="70" y1="130" x2="230" y2="130" stroke="#0d9488" stroke-width="2.5"/><text x="150" y="13" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui" text-anchor="middle">100 m</text><text x="250" y="80" font-size="12" fill="#0d9488" font-weight="600" font-family="system-ui">60 m</text></svg>';
-  return '';
 }
 
 function showQuestion() {
@@ -8704,6 +8961,7 @@ function showQuestion() {
   html += '</div><div id="practiceFeedback"></div>';
   getApp().innerHTML = html;
 }
+
 function practiceAnswer(idx) {
   if (practiceAnswered) return;
   practiceAnswered = true;
@@ -8756,13 +9014,9 @@ function practiceAnswer(idx) {
   document.getElementById('practiceFeedback').innerHTML = fb;
   checkMilestone();
 }
+
 function nextPractice() { practiceIdx++; showQuestion(); }
-function addToSR(qId) {
-  for (var i = 0; i < state.spacedRep.length; i++) {
-    if (state.spacedRep[i].id === qId) { state.spacedRep[i].interval = 1; state.spacedRep[i].dueAt = Date.now() + DAY; return; }
-  }
-  state.spacedRep.push({ id: qId, interval: 1, dueAt: Date.now() + DAY });
-}
+
 function showPracticeSummary() {
   var pct = practiceTotal > 0 ? Math.round(practiceCorrect / practiceTotal * 100) : 0;
   if (!state.sessionHistory) state.sessionHistory = [];
@@ -8780,9 +9034,11 @@ function showPracticeSummary() {
   getApp().innerHTML = html;
 }
 
-/* ============================================================
-   TIMED TEST
-   ============================================================ */
+
+
+/* ====== TIMED TESTS ====== */
+
+/* ============================================================ */
 function showTestSetup() {
   showNav();
   var html = '<div class="fade-in"><h2>Timed Test</h2>';
@@ -8805,6 +9061,7 @@ function showTestSetup() {
   html += '</div>';
   getApp().innerHTML = html;
 }
+
 function startTimedTest(mode) {
   hideNav();
   var pool, time;
@@ -8821,6 +9078,7 @@ function startTimedTest(mode) {
   startTimer();
   showTimedQ();
 }
+
 function startTimer() {
   if (timedTimer) clearInterval(timedTimer);
   timedTimer = setInterval(function() {
@@ -8832,6 +9090,7 @@ function startTimer() {
     if (timedTimeLeft <= 0) { clearInterval(timedTimer); timedTimer = null; endTimedTest(); }
   }, 1000);
 }
+
 function showTimedQ() {
   var q = timedQuestions[timedIdx];
   document.getElementById('timerQCount').textContent = (timedIdx+1) + '/' + timedQuestions.length;
@@ -8865,11 +9124,17 @@ function showTimedQ() {
   html += '</div>';
   getApp().innerHTML = html;
 }
+
 function timedAnswer(idx) { timedAnswers[timedIdx] = idx; showTimedQ(); }
+
 function timedNext() { if (timedIdx < timedQuestions.length - 1) { timedIdx++; showTimedQ(); } }
+
 function timedPrev() { if (timedIdx > 0) { timedIdx--; showTimedQ(); } }
+
 function timedFlag() { timedFlags[timedIdx] = !timedFlags[timedIdx]; showTimedQ(); }
+
 function jumpToTimedQ(idx) { timedIdx = idx; showTimedQ(); }
+
 function endTimedTest() {
   if (timedTimer) { clearInterval(timedTimer); timedTimer = null; }
   document.getElementById('timerBar').style.display = 'none';
@@ -8896,147 +9161,7 @@ function endTimedTest() {
   getApp().innerHTML = html;
 }
 
-/* ============================================================
-   STATS
-   ============================================================ */
-function showStats() {
-  showNav();
-  var total = state.correct + state.wrong;
-  var pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
-  var est = getEstScore();
-  var html = '<div class="fade-in"><h2>Your Stats</h2>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">';
-  html += '<div class="stat-card"><div class="stat-value">' + total + '</div><div class="stat-label">Answered</div></div>';
-  html += '<div class="stat-card"><div class="stat-value">' + est + '</div><div class="stat-label">Est. Score</div></div>';
-  html += '<div class="stat-card"><div class="stat-value">' + state.streak + '&#128293;</div><div class="stat-label">Streak</div></div>';
-  html += '<div class="stat-card"><div class="stat-value">' + state.bestStreak + '</div><div class="stat-label">Best</div></div>';
-  html += '</div>';
-  // Domain mastery
-  html += '<div class="card"><h3 style="font-size:16px;margin-bottom:12px">Domain Mastery</h3>';
-  for (var i = 0; i < ALL_DOMAIN_KEYS.length; i++) {
-    var key = ALL_DOMAIN_KEYS[i];
-    var ds = state.domainStats[key] || {c:0,w:0};
-    var dt = ds.c + ds.w;
-    var dp = dt > 0 ? Math.round(ds.c / dt * 100) : 0;
-    var label = DOMAIN_LABELS[key] || key;
-    html += '<div class="bar-row"><span class="bar-label">' + label + '</span>';
-    html += '<div class="bar"><div class="bar-fill" style="width:' + dp + '%"></div></div>';
-    html += '<span class="bar-pct">' + (dt > 0 ? dp + '%' : '-') + '</span></div>';
-  }
-  html += '</div>';
-  html += '<button class="btn btn-outline mt-8 mb-8" onclick="copyProgressReport()">&#128203; Copy Progress Report</button>';
-  html += '<button class="btn btn-outline mt-8" onclick="navTo(' + "'home'" + ')">Home</button>';
-  html += '</div>';
-  getApp().innerHTML = html;
-}
-
-/* ============================================================
-   SETTINGS
-   ============================================================ */
-function showSettings() {
-  var html = '<h2>Settings</h2>';
-  html += '<div class="card"><p style="font-weight:600;margin-bottom:8px">' + activeProfile.name + '</p>';
-  html += '<p class="text-sm">Profile</p></div>';
-  html += '<div class="card">';
-  html += '<button class="btn btn-outline btn-sm mb-8" onclick="switchUser()">Switch User</button>';
-  html += '<button class="btn btn-danger btn-sm" onclick="resetProgress()">Reset Progress</button>';
-  html += '</div>';
-  html += '<button class="btn btn-outline mt-16" onclick="navTo(' + "'home'" + ')">&#8592; Back</button>';
-  getApp().innerHTML = html;
-}
-function switchUser() { activeProfile = null; try{localStorage.removeItem('sat-active');}catch(e){} showProfiles(); }
-function resetProgress() {
-  if (!confirm('Reset all progress for ' + activeProfile.name + '?')) return;
-  state = defaultState();
-  saveState();
-  navTo('home');
-}
-
-/* ============================================================
-   INIT
-   ============================================================ */
-
-/* ============================================================
-   FORMULA SHEET
-   ============================================================ */
-function showFormulaSheet() {
-  var frac = function(n, d) { return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;margin:0 2px"><span style="border-bottom:1.5px solid currentColor;padding:0 3px;font-size:0.9em">' + n + '</span><span style="padding:0 3px;font-size:0.9em">' + d + '</span></span>'; };
-  var sup = function(x) { return '<sup style="font-size:0.7em;margin-left:-0.1em">' + x + '</sup>'; };
-  var sub = function(x) { return '<sub style="font-size:0.7em;margin-left:-0.05em">' + x + '</sub>'; };
-  var rad = function(x) { return '<span style="white-space:nowrap;display:inline-flex;align-items:flex-end"><svg width="12" height="16" viewBox="0 0 12 16" style="vertical-align:bottom;margin-bottom:-1px"><path d="M1 9 L4 15 L10 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="border-top:1.5px solid currentColor;padding:0 2px;display:inline-block;margin-left:-2px;line-height:1.2">' + x + '</span></span>'; };
-  var i = function(x) { return '<i>' + x + '</i>'; };
-  var html = '<div class="fade-in"><h2>📋 Formula Reference</h2>';
-
-  // ALGEBRA
-  html += '<div class="card" style="border-left:4px solid #0d9488"><h3 style="color:#0d9488;font-size:15px;margin-bottom:12px">📐 Algebra</h3>';
-  html += '<div style="margin-bottom:10px"><b>Slope-Intercept:</b> ' + i('y') + ' = ' + i('m') + i('x') + ' + ' + i('b') + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Point-Slope:</b> ' + i('y') + ' − ' + i('y') + sub('1') + ' = ' + i('m') + '(' + i('x') + ' − ' + i('x') + sub('1') + ')</div>';
-  html += '<div style="margin-bottom:10px"><b>Slope:</b> ' + i('m') + ' = ' + frac(i('y') + sub('2') + ' − ' + i('y') + sub('1'), i('x') + sub('2') + ' − ' + i('x') + sub('1')) + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Standard Form:</b> ' + i('Ax') + ' + ' + i('By') + ' = ' + i('C') + '</div>';
-  html += '<div><b>Midpoint:</b> (' + frac(i('x') + sub('1') + ' + ' + i('x') + sub('2'), '2') + ', ' + frac(i('y') + sub('1') + ' + ' + i('y') + sub('2'), '2') + ')</div>';
-  html += '</div>';
-
-  // ADVANCED MATH
-  html += '<div class="card" style="border-left:4px solid #6366f1"><h3 style="color:#6366f1;font-size:15px;margin-bottom:12px">🧮 Advanced Math</h3>';
-  html += '<div style="margin-bottom:10px"><b>Quadratic Formula:</b> ' + i('x') + ' = ' + frac('−' + i('b') + ' ± ' + rad(i('b') + sup('2') + ' − 4' + i('ac')), '2' + i('a')) + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Vertex Form:</b> ' + i('y') + ' = ' + i('a') + '(' + i('x') + ' − ' + i('h') + ')' + sup('2') + ' + ' + i('k') + ' <span style="font-size:11px;color:#94a3b8">vertex at (' + i('h') + ', ' + i('k') + ')</span></div>';
-  html += '<div style="margin-bottom:10px"><b>Discriminant:</b> ' + i('D') + ' = ' + i('b') + sup('2') + ' − 4' + i('ac') + ' <span style="font-size:11px;color:#94a3b8">(D&gt;0: 2 roots, D=0: 1, D&lt;0: none)</span></div>';
-  html += '<div style="margin-bottom:10px"><b>Difference of Squares:</b> ' + i('a') + sup('2') + ' − ' + i('b') + sup('2') + ' = (' + i('a') + ' + ' + i('b') + ')(' + i('a') + ' − ' + i('b') + ')</div>';
-  html += '<div><b>Exponent Rules:</b> ' + i('a') + sup('m') + ' · ' + i('a') + sup('n') + ' = ' + i('a') + sup('m+n') + ' &nbsp;|&nbsp; ' + frac(i('a') + sup('m'), i('a') + sup('n')) + ' = ' + i('a') + sup('m−n') + '</div>';
-  html += '</div>';
-
-  // GEOMETRY
-  html += '<div class="card" style="border-left:4px solid #f59e0b"><h3 style="color:#f59e0b;font-size:15px;margin-bottom:12px">📏 Geometry</h3>';
-  html += '<div style="margin-bottom:10px"><b>Distance:</b> ' + i('d') + ' = ' + rad('(' + i('x') + sub('2') + ' − ' + i('x') + sub('1') + ')' + sup('2') + ' + (' + i('y') + sub('2') + ' − ' + i('y') + sub('1') + ')' + sup('2')) + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Circle:</b> (' + i('x') + ' − ' + i('h') + ')' + sup('2') + ' + (' + i('y') + ' − ' + i('k') + ')' + sup('2') + ' = ' + i('r') + sup('2') + ' <span style="font-size:11px;color:#94a3b8">center (' + i('h') + ',' + i('k') + '), radius ' + i('r') + '</span></div>';
-  html += '<div style="margin-bottom:10px"><b>Areas:</b></div>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:14px;margin-bottom:10px">';
-  html += '<div>Triangle: ' + frac('1','2') + i('bh') + '</div>';
-  html += '<div>Circle: π' + i('r') + sup('2') + '</div>';
-  html += '<div>Rect: ' + i('lw') + '</div>';
-  html += '<div>Circumf: 2π' + i('r') + '</div>';
-  html += '<div>Trapezoid: ' + frac('1','2') + '(' + i('b') + sub('1') + ' + ' + i('b') + sub('2') + ')' + i('h') + '</div>';
-  html += '<div>Sphere SA: 4π' + i('r') + sup('2') + '</div>';
-  html += '</div>';
-  html += '<div style="margin-bottom:10px"><b>Volumes:</b></div>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:14px">';
-  html += '<div>Box: ' + i('lwh') + '</div>';
-  html += '<div>Cylinder: π' + i('r') + sup('2') + i('h') + '</div>';
-  html += '<div>Cone: ' + frac('1','3') + 'π' + i('r') + sup('2') + i('h') + '</div>';
-  html += '<div>Sphere: ' + frac('4','3') + 'π' + i('r') + sup('3') + '</div>';
-  html += '</div></div>';
-
-  // SPECIAL RIGHT TRIANGLES
-  html += '<div class="card" style="border-left:4px solid #ec4899"><h3 style="color:#ec4899;font-size:15px;margin-bottom:12px">🔺 Special Right Triangles</h3>';
-  html += '<div style="display:flex;gap:20px">';
-  html += '<div style="flex:1;text-align:center"><b>45-45-90</b><div style="font-size:14px;margin-top:6px">' + i('x') + ' : ' + i('x') + ' : ' + i('x') + rad('2') + '</div></div>';
-  html += '<div style="flex:1;text-align:center"><b>30-60-90</b><div style="font-size:14px;margin-top:6px">' + i('x') + ' : ' + i('x') + rad('3') + ' : 2' + i('x') + '</div></div>';
-  html += '</div></div>';
-
-  // TRIG VALUES TABLE
-  html += '<div class="card" style="border-left:4px solid #8b5cf6"><h3 style="color:#8b5cf6;font-size:15px;margin-bottom:12px">📐 Trig Values</h3>';
-  html += '<table style="width:100%;border-collapse:collapse;font-size:13px;text-align:center">';
-  html += '<tr style="border-bottom:2px solid #e2e8f0"><th style="padding:6px;text-align:left">θ</th><th style="padding:6px">0°</th><th style="padding:6px">30°</th><th style="padding:6px">45°</th><th style="padding:6px">60°</th><th style="padding:6px">90°</th></tr>';
-  html += '<tr style="border-bottom:1px solid #f1f5f9"><td style="padding:6px;text-align:left;font-weight:600">sin</td><td>0</td><td>' + frac('1','2') + '</td><td>' + frac(rad('2'),'2') + '</td><td>' + frac(rad('3'),'2') + '</td><td>1</td></tr>';
-  html += '<tr style="border-bottom:1px solid #f1f5f9"><td style="padding:6px;text-align:left;font-weight:600">cos</td><td>1</td><td>' + frac(rad('3'),'2') + '</td><td>' + frac(rad('2'),'2') + '</td><td>' + frac('1','2') + '</td><td>0</td></tr>';
-  html += '<tr><td style="padding:6px;text-align:left;font-weight:600">tan</td><td>0</td><td>' + frac(rad('3'),'3') + '</td><td>1</td><td>' + rad('3') + '</td><td>∞</td></tr>';
-  html += '</table></div>';
-
-  // DATA ANALYSIS
-  html += '<div class="card" style="border-left:4px solid #14b8a6"><h3 style="color:#14b8a6;font-size:15px;margin-bottom:12px">📊 Data & Statistics</h3>';
-  html += '<div style="margin-bottom:10px"><b>Mean:</b> ' + frac('Σ' + i('x'), i('n')) + ' &nbsp; <b>Probability:</b> P = ' + frac('favorable','total') + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Percent Change:</b> ' + frac('new − old','old') + ' × 100%</div>';
-  html += '<div><b>Linear:</b> ' + i('y') + ' = ' + i('mx') + ' + ' + i('b') + ' &nbsp;|&nbsp; <b>Exponential:</b> ' + i('y') + ' = ' + i('a') + ' · ' + i('b') + sup(i('x')) + '</div>';
-  html += '</div>';
-
-  html += '<button class="btn btn-outline mt-8" onclick="navTo(' + "'home'" + ')">← Back</button>';
-  html += '</div>';
-  getApp().innerHTML = html;
-}
-
-/* ============================================================
-   TIMED TEST REVIEW
-   ============================================================ */
+/* ============================================================ */
 function showTimedReview() {
   var html = '<div class="fade-in"><h2>&#128270; Answer Review</h2>';
   for (var ri = 0; ri < timedQuestions.length; ri++) {
@@ -9069,43 +9194,43 @@ function showTimedReview() {
   window.scrollTo(0, 0);
 }
 
-/* ============================================================
-   MILESTONE CHECK
-   ============================================================ */
-function checkMilestone() {
-  var milestones = [50, 100, 200, 500];
-  for (var mi = 0; mi < milestones.length; mi++) {
-    var m = milestones[mi];
-    if (state.correct >= m && !milestoneShown[m]) {
-      milestoneShown[m] = true;
-      var overlay = document.createElement('div');
-      overlay.className = 'milestone-overlay';
-      overlay.id = 'milestoneOverlay';
-      overlay.onclick = function() { dismissMilestone(); };
-      document.body.appendChild(overlay);
-      var card = document.createElement('div');
-      card.className = 'milestone-card';
-      card.id = 'milestoneCard';
-      card.innerHTML = '<div style="font-size:48px;margin-bottom:8px">&#127942;</div>' +
-        '<h3 style="color:#0d9488;margin-bottom:4px">' + m + ' Correct!</h3>' +
-        '<p style="font-size:14px;color:#64748b">Amazing milestone reached!</p>' +
-        '<button class="btn btn-primary btn-sm" style="margin-top:14px;width:auto;padding:10px 28px" onclick="dismissMilestone()">Awesome!</button>';
-      document.body.appendChild(card);
-      setTimeout(function() { dismissMilestone(); }, 4000);
-      break;
-    }
+
+
+/* ====== STATS ====== */
+
+/* ============================================================ */
+function showStats() {
+  showNav();
+  var total = state.correct + state.wrong;
+  var pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
+  var est = getEstScore();
+  var html = '<div class="fade-in"><h2>Your Stats</h2>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">';
+  html += '<div class="stat-card"><div class="stat-value">' + total + '</div><div class="stat-label">Answered</div></div>';
+  html += '<div class="stat-card"><div class="stat-value">' + est + '</div><div class="stat-label">Est. Score</div></div>';
+  html += '<div class="stat-card"><div class="stat-value">' + state.streak + '&#128293;</div><div class="stat-label">Streak</div></div>';
+  html += '<div class="stat-card"><div class="stat-value">' + state.bestStreak + '</div><div class="stat-label">Best</div></div>';
+  html += '</div>';
+  // Domain mastery
+  html += '<div class="card"><h3 style="font-size:16px;margin-bottom:12px">Domain Mastery</h3>';
+  for (var i = 0; i < ALL_DOMAIN_KEYS.length; i++) {
+    var key = ALL_DOMAIN_KEYS[i];
+    var ds = state.domainStats[key] || {c:0,w:0};
+    var dt = ds.c + ds.w;
+    var dp = dt > 0 ? Math.round(ds.c / dt * 100) : 0;
+    var label = DOMAIN_LABELS[key] || key;
+    html += '<div class="bar-row"><span class="bar-label">' + label + '</span>';
+    html += '<div class="bar"><div class="bar-fill" style="width:' + dp + '%"></div></div>';
+    html += '<span class="bar-pct">' + (dt > 0 ? dp + '%' : '-') + '</span></div>';
   }
-}
-function dismissMilestone() {
-  var ov = document.getElementById('milestoneOverlay');
-  var cd = document.getElementById('milestoneCard');
-  if (ov) ov.parentNode.removeChild(ov);
-  if (cd) cd.parentNode.removeChild(cd);
+  html += '</div>';
+  html += '<button class="btn btn-outline mt-8 mb-8" onclick="copyProgressReport()">&#128203; Copy Progress Report</button>';
+  html += '<button class="btn btn-outline mt-8" onclick="navTo(' + "'home'" + ')">Home</button>';
+  html += '</div>';
+  getApp().innerHTML = html;
 }
 
-/* ============================================================
-   COPY PROGRESS REPORT
-   ============================================================ */
+/* ============================================================ */
 function copyProgressReport() {
   var total = state.correct + state.wrong;
   var pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
@@ -9151,18 +9276,185 @@ function copyProgressReport() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  loadProfiles();
-  var savedId = null;
-  try { savedId = localStorage.getItem('sat-active'); } catch(e){}
-  if (savedId) {
-    for (var i = 0; i < profiles.length; i++) {
-      if (profiles[i].id === savedId) { activeProfile = profiles[i]; break; }
+/* ============================================================ */
+function checkMilestone() {
+  var milestones = [50, 100, 200, 500];
+  for (var mi = 0; mi < milestones.length; mi++) {
+    var m = milestones[mi];
+    if (state.correct >= m && !milestoneShown[m]) {
+      milestoneShown[m] = true;
+      var overlay = document.createElement('div');
+      overlay.className = 'milestone-overlay';
+      overlay.id = 'milestoneOverlay';
+      overlay.onclick = function() { dismissMilestone(); };
+      document.body.appendChild(overlay);
+      var card = document.createElement('div');
+      card.className = 'milestone-card';
+      card.id = 'milestoneCard';
+      card.innerHTML = '<div style="font-size:48px;margin-bottom:8px">&#127942;</div>' +
+        '<h3 style="color:#0d9488;margin-bottom:4px">' + m + ' Correct!</h3>' +
+        '<p style="font-size:14px;color:#64748b">Amazing milestone reached!</p>' +
+        '<button class="btn btn-primary btn-sm" style="margin-top:14px;width:auto;padding:10px 28px" onclick="dismissMilestone()">Awesome!</button>';
+      document.body.appendChild(card);
+      setTimeout(function() { dismissMilestone(); }, 4000);
+      break;
     }
   }
-  if (activeProfile) { loadState(); showNav(); showHome(); }
-  else { showProfiles(); }
+}
+
+function dismissMilestone() {
+  var ov = document.getElementById('milestoneOverlay');
+  var cd = document.getElementById('milestoneCard');
+  if (ov) ov.parentNode.removeChild(ov);
+  if (cd) cd.parentNode.removeChild(cd);
+}
+
+
+
+/* ====== SETTINGS ====== */
+
+function showSettings() {
+  var syncText = lastCloudSync > 0 ? 'Last synced: ' + new Date(lastCloudSync).toLocaleTimeString() : 'Not synced yet';
+  var html = '<div class="fade-in"><h2>Settings</h2>';
+  html += '<div class="card"><p style="font-weight:600;margin-bottom:8px">' + activeProfile.name + '</p>';
+  html += '<p class="text-sm">Profile</p></div>';
+  // Cloud sync status
+  html += '<div class="card"><h3 style="font-size:15px;margin-bottom:10px">☁️ Cloud Sync</h3>';
+  html += '<p class="text-sm mb-8">' + syncText + '</p>';
+  html += '<p class="text-sm mb-8" style="font-size:11px;color:#94a3b8">Profiles sync automatically across all devices. Any device with the link sees the same profiles.</p>';
+  html += '<button class="btn btn-primary btn-sm mb-8" style="width:100%" onclick="manualSync()">🔄 Sync Now</button>';
+  html += '</div>';
+  html += '<div class="card">';
+  html += '<button class="btn btn-outline btn-sm mb-8" style="width:100%" onclick="switchUser()">Switch User</button>';
+  html += '<button class="btn btn-danger btn-sm" style="width:100%" onclick="resetProgress()">Reset Progress</button>';
+  html += '</div>';
+  // Export/Import section
+  html += '<div class="card"><h3 style="font-size:15px;margin-bottom:10px">📦 Backup</h3>';
+  html += '<p class="text-sm mb-8">Download a local backup file</p>';
+  html += '<button class="btn btn-outline btn-sm mb-8" style="width:100%" onclick="exportData()">⬇ Export Backup</button>';
+  html += '<button class="btn btn-outline btn-sm mb-8" style="width:100%" onclick="triggerImport()">⬆ Import Backup</button>';
+  html += '<input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">';
+  html += '</div>';
+  html += '<button class="btn btn-outline mt-8" onclick="navTo(' + "'home'" + ')">← Back</button>';
+  html += '</div>';
+  getApp().innerHTML = html;
+}
+
+function manualSync() {
+  var btn = event.target;
+  btn.textContent = 'Syncing...';
+  btn.disabled = true;
+  // First push local to cloud
+  cloudSave();
+  // Then pull cloud to local
+  setTimeout(function() {
+    cloudLoad(function(success) {
+      if (activeProfile) loadState();
+      btn.textContent = success ? '✅ Synced!' : '⚠️ Offline';
+      btn.disabled = false;
+      setTimeout(function() { showSettings(); }, 1500);
+    });
+  }, 1000);
+}
+
+/* ============================================================ */
+
+function exportData() {
+  var data = { version: 2, exported: new Date().toISOString(), profiles: profiles, states: {} };
+  for (var i = 0; i < profiles.length; i++) {
+    try {
+      var s = localStorage.getItem('sat-state-' + profiles[i].id);
+      if (s) data.states[profiles[i].id] = JSON.parse(s);
+    } catch(e) {}
+  }
+  var json = JSON.stringify(data, null, 2);
+  var blob = new Blob([json], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'sat_progress_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  alert('Progress exported! Transfer the file to your other device via AirDrop, email, or text.');
+}
+
+function triggerImport() {
+  document.getElementById('importFile').click();
+}
+
+function importData(input) {
+  if (!input.files || !input.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      if (!data.profiles || !Array.isArray(data.profiles)) { alert('Invalid file format.'); return; }
+      var count = data.profiles.length;
+      if (!confirm('Import ' + count + ' profile(s)? This will merge with your existing data.')) return;
+      // Merge profiles (skip duplicates by ID)
+      var existingIds = {};
+      for (var i = 0; i < profiles.length; i++) existingIds[profiles[i].id] = true;
+      var added = 0;
+      var updated = 0;
+      for (var j = 0; j < data.profiles.length; j++) {
+        var p = data.profiles[j];
+        if (existingIds[p.id]) {
+          // Update existing profile
+          for (var k = 0; k < profiles.length; k++) {
+            if (profiles[k].id === p.id) { profiles[k] = p; break; }
+          }
+          updated++;
+        } else {
+          profiles.push(p);
+          added++;
+        }
+        // Import state data
+        if (data.states && data.states[p.id]) {
+          try { localStorage.setItem('sat-state-' + p.id, JSON.stringify(data.states[p.id])); } catch(e) {}
+        }
+      }
+      saveProfiles();
+      if (activeProfile) loadState();
+      alert('Imported! ' + added + ' new + ' + updated + ' updated profile(s).');
+      showSettings();
+    } catch(err) {
+      alert('Error reading file: ' + err.message);
+    }
+  };
+  reader.readAsText(input.files[0]);
+}
+
+
+
+/* ====== INIT ====== */
+
+normalize(MATH_QUESTIONS);
+normalize(RW_QUESTIONS);
+normalize(THEME_MARINE);
+ALL_QS = MATH_QUESTIONS.concat(RW_QUESTIONS);
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupMathObserver();
+
+  loadProfiles();
+  // Show loading indicator
+  getApp().innerHTML = '<div class="text-center" style="padding-top:60px"><div style="font-size:40px;margin-bottom:12px">&#128218;</div><h1 style="margin-bottom:8px">SAT Prep</h1><p class="text-sm">Syncing...</p></div>';
+  // Load from cloud, then initialize
+  cloudLoad(function(success) {
+    var savedId = null;
+    try { savedId = localStorage.getItem('sat-active'); } catch(e){}
+    if (savedId) {
+      for (var i = 0; i < profiles.length; i++) {
+        if (profiles[i].id === savedId) { activeProfile = profiles[i]; break; }
+      }
+    }
+    if (activeProfile) { loadState(); showNav(); showHome(); }
+    else { showProfiles(); }
+  });
 });
+
 
 </script>
 </body>
