@@ -96,3 +96,35 @@ i { font-style: italic; font-family: 'Cambria Math', Georgia, serif; }
 /* KaTeX overrides */
 .katex { font-size: 1.05em !important; }
 .km { white-space: nowrap; }
+
+
+/* Prevent pull-to-refresh on mobile */
+html, body { overscroll-behavior-y: contain; }
+html { overflow: hidden; height: 100%; }
+body { overflow-y: auto; height: 100%; -webkit-overflow-scrolling: touch; }
+
+/* Strikethrough on answer choices */
+.choice.crossed { opacity: 0.4; text-decoration: line-through; border-color: #e2e8f0 !important; background: #f8fafc !important; box-shadow: none !important; }
+.choice.crossed .choice-letter { background: #e2e8f0; color: #94a3b8; text-decoration: line-through; }
+.choice.crossed:hover { border-color: #e2e8f0; background: #f8fafc; }
+
+/* Calculator overlay */
+.calc-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; animation: fadeIn 0.2s ease-out; }
+.calc-container { position: fixed; top: 5vh; left: 2vw; right: 2vw; bottom: 10vh; background: white; border-radius: 16px; overflow: hidden; z-index: 201; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: fadeIn 0.3s ease-out; display: flex; flex-direction: column; }
+.calc-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; flex-shrink: 0; }
+.calc-header button { background: none; border: none; font-size: 20px; cursor: pointer; padding: 4px 8px; }
+.calc-iframe { flex: 1; border: none; width: 100%; }
+
+/* Better mobile touch targets */
+@media (pointer: coarse) {
+  .choice { min-height: 52px; padding: 16px; font-size: 16px; }
+  .pill { min-height: 40px; padding: 10px 18px; }
+  .btn { min-height: 52px; font-size: 17px; }
+  .q-text { font-size: 21px; }
+}
+
+/* Prevent text selection on answer choices (avoids accidental selection on mobile) */
+.choice { -webkit-user-select: none; user-select: none; }
+
+/* Smooth scrolling */
+#app { scroll-behavior: smooth; }
