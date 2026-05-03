@@ -155,7 +155,10 @@ function renderMath() {
 
 function cleanMath(s) {
   if (!s) return '';
-  if (!/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^]/.test(s)) return s;
+  // Trigger: any math-like character (superscripts, radicals, fractions, operators)
+  if (!/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^\/−]/.test(s)) return s;
+  // Skip if it looks like pure English (no digits, no math operators)
+  if (!/\d/.test(s) && !/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^]/.test(s)) return s;
   var t = s;
   t = t.replace(/²/g, '^{2}');
   t = t.replace(/³/g, '^{3}');
@@ -174,7 +177,7 @@ function cleanMath(s) {
   t = t.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
   t = t.replace(/√(\d+)/g, '\\sqrt{$1}');
   t = t.replace(/√([a-zA-Z])/g, '\\sqrt{$1}');
-  // Check if pure math (no English words)
+  // Check if pure math (no English words > 2 chars)
   var words = t.split(/\s+/);
   var eng = 0;
   for (var i = 0; i < words.length; i++) {
@@ -182,10 +185,11 @@ function cleanMath(s) {
     if (w.length > 2 && !/^(sqrt|frac|log|sin|cos|tan|max|min|abs|mod)$/i.test(w)) eng++;
   }
   if (eng === 0) {
-    // Pure math — wrap entire expression, convert fractions
+    // Pure math — convert all fraction patterns
     t = t.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
     t = t.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
     t = t.replace(/(\w+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    t = t.replace(/(^|[+\-−=\s,])(\d+)\/(\d+)(?=$|[+\-−=\s,<>])/g, function(m,pre,n,d){ return pre + '\\frac{' + n + '}{' + d + '}'; });
     return '<span class="km">' + t + '</span>';
   }
   // Mixed text+math — find math regions
@@ -196,12 +200,14 @@ function cleanMath(s) {
     var m = mathBuf.join(' ');
     m = m.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
     m = m.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
+    m = m.replace(/(\w+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    m = m.replace(/(^|[+\-−=\s])(\d+)\/(\d+)(?=$|[+\-−=\s,<>])/g, function(mm,pre,n,d){ return pre + '\\frac{' + n + '}{' + d + '}'; });
     result.push('<span class="km">' + m + '</span>');
     mathBuf = [];
   }
   for (var i = 0; i < words.length; i++) {
     var w = words[i];
-    var hasMath = /[\^{}\\]/.test(w) || /^\d/.test(w) || /^[a-zA-Z][\^(]/.test(w) || /^[(]/.test(w) || /[=<>+×·≤≥≠]/.test(w) || w === '−';
+    var hasMath = /[\^{}\\\/]/.test(w) || /^\d/.test(w) || /^[a-zA-Z][\^(]/.test(w) || /^[(]/.test(w) || /[=<>+×·≤≥≠]/.test(w) || w === '−' || /^[−\-]\d/.test(w) || /\d[a-zA-Z]/.test(w);
     if (hasMath) { mathBuf.push(w); }
     else { flushMath(); result.push(w); }
   }
