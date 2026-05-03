@@ -223,74 +223,70 @@ function addToSR(qId) {
 
 /* ============================================================ */
 function showFormulaSheet() {
-  var frac = function(n, d) { return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;margin:0 2px"><span style="border-bottom:1.5px solid currentColor;padding:0 3px;font-size:0.9em">' + n + '</span><span style="padding:0 3px;font-size:0.9em">' + d + '</span></span>'; };
-  var sup = function(x) { return '<sup style="font-size:0.7em;margin-left:-0.1em">' + x + '</sup>'; };
-  var sub = function(x) { return '<sub style="font-size:0.7em;margin-left:-0.05em">' + x + '</sub>'; };
-  var rad = function(x) { return '<span style="white-space:nowrap;display:inline-flex;align-items:stretch;line-height:1"><span style="font-size:1.2em;line-height:1;margin-right:-1px">√</span><span style="border-top:1.5px solid currentColor;padding:1px 3px 0 1px;display:inline-flex;align-items:center;margin-top:1px">' + x + '</span></span>'; };
-  var i = function(x) { return '<i>' + x + '</i>'; };
-  var html = '<div class="fade-in"><h2>📋 Formula Reference</h2>';
+  hideNav();
+  var k = function(tex) { return '<span class="km">' + tex + '</span>'; };
+  var html = '<div style="padding:16px 16px 100px;max-width:520px;margin:0 auto">';
+  html += '<h2 style="font-size:20px;margin-bottom:16px">📐 Formula Reference</h2>';
 
-  // ALGEBRA
-  html += '<div class="card" style="border-left:4px solid #0d9488"><h3 style="color:#0d9488;font-size:15px;margin-bottom:12px">📐 Algebra</h3>';
-  html += '<div style="margin-bottom:10px"><b>Slope-Intercept:</b> ' + i('y') + ' = ' + i('m') + i('x') + ' + ' + i('b') + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Point-Slope:</b> ' + i('y') + ' − ' + i('y') + sub('1') + ' = ' + i('m') + '(' + i('x') + ' − ' + i('x') + sub('1') + ')</div>';
-  html += '<div style="margin-bottom:10px"><b>Slope:</b> ' + i('m') + ' = ' + frac(i('y') + sub('2') + ' − ' + i('y') + sub('1'), i('x') + sub('2') + ' − ' + i('x') + sub('1')) + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Standard Form:</b> ' + i('Ax') + ' + ' + i('By') + ' = ' + i('C') + '</div>';
-  html += '<div><b>Midpoint:</b> (' + frac(i('x') + sub('1') + ' + ' + i('x') + sub('2'), '2') + ', ' + frac(i('y') + sub('1') + ' + ' + i('y') + sub('2'), '2') + ')</div>';
-  html += '</div>';
+  // Algebra (teal)
+  html += '<div style="background:#f0fdfa;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #14b8a6">';
+  html += '<div style="font-weight:700;color:#0d9488;margin-bottom:10px">Algebra</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Slope:</b> ' + k('m = \\frac{y_2 - y_1}{x_2 - x_1}') + '<br>';
+  html += '<b>Slope-Intercept:</b> ' + k('y = mx + b') + '<br>';
+  html += '<b>Point-Slope:</b> ' + k('y - y_1 = m(x - x_1)') + '<br>';
+  html += '<b>Standard Form:</b> ' + k('Ax + By = C') + '<br>';
+  html += '<b>Direct Variation:</b> ' + k('y = kx') + '<br>';
+  html += '<b>Midpoint:</b> ' + k('\\left(\\frac{x_1+x_2}{2},\\frac{y_1+y_2}{2}\\right)') + '<br>';
+  html += '<b>Distance:</b> ' + k('d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}') + '</div></div>';
 
-  // ADVANCED MATH
-  html += '<div class="card" style="border-left:4px solid #6366f1"><h3 style="color:#6366f1;font-size:15px;margin-bottom:12px">🧮 Advanced Math</h3>';
-  html += '<div style="margin-bottom:10px"><b>Quadratic Formula:</b> ' + i('x') + ' = ' + frac('−' + i('b') + ' ± ' + rad(i('b') + sup('2') + ' − 4' + i('ac')), '2' + i('a')) + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Vertex Form:</b> ' + i('y') + ' = ' + i('a') + '(' + i('x') + ' − ' + i('h') + ')' + sup('2') + ' + ' + i('k') + ' <span style="font-size:11px;color:#94a3b8">vertex at (' + i('h') + ', ' + i('k') + ')</span></div>';
-  html += '<div style="margin-bottom:10px"><b>Discriminant:</b> ' + i('D') + ' = ' + i('b') + sup('2') + ' − 4' + i('ac') + ' <span style="font-size:11px;color:#94a3b8">(D&gt;0: 2 roots, D=0: 1, D&lt;0: none)</span></div>';
-  html += '<div style="margin-bottom:10px"><b>Difference of Squares:</b> ' + i('a') + sup('2') + ' − ' + i('b') + sup('2') + ' = (' + i('a') + ' + ' + i('b') + ')(' + i('a') + ' − ' + i('b') + ')</div>';
-  html += '<div><b>Exponent Rules:</b> ' + i('a') + sup('m') + ' · ' + i('a') + sup('n') + ' = ' + i('a') + sup('m+n') + ' &nbsp;|&nbsp; ' + frac(i('a') + sup('m'), i('a') + sup('n')) + ' = ' + i('a') + sup('m−n') + '</div>';
-  html += '</div>';
+  // Advanced Math (indigo)
+  html += '<div style="background:#eef2ff;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #6366f1">';
+  html += '<div style="font-weight:700;color:#4f46e5;margin-bottom:10px">Advanced Math</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Quadratic Formula:</b> ' + k('x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}') + '<br>';
+  html += '<b>Vertex Form:</b> ' + k('f(x) = a(x-h)^2 + k') + '<br>';
+  html += '<b>Discriminant:</b> ' + k('\\Delta = b^2 - 4ac') + '<br>';
+  html += '<b>Difference of Squares:</b> ' + k('a^2 - b^2 = (a+b)(a-b)') + '<br>';
+  html += '<b>Exponent Rules:</b> ' + k('a^m \\cdot a^n = a^{m+n}') + ' &nbsp; ' + k('\\frac{a^m}{a^n} = a^{m-n}') + ' &nbsp; ' + k('(a^m)^n = a^{mn}') + '<br>';
+  html += '<b>Negative Exp:</b> ' + k('a^{-n} = \\frac{1}{a^n}') + '</div></div>';
 
-  // GEOMETRY
-  html += '<div class="card" style="border-left:4px solid #f59e0b"><h3 style="color:#f59e0b;font-size:15px;margin-bottom:12px">📏 Geometry</h3>';
-  html += '<div style="margin-bottom:10px"><b>Distance:</b> ' + i('d') + ' = ' + rad('(' + i('x') + sub('2') + ' − ' + i('x') + sub('1') + ')' + sup('2') + ' + (' + i('y') + sub('2') + ' − ' + i('y') + sub('1') + ')' + sup('2')) + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Circle:</b> (' + i('x') + ' − ' + i('h') + ')' + sup('2') + ' + (' + i('y') + ' − ' + i('k') + ')' + sup('2') + ' = ' + i('r') + sup('2') + ' <span style="font-size:11px;color:#94a3b8">center (' + i('h') + ',' + i('k') + '), radius ' + i('r') + '</span></div>';
-  html += '<div style="margin-bottom:10px"><b>Areas:</b></div>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:14px;margin-bottom:10px">';
-  html += '<div>Triangle: ' + frac('1','2') + i('bh') + '</div>';
-  html += '<div>Circle: π' + i('r') + sup('2') + '</div>';
-  html += '<div>Rect: ' + i('lw') + '</div>';
-  html += '<div>Circumf: 2π' + i('r') + '</div>';
-  html += '<div>Trapezoid: ' + frac('1','2') + '(' + i('b') + sub('1') + ' + ' + i('b') + sub('2') + ')' + i('h') + '</div>';
-  html += '<div>Sphere SA: 4π' + i('r') + sup('2') + '</div>';
-  html += '</div>';
-  html += '<div style="margin-bottom:10px"><b>Volumes:</b></div>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:14px">';
-  html += '<div>Box: ' + i('lwh') + '</div>';
-  html += '<div>Cylinder: π' + i('r') + sup('2') + i('h') + '</div>';
-  html += '<div>Cone: ' + frac('1','3') + 'π' + i('r') + sup('2') + i('h') + '</div>';
-  html += '<div>Sphere: ' + frac('4','3') + 'π' + i('r') + sup('3') + '</div>';
-  html += '</div></div>';
+  // Geometry (amber)
+  html += '<div style="background:#fffbeb;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #f59e0b">';
+  html += '<div style="font-weight:700;color:#d97706;margin-bottom:10px">Geometry & Trigonometry</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Circle Area:</b> ' + k('A = \\pi r^2') + ' &nbsp; <b>Circumference:</b> ' + k('C = 2\\pi r') + '<br>';
+  html += '<b>Arc Length:</b> ' + k('s = r\\theta') + ' &nbsp; <b>Sector Area:</b> ' + k('A = \\frac{1}{2}r^2\\theta') + '<br>';
+  html += '<b>Triangle Area:</b> ' + k('A = \\frac{1}{2}bh') + '<br>';
+  html += '<b>Pythagorean:</b> ' + k('a^2 + b^2 = c^2') + '<br>';
+  html += '<b>Rectangle:</b> ' + k('A = lw') + ' &nbsp; <b>Trapezoid:</b> ' + k('A = \\frac{1}{2}(b_1 + b_2)h') + '<br>';
+  html += '<b>Cylinder Vol:</b> ' + k('V = \\pi r^2 h') + ' &nbsp; <b>Sphere Vol:</b> ' + k('V = \\frac{4}{3}\\pi r^3') + '<br>';
+  html += '<b>Cone Vol:</b> ' + k('V = \\frac{1}{3}\\pi r^2 h') + '</div></div>';
 
-  // SPECIAL RIGHT TRIANGLES
-  html += '<div class="card" style="border-left:4px solid #ec4899"><h3 style="color:#ec4899;font-size:15px;margin-bottom:12px">🔺 Special Right Triangles</h3>';
-  html += '<div style="display:flex;gap:20px">';
-  html += '<div style="flex:1;text-align:center"><b>45-45-90</b><div style="font-size:14px;margin-top:6px">' + i('x') + ' : ' + i('x') + ' : ' + i('x') + rad('2') + '</div></div>';
-  html += '<div style="flex:1;text-align:center"><b>30-60-90</b><div style="font-size:14px;margin-top:6px">' + i('x') + ' : ' + i('x') + rad('3') + ' : 2' + i('x') + '</div></div>';
-  html += '</div></div>';
+  // Special Triangles (pink)
+  html += '<div style="background:#fdf2f8;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #ec4899">';
+  html += '<div style="font-weight:700;color:#db2777;margin-bottom:10px">Special Right Triangles</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>45-45-90:</b> sides ' + k('1 : 1 : \\sqrt{2}') + '<br>';
+  html += '<b>30-60-90:</b> sides ' + k('1 : \\sqrt{3} : 2') + '</div></div>';
 
-  // TRIG VALUES TABLE
-  html += '<div class="card" style="border-left:4px solid #8b5cf6"><h3 style="color:#8b5cf6;font-size:15px;margin-bottom:12px">📐 Trig Values</h3>';
-  html += '<table style="width:100%;border-collapse:collapse;font-size:13px;text-align:center">';
-  html += '<tr style="border-bottom:2px solid #e2e8f0"><th style="padding:6px;text-align:left">θ</th><th style="padding:6px">0°</th><th style="padding:6px">30°</th><th style="padding:6px">45°</th><th style="padding:6px">60°</th><th style="padding:6px">90°</th></tr>';
-  html += '<tr style="border-bottom:1px solid #f1f5f9"><td style="padding:6px;text-align:left;font-weight:600">sin</td><td>0</td><td>' + frac('1','2') + '</td><td>' + frac(rad('2'),'2') + '</td><td>' + frac(rad('3'),'2') + '</td><td>1</td></tr>';
-  html += '<tr style="border-bottom:1px solid #f1f5f9"><td style="padding:6px;text-align:left;font-weight:600">cos</td><td>1</td><td>' + frac(rad('3'),'2') + '</td><td>' + frac(rad('2'),'2') + '</td><td>' + frac('1','2') + '</td><td>0</td></tr>';
-  html += '<tr><td style="padding:6px;text-align:left;font-weight:600">tan</td><td>0</td><td>' + frac(rad('3'),'3') + '</td><td>1</td><td>' + rad('3') + '</td><td>∞</td></tr>';
+  // Trig Values (purple)
+  html += '<div style="background:#f5f3ff;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #8b5cf6">';
+  html += '<div style="font-weight:700;color:#7c3aed;margin-bottom:10px">Trig Values</div>';
+  html += '<table style="width:100%;font-size:14px;border-collapse:collapse;text-align:center">';
+  html += '<tr style="border-bottom:1.5px solid #ddd6fe"><th style="padding:6px">θ</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr>';
+  html += '<tr style="border-bottom:1px solid #ede9fe"><td style="font-weight:600;padding:6px">sin</td><td>0</td><td>' + k('\\frac{1}{2}') + '</td><td>' + k('\\frac{\\sqrt{2}}{2}') + '</td><td>' + k('\\frac{\\sqrt{3}}{2}') + '</td><td>1</td></tr>';
+  html += '<tr style="border-bottom:1px solid #ede9fe"><td style="font-weight:600;padding:6px">cos</td><td>1</td><td>' + k('\\frac{\\sqrt{3}}{2}') + '</td><td>' + k('\\frac{\\sqrt{2}}{2}') + '</td><td>' + k('\\frac{1}{2}') + '</td><td>0</td></tr>';
+  html += '<tr><td style="font-weight:600;padding:6px">tan</td><td>0</td><td>' + k('\\frac{\\sqrt{3}}{3}') + '</td><td>1</td><td>' + k('\\sqrt{3}') + '</td><td>∞</td></tr>';
   html += '</table></div>';
 
-  // DATA ANALYSIS
-  html += '<div class="card" style="border-left:4px solid #14b8a6"><h3 style="color:#14b8a6;font-size:15px;margin-bottom:12px">📊 Data & Statistics</h3>';
-  html += '<div style="margin-bottom:10px"><b>Mean:</b> ' + frac('Σ' + i('x'), i('n')) + ' &nbsp; <b>Probability:</b> P = ' + frac('favorable','total') + '</div>';
-  html += '<div style="margin-bottom:10px"><b>Percent Change:</b> ' + frac('new − old','old') + ' × 100%</div>';
-  html += '<div><b>Linear:</b> ' + i('y') + ' = ' + i('mx') + ' + ' + i('b') + ' &nbsp;|&nbsp; <b>Exponential:</b> ' + i('y') + ' = ' + i('a') + ' · ' + i('b') + sup(i('x')) + '</div>';
-  html += '</div>';
+  // Data & Statistics (teal)
+  html += '<div style="background:#f0fdfa;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #14b8a6">';
+  html += '<div style="font-weight:700;color:#0d9488;margin-bottom:10px">Data & Statistics</div>';
+  html += '<div style="font-size:15px;line-height:2.2;color:#1e293b">';
+  html += '<b>Mean:</b> ' + k('\\bar{x} = \\frac{\\sum x_i}{n}') + '<br>';
+  html += '<b>Probability:</b> ' + k('P(A) = \\frac{\\text{favorable}}{\\text{total}}') + '<br>';
+  html += '<b>Linear:</b> ' + k('y = a + bx') + ' &nbsp;|&nbsp; <b>Exponential:</b> ' + k('y = a \\cdot b^x') + '</div></div>';
 
   html += '<button class="btn btn-outline mt-8" onclick="navTo(' + "'home'" + ')">← Back</button>';
   html += '</div>';
