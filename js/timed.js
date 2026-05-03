@@ -1,6 +1,24 @@
 /* ====== TIMED TESTS ====== */
 
 /* ============================================================ */
+
+function strikeTimedChoice(e, idx) {
+  e.preventDefault();
+  var btn = document.getElementById('tc' + idx);
+  if (!btn) return false;
+  if (btn.classList.contains('crossed')) {
+    btn.classList.remove('crossed');
+  } else {
+    btn.classList.add('crossed');
+    // If this was the selected answer, deselect it
+    if (timedAnswers[timedIdx] === idx) {
+      timedAnswers[timedIdx] = -1;
+      showTimedQ();
+    }
+  }
+  return false;
+}
+
 function showTestSetup() {
   showNav();
   var html = '<div class="fade-in"><h2>Timed Test</h2>';
@@ -62,7 +80,7 @@ function showTimedQ() {
     var visual = getVisual(q.id); if (visual) html += '<div style="text-align:center;margin:12px 0;padding:12px;background:#f8fafc;border-radius:10px">' + visual + '</div>';
   for (var i = 0; i < q.answers.length; i++) {
     var sel = timedAnswers[timedIdx] === i ? ' style="border-color:#0d9488;background:#f0fdfa"' : '';
-    html += '<button class="choice"' + sel + ' onclick="timedAnswer(' + i + ')">';
+    html += '<button class="choice"' + sel + ' id="tc' + i + '" onclick="timedAnswer(' + i + ')" oncontextmenu="return strikeTimedChoice(event,' + i + ')">';
     html += '<span class="choice-letter">' + String.fromCharCode(65+i) + '</span> ' + cleanMath(q.answers[i]);
     html += '</button>';
   }
