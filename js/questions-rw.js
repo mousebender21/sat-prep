@@ -1,5 +1,5 @@
 /* ====== R&W QUESTIONS ====== */
-const RW_QUESTIONS = [
+var RW_QUESTIONS = [
 {
   id:"r1",
   domain:"Craft and Structure",
