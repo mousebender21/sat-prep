@@ -6,9 +6,10 @@ function showSettings() {
     var ago = Math.round((Date.now() - lastCloudSync) / 1000);
     if (ago < 60) syncText = '\u2705 Synced ' + ago + 's ago';
     else if (ago < 3600) syncText = '\u2705 Synced ' + Math.round(ago/60) + 'm ago';
-    else syncText = '\u2705 Last synced: ' + new Date(lastCloudSync).toLocaleTimeString();
+    else if (ago < 86400) syncText = '\u2705 Synced ' + Math.round(ago/3600) + 'h ago';
+    else syncText = '\u2705 Last synced: ' + new Date(lastCloudSync).toLocaleDateString();
   } else {
-    syncText = '\u26a0\ufe0f Not synced yet';
+    syncText = 'Your progress is saved locally on this device. Cloud sync connects when the server is available.';
   }
   var html = '<div class="fade-in"><h2>Settings</h2>';
   html += '<div class="card"><p style="font-weight:600;margin-bottom:8px">' + activeProfile.name + '</p>';
