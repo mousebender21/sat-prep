@@ -155,9 +155,7 @@ function renderMath() {
 
 function cleanMath(s) {
   if (!s) return '';
-  // Trigger: any math-like character (superscripts, radicals, fractions, operators)
   if (!/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^\/−]/.test(s)) return s;
-  // Skip if it looks like pure English (no digits, no math operators)
   if (!/\d/.test(s) && !/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^]/.test(s)) return s;
   var t = s;
   t = t.replace(/²/g, '^{2}');
@@ -174,34 +172,38 @@ function cleanMath(s) {
   t = t.replace(/ʸ/g, '^{y}');
   t = t.replace(/ᵐ/g, '^{m}');
   t = t.replace(/ᵗ/g, '^{t}');
+  t = t.replace(/⁻/g, '^{-');
+  t = t.replace(/¹/g, '1}');
   t = t.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
   t = t.replace(/√(\d+)/g, '\\sqrt{$1}');
   t = t.replace(/√([a-zA-Z])/g, '\\sqrt{$1}');
-  // Check if pure math (no English words > 2 chars)
   var words = t.split(/\s+/);
   var eng = 0;
   for (var i = 0; i < words.length; i++) {
     var w = words[i].replace(/[^a-zA-Z]/g, '');
     if (w.length > 2 && !/^(sqrt|frac|log|sin|cos|tan|max|min|abs|mod)$/i.test(w)) eng++;
   }
+  function convertFractions(m) {
+    // (expr)/(expr)
+    m = m.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    // (expr)/token
+    m = m.replace(/\(([^()]+)\)\/([a-zA-Z0-9]+)/g, '\\frac{$1}{$2}');
+    // token/(expr)
+    m = m.replace(/([a-zA-Z0-9]+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    // token/token (x/3, 2x/5, a/b, 3/4) — but not inside URLs
+    m = m.replace(/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/g, '\\frac{$1}{$2}');
+    return m;
+  }
   if (eng === 0) {
-    // Pure math — convert all fraction patterns
-    t = t.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
-    t = t.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
-    t = t.replace(/(\w+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
-    t = t.replace(/(^|[+\-−=\s,])(\d+)\/(\d+)(?=$|[+\-−=\s,<>])/g, function(m,pre,n,d){ return pre + '\\frac{' + n + '}{' + d + '}'; });
+    t = convertFractions(t);
     return '<span class="km">' + t + '</span>';
   }
-  // Mixed text+math — find math regions
   var result = [];
   var mathBuf = [];
   function flushMath() {
     if (mathBuf.length === 0) return;
     var m = mathBuf.join(' ');
-    m = m.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
-    m = m.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
-    m = m.replace(/(\w+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
-    m = m.replace(/(^|[+\-−=\s])(\d+)\/(\d+)(?=$|[+\-−=\s,<>])/g, function(mm,pre,n,d){ return pre + '\\frac{' + n + '}{' + d + '}'; });
+    m = convertFractions(m);
     result.push('<span class="km">' + m + '</span>');
     mathBuf = [];
   }
