@@ -32,7 +32,17 @@ function cloudSave() {
 }
 
 function cloudLoad(callback) {
+  var done = false;
+  var timer = setTimeout(function() {
+    if (!done) {
+      done = true;
+      console.log('Cloud load timed out — proceeding offline');
+      if (callback) callback(false);
+    }
+  }, 5000);
   fetch(CLOUD_URL).then(function(r) { return r.json(); }).then(function(data) {
+    if (done) return;
+    done = true; clearTimeout(timer);
     if (data && data.profiles && Array.isArray(data.profiles)) {
       // Merge cloud profiles with local
       var localIds = {};
@@ -68,6 +78,7 @@ function cloudLoad(callback) {
     if (callback) callback(true);
   }).catch(function(e) {
     console.log('Cloud load failed (offline mode):', e);
+    if (done) return; done = true; clearTimeout(timer);
     if (callback) callback(false);
   });
 }
