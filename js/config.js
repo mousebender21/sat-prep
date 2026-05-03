@@ -130,33 +130,81 @@ function getVisual(qId) {
 
 
 
+var _mathObserver = null;
+function setupMathObserver() {
+  var app = document.getElementById('app');
+  if (!app || _mathObserver) return;
+  _mathObserver = new MutationObserver(function() {
+    renderMath();
+  });
+  _mathObserver.observe(app, { childList: true, subtree: true });
+}
+
+function renderMath() {
+  if (typeof katex === 'undefined') return;
+  var els = document.querySelectorAll('.km');
+  for (var i = 0; i < els.length; i++) {
+    if (els[i].classList.contains('kd')) continue;
+    var tex = els[i].textContent;
+    try {
+      katex.render(tex, els[i], { throwOnError: false, displayMode: false });
+      els[i].classList.add('kd');
+    } catch(e) { /* leave as plain text */ }
+  }
+}
+
 function cleanMath(s) {
   if (!s) return '';
-  // STEP 1: Convert fractions FIRST (before radicals, so √2/2 → fraction with √2 in numerator)
-  // (expr)/(expr)
-  s = s.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // (expr)/number
-  s = s.replace(/\(([^()]+)\)\/(\d+)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // number/(expr)
-  s = s.replace(/([\d]+)\/\(([^()]+)\)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // √number/number (radical fraction like √2/2, √3/2)
-  s = s.replace(/(√\d+)\/(\d+)/g, function(m, num, den) {
-    return '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // simple number/number
-  s = s.replace(/(^|[\s=>,])([−\-]?\d+)\/(\d+)(?=$|[\s<.,;)"])/g, function(m, pre, num, den) {
-    return pre + '<span style="display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 2px;font-size:0.85em"><span style="border-bottom:1px solid currentColor;padding:0 3px">' + num + '</span><span style="padding:0 3px">' + den + '</span></span>';
-  });
-  // STEP 2: Convert radicals AFTER fractions (so √2 in numerators gets treated)
-  var radSVG = '<span style="white-space:nowrap;display:inline-flex;align-items:stretch;line-height:1"><span style="font-size:1.2em;line-height:1;margin-right:-1px">√</span><span style="border-top:1.5px solid currentColor;padding:1px 3px 0 1px;display:inline-flex;align-items:center;margin-top:1px">';
-  var radEnd = '</span></span>';
-  s = s.replace(/√\(([^)]+)\)/g, radSVG + '$1' + radEnd);
-  s = s.replace(/√(\d+)/g, radSVG + '$1' + radEnd);
-  return s;
+  if (!/[√²³⁴⁵⁶⁷⁸⁹⁰ⁿˣʸᵐᵗ\^]/.test(s)) return s;
+  var t = s;
+  t = t.replace(/²/g, '^{2}');
+  t = t.replace(/³/g, '^{3}');
+  t = t.replace(/⁴/g, '^{4}');
+  t = t.replace(/⁵/g, '^{5}');
+  t = t.replace(/⁶/g, '^{6}');
+  t = t.replace(/⁷/g, '^{7}');
+  t = t.replace(/⁸/g, '^{8}');
+  t = t.replace(/⁹/g, '^{9}');
+  t = t.replace(/⁰/g, '^{0}');
+  t = t.replace(/ⁿ/g, '^{n}');
+  t = t.replace(/ˣ/g, '^{x}');
+  t = t.replace(/ʸ/g, '^{y}');
+  t = t.replace(/ᵐ/g, '^{m}');
+  t = t.replace(/ᵗ/g, '^{t}');
+  t = t.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
+  t = t.replace(/√(\d+)/g, '\\sqrt{$1}');
+  t = t.replace(/√([a-zA-Z])/g, '\\sqrt{$1}');
+  // Check if pure math (no English words)
+  var words = t.split(/\s+/);
+  var eng = 0;
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i].replace(/[^a-zA-Z]/g, '');
+    if (w.length > 2 && !/^(sqrt|frac|log|sin|cos|tan|max|min|abs|mod)$/i.test(w)) eng++;
+  }
+  if (eng === 0) {
+    // Pure math — wrap entire expression, convert fractions
+    t = t.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    t = t.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
+    t = t.replace(/(\w+)\/\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    return '<span class="km">' + t + '</span>';
+  }
+  // Mixed text+math — find math regions
+  var result = [];
+  var mathBuf = [];
+  function flushMath() {
+    if (mathBuf.length === 0) return;
+    var m = mathBuf.join(' ');
+    m = m.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)/g, '\\frac{$1}{$2}');
+    m = m.replace(/\(([^()]+)\)\/(\w+)/g, '\\frac{$1}{$2}');
+    result.push('<span class="km">' + m + '</span>');
+    mathBuf = [];
+  }
+  for (var i = 0; i < words.length; i++) {
+    var w = words[i];
+    var hasMath = /[\^{}\\]/.test(w) || /^\d/.test(w) || /^[a-zA-Z][\^(]/.test(w) || /^[(]/.test(w) || /[=<>+×·≤≥≠]/.test(w) || w === '−';
+    if (hasMath) { mathBuf.push(w); }
+    else { flushMath(); result.push(w); }
+  }
+  flushMath();
+  return result.join(' ');
 }
