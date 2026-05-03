@@ -7,6 +7,8 @@ function showHome() {
   var pct = total > 0 ? Math.round(state.correct / total * 100) : 0;
   var est = getEstScore();
   var html = '<div class="fade-in">';
+  /* Sticky header: user greeting + score ring always visible on mobile */
+  html += '<div class="home-header">';
   html += '<h2 style="margin-bottom:4px">Hi, ' + activeProfile.name + '!</h2>';
   html += '<p class="text-sm mb-16">Target: 1350+ &middot; ' + ALL_QS.length + ' questions</p>';
   if (activeProfile && activeProfile.major && activeProfile.major !== 'general') {
@@ -32,6 +34,7 @@ function showHome() {
   html += '<div style="flex:1"><div class="stat-value" style="font-size:18px">' + est + '</div><div class="stat-label">Est. Score</div>';
   html += '<div style="margin-top:6px"><span style="font-weight:700;color:#0d9488">' + (state.streak > 0 ? state.streak + ' &#128293;' : '0') + '</span> <span class="text-sm">streak</span></div>';
   html += '</div></div>';
+  html += '</div>'; /* close .home-header */
   /* --- Domain Mastery Heat Map --- */
   html += '<div class="card" style="padding:14px"><p style="font-weight:600;font-size:13px;margin-bottom:8px">Domain Mastery</p>';
   html += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
