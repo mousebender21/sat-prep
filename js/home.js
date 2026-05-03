@@ -210,7 +210,7 @@ function srAnswer(idx) {
   }
   var fb = '<div class="card mt-12">';
   fb += '<p style="font-weight:700;color:' + (correct ? '#22c55e' : '#ef4444') + '">' + (correct ? '&#10004; Correct!' : '&#10008; Incorrect') + '</p>';
-  fb += '<p class="text-sm mt-8">' + (q.explanation || '') + '</p>';
+  fb += '<p class="text-sm mt-8">' + cleanMath(q.explanation || '') + '</p>';
   fb += '<button class="btn btn-primary mt-12" onclick="nextSR()">Next</button></div>';
   document.getElementById('srFeedback').innerHTML = fb;
 }
