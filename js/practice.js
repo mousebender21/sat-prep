@@ -2,6 +2,50 @@
 
 var _pSec = 'all', _pDiff = 'all', _pDoms = [];
 
+
+var _longPressTimer = null;
+
+function strikeChoice(e, idx) {
+  e.preventDefault();
+  if (practiceAnswered) return false;
+  var btn = document.getElementById('pc' + idx);
+  if (!btn) return false;
+  if (btn.classList.contains('crossed')) {
+    btn.classList.remove('crossed');
+  } else {
+    btn.classList.add('crossed');
+    // If this was the selected answer, deselect it
+    if (practiceSelected === idx) {
+      btn.classList.remove('selected');
+      practiceSelected = -1;
+      var sr = document.getElementById('submitRow');
+      if (sr) sr.style.display = 'none';
+    }
+  }
+  return false;
+}
+
+function showCalc() {
+  var overlay = document.createElement('div');
+  overlay.className = 'calc-overlay';
+  overlay.id = 'calcOverlay';
+  overlay.onclick = function() { closeCalc(); };
+  document.body.appendChild(overlay);
+  var container = document.createElement('div');
+  container.className = 'calc-container';
+  container.id = 'calcContainer';
+  container.onclick = function(e) { e.stopPropagation(); };
+  container.innerHTML = '<div class="calc-header"><span style="font-weight:700;font-size:14px">&#128200; Desmos Calculator</span><button onclick="closeCalc()">&#10005;</button></div><iframe class="calc-iframe" src="https://www.desmos.com/calculator" allow="clipboard-write"></iframe>';
+  document.body.appendChild(container);
+}
+
+function closeCalc() {
+  var o = document.getElementById('calcOverlay');
+  var c = document.getElementById('calcContainer');
+  if (o) o.remove();
+  if (c) c.remove();
+}
+
 /* ============================================================ */
 function showPracticeSetup() {
   showNav();
@@ -138,14 +182,16 @@ function showQuestion() {
   html += '<p class="text-sm mb-8">Question ' + (practiceIdx+1) + ' of ' + Math.min(20, practicePool.length) + '</p>';
   if (q.passage) html += '<div class="passage-card">' + q.passage + '</div>';
   html += '<div class="card" style="border-left:3px solid ' + (isMath(q) ? '#0d9488' : '#6366f1') + '">';
+  if (isMath(q)) html += '<button onclick="showCalc()" style="float:right;background:none;border:1px solid #e2e8f0;border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer;color:#64748b">&#128200; Calculator</button>';
   html += '<p style="font-weight:600;line-height:1.5;margin-bottom:16px" class="q-text">' + cleanMath(q.question) + '</p>';
     var visual = getVisual(q.id); if (visual) html += '<div style="text-align:center;margin:12px 0;padding:12px;background:#f8fafc;border-radius:10px">' + visual + '</div>';
   for (var i = 0; i < q.answers.length; i++) {
-    html += '<button class="choice" id="pc' + i + '" onclick="practiceSelect(' + i + ')">';
+    html += '<button class="choice" id="pc' + i + '" onclick="practiceSelect(' + i + ')" oncontextmenu="return strikeChoice(event,' + i + ')">';
     html += '<span class="choice-letter">' + String.fromCharCode(65+i) + '</span> ' + cleanMath(q.answers[i]);
     html += '</button>';
   }
   html += '<div class="submit-row" id="submitRow" style="display:none"><button class="btn btn-primary" onclick="practiceSubmit()">Submit Answer</button></div>';
+  html += '<p style="text-align:center;font-size:11px;color:#94a3b8;margin-top:8px">Right-click or long-press a choice to cross it out</p>';
   html += '</div><div id="practiceFeedback"></div>';
   getApp().innerHTML = html;
 }
