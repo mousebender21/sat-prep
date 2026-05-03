@@ -141,12 +141,32 @@ function showQuestion() {
   html += '<p style="font-weight:600;line-height:1.5;margin-bottom:16px" class="q-text">' + cleanMath(q.question) + '</p>';
     var visual = getVisual(q.id); if (visual) html += '<div style="text-align:center;margin:12px 0;padding:12px;background:#f8fafc;border-radius:10px">' + visual + '</div>';
   for (var i = 0; i < q.answers.length; i++) {
-    html += '<button class="choice" id="pc' + i + '" onclick="practiceAnswer(' + i + ')">';
+    html += '<button class="choice" id="pc' + i + '" onclick="practiceSelect(' + i + ')">';
     html += '<span class="choice-letter">' + String.fromCharCode(65+i) + '</span> ' + cleanMath(q.answers[i]);
     html += '</button>';
   }
+  html += '<div class="submit-row" id="submitRow" style="display:none"><button class="btn btn-primary" onclick="practiceSubmit()">Submit Answer</button></div>';
   html += '</div><div id="practiceFeedback"></div>';
   getApp().innerHTML = html;
+}
+
+function practiceSelect(idx) {
+  if (practiceAnswered) return;
+  practiceSelected = idx;
+  var q = practicePool[practiceIdx];
+  for (var i = 0; i < q.answers.length; i++) {
+    var btn = document.getElementById('pc' + i);
+    if (btn) btn.classList.remove('selected');
+  }
+  var sel = document.getElementById('pc' + idx);
+  if (sel) sel.classList.add('selected');
+  var sr = document.getElementById('submitRow');
+  if (sr) sr.style.display = 'block';
+}
+
+function practiceSubmit() {
+  if (practiceAnswered || practiceSelected < 0) return;
+  practiceAnswer(practiceSelected);
 }
 
 function practiceAnswer(idx) {
