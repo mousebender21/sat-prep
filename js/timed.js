@@ -164,7 +164,7 @@ function showTimedReview() {
       html += '</div>';
     }
     if (rq.explanation) {
-      html += '<p style="font-size:12px;color:#64748b;margin-top:8px;padding:8px;background:#f8fafc;border-radius:6px">' + rq.explanation + '</p>';
+      html += '<p style="font-size:12px;color:#64748b;margin-top:8px;padding:8px;background:#f8fafc;border-radius:6px">' + cleanMath(rq.explanation) + '</p>';
     }
     html += '</div>';
   }
